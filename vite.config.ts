@@ -8,13 +8,20 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
+      includeAssets: ['favicon.ico', 'pwa-icon.svg'],
       manifest: {
         name: 'Chaldean World',
         short_name: 'Chaldean',
         description: 'Learn to speak Chaldean',
-        theme_color: '#ffffff',
+        theme_color: '#1f2937',
+        background_color: '#111827',
         icons: [
+          {
+            src: 'pwa-icon.svg',
+            sizes: 'any',
+            type: 'image/svg+xml',
+            purpose: 'any'
+          },
           {
             src: 'pwa-192x192.png',
             sizes: '192x192',
