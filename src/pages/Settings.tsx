@@ -1,34 +1,15 @@
 import { useProgress } from '../context/ProgressContext';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { requestNotificationPermission } from '../utils/notifications';
-import { getArabicVoices, savePreferredVoice, getPreferredVoice, speak } from '../utils/speech';
+import { getArabicVoices, savePreferredVoice, getPreferredVoice, speak, initializeVoices } from '../utils/speech';
 
 export default function Settings() {
   const [availableVoices, setAvailableVoices] = useState<Array<{voice: SpeechSynthesisVoice, name: string}>>([]);
   const [selectedVoice, setSelectedVoice] = useState<string>('');
-  
-  useEffect(() => {
-    // Load voices
-    const loadVoices = () => {
-      const voices = getArabicVoices();
-      setAvailableVoices(voices);
-      
-      const preferred = getPreferredVoice();
-      if (preferred) {
-        setSelectedVoice(preferred.name);
-      } else if (voices.length > 0) {
-        setSelectedVoice(voices[0].name);
-      }
-    };
-    
-    loadVoices();
-    
-    // Some browsers need to wait for voices
-    if (window.speechSynthesis) {
-      window.speechSynthesis.addEventListener('voiceschanged', loadVoices);
-      return () => window.speechSynthesis.removeEventListener('voiceschanged', loadVoices);
-    }
-  }, []);
+  const [voicesLoading, setVoicesLoading] = useState(true);
+  const [showVoiceHelp, setShowVoiceHelp] = useState(false);
+  const [voiceHelpDismissed, setVoiceHelpDismissed] = useState(false);
+
   const { 
     preferences, 
     updatePreferences, 
@@ -44,6 +25,53 @@ export default function Settings() {
     totalStudyTime,
     badges,
   } = useProgress();
+
+  const loadVoices = useCallback(async () => {
+    if (!window.speechSynthesis) {
+      setAvailableVoices([]);
+      setSelectedVoice('');
+      setVoicesLoading(false);
+      return;
+    }
+
+    setVoicesLoading(true);
+    await initializeVoices();
+
+    const voices = getArabicVoices();
+    setAvailableVoices(voices);
+
+    const preferred = getPreferredVoice();
+    if (preferred) {
+      setSelectedVoice(preferred.name);
+    } else if (voices.length > 0) {
+      setSelectedVoice(voices[0].name);
+    } else {
+      setSelectedVoice('');
+    }
+
+    setVoicesLoading(false);
+  }, []);
+  
+  useEffect(() => {
+    loadVoices();
+
+    if (window.speechSynthesis) {
+      const handler = () => loadVoices();
+      window.speechSynthesis.addEventListener('voiceschanged', handler);
+      return () => window.speechSynthesis?.removeEventListener('voiceschanged', handler);
+    }
+  }, [loadVoices]);
+
+  useEffect(() => {
+    if (
+      !voicesLoading &&
+      preferences.audioEnabled &&
+      availableVoices.length === 0 &&
+      !voiceHelpDismissed
+    ) {
+      setShowVoiceHelp(true);
+    }
+  }, [availableVoices.length, voicesLoading, preferences.audioEnabled, voiceHelpDismissed]);
   
   const [showExport, setShowExport] = useState(false);
   const [importData, setImportData] = useState('');
@@ -211,39 +239,79 @@ export default function Settings() {
           </div>
 
           {/* Voice Selection */}
-          {preferences.audioEnabled && availableVoices.length > 0 && (
+          {preferences.audioEnabled && (
             <div>
               <label className="block text-sm font-medium mb-2">Voice Selection</label>
-              <div className="flex gap-2">
-                <select
-                  value={selectedVoice}
-                  onChange={(e) => {
-                    setSelectedVoice(e.target.value);
-                    savePreferredVoice(e.target.value);
-                  }}
-                  className="flex-1 p-3 rounded-xl bg-gray-700 border-2 border-gray-600 focus:border-blue-500 outline-none text-sm"
-                >
-                  {availableVoices.map((v) => (
-                    <option key={v.voice.name} value={v.voice.name}>
-                      {v.voice.name} ({v.voice.lang})
-                    </option>
-                  ))}
-                </select>
-                <button
-                  onClick={() => speak('ܫܠܡܐ Shlama', { rate: 0.85 })}
-                  className="px-4 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 transition-colors flex items-center gap-2"
-                  title="Test voice"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-                  </svg>
-                  Test
-                </button>
-              </div>
-              <p className="text-xs text-gray-400 mt-1">
-                {availableVoices.length} Arabic voice{availableVoices.length !== 1 ? 's' : ''} available
-              </p>
+              {voicesLoading ? (
+                <p className="text-sm text-gray-400">Loading voices...</p>
+              ) : availableVoices.length > 0 ? (
+                <>
+                  <div className="flex gap-2 flex-wrap">
+                    <select
+                      value={selectedVoice}
+                      onChange={(e) => {
+                        setSelectedVoice(e.target.value);
+                        savePreferredVoice(e.target.value);
+                      }}
+                      className="flex-1 min-w-[200px] p-3 rounded-xl bg-gray-700 border-2 border-gray-600 focus:border-blue-500 outline-none text-sm"
+                    >
+                      {availableVoices.map((v) => (
+                        <option key={v.voice.name} value={v.voice.name}>
+                          {v.voice.name} ({v.voice.lang})
+                        </option>
+                      ))}
+                    </select>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => speak('ܫܠܡܐ Shlama', { rate: 0.85 })}
+                        className="px-4 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 transition-colors flex items-center gap-2"
+                        title="Test voice"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                          <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                        </svg>
+                        Test
+                      </button>
+                      <button
+                        onClick={() => loadVoices()}
+                        className="px-4 py-3 rounded-xl bg-gray-700 border border-gray-600 hover:bg-gray-600 transition-colors text-sm"
+                        title="Reload voices"
+                      >
+                        Reload
+                      </button>
+                    </div>
+                  </div>
+                  <p className="text-xs text-gray-400 mt-1">
+                    {availableVoices.length} Arabic voice{availableVoices.length !== 1 ? 's' : ''} detected on this device
+                  </p>
+                </>
+              ) : (
+                <div className="p-4 rounded-xl border-2 border-dashed border-gray-600 bg-gray-700/30">
+                  <p className="text-sm text-gray-200">No Arabic voices were detected on this device.</p>
+                  <ul className="text-xs text-gray-400 list-disc pl-5 mt-2 space-y-1">
+                    <li>Windows: Settings → Time & Language → Speech → Add voices → install Arabic (Microsoft Hoda).</li>
+                    <li>macOS: System Settings → Accessibility → Spoken Content → System Voice → download an Arabic female voice.</li>
+                    <li>Restart the browser after installing, then press Reload voices.</li>
+                  </ul>
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    <button
+                      onClick={() => loadVoices()}
+                      className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 transition-colors text-sm font-semibold"
+                    >
+                      Reload voices
+                    </button>
+                    <button
+                      onClick={() => {
+                        setShowVoiceHelp(true);
+                      }}
+                      className="px-4 py-2 rounded-xl bg-gray-700 border border-gray-600 hover:bg-gray-600 transition-colors text-sm"
+                    >
+                      How to install voices
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
@@ -364,6 +432,85 @@ export default function Settings() {
           </div>
         </div>
       </div>
+
+      {showVoiceHelp && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+          <div
+            className="absolute inset-0 bg-black/70"
+            onClick={() => {
+              setShowVoiceHelp(false);
+              setVoiceHelpDismissed(true);
+            }}
+          />
+          <div className="relative z-10 w-full max-w-2xl bg-gray-900 text-white rounded-2xl border border-gray-700 shadow-2xl p-6">
+            <div className="flex justify-between items-center mb-4">
+              <div>
+                <h3 className="text-xl font-bold">Install an Arabic female voice</h3>
+                <p className="text-sm text-gray-400">Needed for natural narration on desktop</p>
+              </div>
+              <button
+                onClick={() => {
+                  setShowVoiceHelp(false);
+                  setVoiceHelpDismissed(true);
+                }}
+                className="p-2 rounded-full hover:bg-gray-800 transition-colors"
+                aria-label="Close voice instructions"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="space-y-6 text-sm leading-relaxed">
+              <div>
+                <h4 className="font-semibold mb-2">Windows (Chrome / Edge)</h4>
+                <ol className="list-decimal list-inside space-y-1 text-gray-300">
+                  <li>Open <span className="font-medium">Settings → Time &amp; Language → Speech</span>.</li>
+                  <li>Select <span className="font-medium">Add voices</span>, choose <span className="font-medium">Arabic</span>, install <span className="font-medium">Microsoft Hoda</span>.</li>
+                  <li>Reboot Chrome, revisit this page, click <span className="font-medium">Reload voices</span>, then select Hoda.</li>
+                </ol>
+              </div>
+
+              <div>
+                <h4 className="font-semibold mb-2">macOS (Safari / Chrome)</h4>
+                <ol className="list-decimal list-inside space-y-1 text-gray-300">
+                  <li>Open <span className="font-medium">System Settings → Accessibility → Spoken Content</span>.</li>
+                  <li>Choose <span className="font-medium">System Voice → Manage Voices</span> and download a female Arabic voice.</li>
+                  <li>Restart the browser and click <span className="font-medium">Reload voices</span>.</li>
+                </ol>
+              </div>
+
+              <div className="bg-blue-900/30 border border-blue-700 rounded-xl p-4">
+                <p className="font-semibold text-blue-100">Tip</p>
+                <p className="text-blue-100 text-sm mt-1">
+                  Once the new voice appears in the dropdown, select it and tap <span className="font-medium">Test</span>. The site remembers your choice, so narration will stay in the natural Arabic female voice on every lesson.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-6 flex justify-end gap-3">
+              <button
+                onClick={() => {
+                  setShowVoiceHelp(false);
+                  setVoiceHelpDismissed(true);
+                }}
+                className="px-4 py-2 rounded-xl bg-gray-800 border border-gray-700 hover:bg-gray-700 transition-colors"
+              >
+                Got it
+              </button>
+              <button
+                onClick={() => {
+                  setShowVoiceHelp(false);
+                  setVoiceHelpDismissed(true);
+                  loadVoices();
+                }}
+                className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 transition-colors font-semibold"
+              >
+                Reload voices
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

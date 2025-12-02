@@ -9,6 +9,77 @@ export interface VoiceOption {
 // Cache for voices
 let cachedVoices: SpeechSynthesisVoice[] = [];
 
+const FEMALE_HINTS = [
+  'female',
+  'woman',
+  'lady',
+  'laila',
+  'layla',
+  'leila',
+  'lila',
+  'hoda',
+  'zahra',
+  'salma',
+  'dalia',
+  'zeina',
+  'zeinah',
+  'zainab',
+  'amira',
+  'farah',
+  'sahar',
+  'rana',
+  'dana',
+  'dima',
+  'asma',
+  'sara',
+  'lina',
+  'zariyah',
+  'maha'
+].map((hint) => hint.toLowerCase());
+
+const MALE_HINTS = [
+  'male',
+  'man',
+  'maged',
+  'naayf',
+  'naif',
+  'tarik',
+  'khaled',
+  'omar',
+  'ahmed',
+  'ali',
+  'hamid',
+  'ibrahim',
+  'hazem',
+  'youssef'
+].map((hint) => hint.toLowerCase());
+
+const PREMIUM_HINTS = ['google', 'enhanced', 'premium', 'natural', 'studio', 'neural', 'ai'];
+
+const isArabicVoice = (voice: SpeechSynthesisVoice) => {
+  const lang = voice.lang?.toLowerCase() ?? '';
+  const name = voice.name?.toLowerCase() ?? '';
+  return lang.startsWith('ar') || name.includes('arabic');
+};
+
+const scoreVoice = (voice: SpeechSynthesisVoice): number => {
+  const name = voice.name?.toLowerCase() ?? '';
+  const lang = voice.lang?.toLowerCase() ?? '';
+  let score = 0;
+
+  if (lang.startsWith('ar')) score += 50;
+  if (name.includes('arabic')) score += 15;
+
+  if (PREMIUM_HINTS.some((hint) => name.includes(hint))) score += 40;
+  if (FEMALE_HINTS.some((hint) => name.includes(hint))) score += 60;
+  if (MALE_HINTS.some((hint) => name.includes(hint))) score -= 60;
+
+  // Google voices are consistently natural on Android and ChromeOS
+  if (name.includes('google')) score += 100;
+
+  return score;
+};
+
 // Load and cache voices
 const loadVoices = (): SpeechSynthesisVoice[] => {
   if (!window.speechSynthesis) return [];
@@ -19,50 +90,17 @@ const loadVoices = (): SpeechSynthesisVoice[] => {
 // Get all available Arabic voices
 export const getArabicVoices = (): VoiceOption[] => {
   if (!window.speechSynthesis) return [];
-  
+
   const voices = loadVoices();
-  
-  // Filter for Arabic voices and prioritize quality
+
   const arabicVoices = voices
-    .filter(voice => 
-      voice.lang.startsWith('ar') || 
-      voice.lang.includes('AR') ||
-      voice.name.toLowerCase().includes('arabic')
-    )
-    .map(voice => ({
+    .filter(isArabicVoice)
+    .map((voice) => ({
       voice,
       name: voice.name,
-      lang: voice.lang
-    }));
-
-  // Sort by preference: female voices first, then by quality indicators
-  arabicVoices.sort((a, b) => {
-    // Prefer female voices (check various indicators)
-    const aFemale = a.name.toLowerCase().includes('female') || 
-                    a.name.toLowerCase().includes('woman') ||
-                    a.name.toLowerCase().includes('laila') ||
-                    a.name.toLowerCase().includes('maged') === false;
-    const bFemale = b.name.toLowerCase().includes('female') || 
-                    b.name.toLowerCase().includes('woman') ||
-                    b.name.toLowerCase().includes('laila') ||
-                    b.name.toLowerCase().includes('maged') === false;
-    if (aFemale && !bFemale) return -1;
-    if (!aFemale && bFemale) return 1;
-    
-    // Prefer premium/enhanced voices
-    const aPremium = a.name.toLowerCase().includes('enhanced') || 
-                     a.name.toLowerCase().includes('premium') ||
-                     a.name.toLowerCase().includes('google') ||
-                     a.name.toLowerCase().includes('natural');
-    const bPremium = b.name.toLowerCase().includes('enhanced') || 
-                     b.name.toLowerCase().includes('premium') ||
-                     b.name.toLowerCase().includes('google') ||
-                     b.name.toLowerCase().includes('natural');
-    if (aPremium && !bPremium) return -1;
-    if (!aPremium && bPremium) return 1;
-    
-    return 0;
-  });
+      lang: voice.lang,
+    }))
+    .sort((a, b) => scoreVoice(b.voice) - scoreVoice(a.voice));
 
   return arabicVoices;
 };
@@ -73,54 +111,20 @@ export const getBestArabicVoice = (): SpeechSynthesisVoice | null => {
   
   console.log('Available voices:', allVoices.map(v => `${v.name} (${v.lang})`));
   
-  // Priority 1: Google Arabic (any - usually female and high quality)
-  const googleArabic = allVoices.find(v => 
-    v.name.toLowerCase().includes('google') && 
-    v.lang.toLowerCase().startsWith('ar')
-  );
-  if (googleArabic) {
-    console.log('Selected Google Arabic voice:', googleArabic.name);
-    return googleArabic;
+  const arabicVoices = allVoices.filter(isArabicVoice);
+  if (arabicVoices.length) {
+    const ranked = arabicVoices
+      .map((voice) => ({ voice, score: scoreVoice(voice) }))
+      .sort((a, b) => b.score - a.score);
+    
+    const best = ranked[0]?.voice;
+    if (best) {
+      console.log('Selected best Arabic voice:', best.name);
+      return best;
+    }
   }
-  
-  // Priority 2: Any voice with "female" in name and Arabic
-  const femaleArabic = allVoices.find(v => 
-    v.name.toLowerCase().includes('female') && 
-    v.lang.toLowerCase().startsWith('ar')
-  );
-  if (femaleArabic) {
-    console.log('Selected Female Arabic voice:', femaleArabic.name);
-    return femaleArabic;
-  }
-  
-  // Priority 3: Laila (common Arabic female voice name)
-  const laila = allVoices.find(v => 
-    v.name.toLowerCase().includes('laila') ||
-    v.name.toLowerCase().includes('leila')
-  );
-  if (laila) {
-    console.log('Selected Laila voice:', laila.name);
-    return laila;
-  }
-  
-  // Priority 4: Any Arabic voice that's NOT Maged (male voice)
-  const nonMaleArabic = allVoices.find(v => 
-    v.lang.toLowerCase().startsWith('ar') && 
-    !v.name.toLowerCase().includes('maged')
-  );
-  if (nonMaleArabic) {
-    console.log('Selected non-male Arabic voice:', nonMaleArabic.name);
-    return nonMaleArabic;
-  }
-  
-  // Priority 5: Any Arabic voice
-  const anyArabic = allVoices.find(v => v.lang.toLowerCase().startsWith('ar'));
-  if (anyArabic) {
-    console.log('Selected any Arabic voice:', anyArabic.name);
-    return anyArabic;
-  }
-  
-  // Last resort
+
+  // Last resort: pick whatever is available to avoid silence
   console.log('No Arabic voice found, using default');
   return allVoices[0] || null;
 };
