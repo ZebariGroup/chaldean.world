@@ -6,12 +6,19 @@ export interface LessonQuestion {
   correctAnswer: string;
 }
 
+export interface LessonVocabulary {
+  word: string;
+  translation: string;
+  phonetic: string;
+}
+
 export interface Lesson {
   id: number;
   title: string;
   description: string;
   level: string;
   xpReward: number;
+  vocabulary: LessonVocabulary[];
   content: LessonQuestion[];
 }
 
@@ -22,6 +29,12 @@ export const lessonsData: Lesson[] = [
     description: "Learn how to say hello and welcome in Chaldean.",
     level: "Beginner",
     xpReward: 100,
+    vocabulary: [
+      { word: "Shlama", translation: "Hello / Peace", phonetic: "Shla-ma" },
+      { word: "Bshina", translation: "Welcome", phonetic: "B-shi-na" },
+      { word: "Shlamalokh", translation: "Hello (to a male)", phonetic: "Shla-ma-lokh" },
+      { word: "Dakhiwit", translation: "How are you?", phonetic: "Da-khi-wit" }
+    ],
     content: [
       {
         id: 1,
@@ -58,6 +71,13 @@ export const lessonsData: Lesson[] = [
     description: "Learn the first five numbers.",
     level: "Beginner",
     xpReward: 100,
+    vocabulary: [
+      { word: "Kha", translation: "One", phonetic: "Kha" },
+      { word: "Tre", translation: "Two", phonetic: "Tre" },
+      { word: "Tlatha", translation: "Three", phonetic: "Tla-tha" },
+      { word: "Arba", translation: "Four", phonetic: "Ar-ba" },
+      { word: "Khamsha", translation: "Five", phonetic: "Kham-sha" }
+    ],
     content: [
       {
         id: 1,
@@ -88,6 +108,13 @@ export const lessonsData: Lesson[] = [
     description: "Learn words for family.",
     level: "Beginner",
     xpReward: 100,
+    vocabulary: [
+      { word: "Baba", translation: "Father", phonetic: "Ba-ba" },
+      { word: "Yima", translation: "Mother", phonetic: "Yi-ma" },
+      { word: "Akhona", translation: "Brother", phonetic: "A-kho-na" },
+      { word: "Khatha", translation: "Sister", phonetic: "Kha-tha" },
+      { word: "Sawa", translation: "Grandfather", phonetic: "Sa-wa" }
+    ],
     content: [
       {
         id: 1,
@@ -118,6 +145,13 @@ export const lessonsData: Lesson[] = [
     description: "Learn basic colors in Chaldean.",
     level: "Beginner",
     xpReward: 120,
+    vocabulary: [
+      { word: "Smoqa", translation: "Red", phonetic: "Smo-qa" },
+      { word: "Khwara", translation: "White", phonetic: "Khwa-ra" },
+      { word: "Ukma", translation: "Black", phonetic: "Uk-ma" },
+      { word: "Yaruka", translation: "Green", phonetic: "Ya-ru-ka" },
+      { word: "Khawra", translation: "Blue", phonetic: "Khaw-ra" }
+    ],
     content: [
       {
         id: 1,
