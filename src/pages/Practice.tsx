@@ -331,7 +331,7 @@ export default function Practice() {
               key={card.id}
               onClick={() => handleCardClick(card.id)}
               className={`
-                relative cursor-pointer perspective-1000 group w-full h-full min-h-[100px] md:min-h-[120px]
+                relative cursor-pointer perspective-1000 group w-full h-full min-h-[110px] md:min-h-[130px]
                 ${card.isMatched ? 'opacity-60 cursor-default' : ''}
               `}
             >
@@ -346,16 +346,16 @@ export default function Practice() {
 
                 {/* Back (Revealed State) */}
                 <div className={`
-                  absolute w-full h-full backface-hidden rotate-y-180 rounded-2xl md:rounded-xl border-2 flex flex-col items-center justify-center p-2 text-center shadow-xl overflow-hidden
+                  absolute w-full h-full backface-hidden rotate-y-180 rounded-2xl md:rounded-xl border-2 flex flex-col items-center justify-center p-1.5 sm:p-2 text-center shadow-xl overflow-hidden
                   ${card.isMatched 
                     ? 'bg-gradient-to-br from-green-900/40 to-green-800/20 border-green-500/50' 
                     : 'bg-gradient-to-br from-gray-800 to-gray-800/80 border-blue-500'
                   }
                 `}>
                   {card.script && (
-                    <div className="text-xl md:text-2xl lg:text-3xl font-bold mb-1 font-serif truncate w-full px-1">{card.script}</div>
+                    <div className="text-base sm:text-xl md:text-2xl lg:text-3xl font-bold mb-0.5 sm:mb-1 font-serif break-words w-full px-1 line-clamp-2">{card.script}</div>
                   )}
-                  <div className={`${card.type === 'word' ? 'text-blue-400 font-bold' : 'text-gray-200'} text-xs md:text-sm lg:text-base truncate w-full whitespace-normal px-1 leading-tight`}>
+                  <div className={`${card.type === 'word' ? 'text-blue-400 font-bold' : 'text-gray-200'} text-[10px] sm:text-xs md:text-sm lg:text-base break-words w-full px-1 leading-tight line-clamp-3`}>
                     {card.content}
                   </div>
                 </div>

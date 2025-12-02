@@ -94,7 +94,7 @@ export default function LessonRunner() {
 
           {/* Card */}
           <div 
-            className="relative h-[420px] md:h-96 w-full cursor-pointer perspective-1000 group"
+            className="relative min-h-[380px] max-h-[480px] h-[50vh] md:h-96 w-full cursor-pointer perspective-1000 group"
             onClick={() => setIsCardFlipped(!isCardFlipped)}
           >
           <div className={`
@@ -102,24 +102,24 @@ export default function LessonRunner() {
             ${isCardFlipped ? 'rotate-y-180' : ''}
           `}>
             {/* Front */}
-            <div className="absolute w-full h-full backface-hidden bg-gradient-to-br from-gray-800 to-gray-800/80 rounded-3xl md:rounded-2xl border-2 border-gray-700 flex flex-col items-center justify-center p-6 md:p-8 shadow-2xl active:border-blue-500 md:hover:border-blue-500 transition-colors">
-              <span className="text-xs md:text-sm text-blue-400 font-semibold uppercase tracking-wider mb-4 md:mb-4 bg-blue-500/10 px-3 py-1.5 rounded-full">Chaldean</span>
-              <h2 className="text-5xl md:text-6xl font-bold mb-3 md:mb-4 text-center font-serif">{currentCard.script}</h2>
-              <h3 className="text-2xl md:text-3xl font-bold mb-4 md:mb-4 text-center text-gray-300">{currentCard.word}</h3>
-              <div className="mt-auto pt-4">
-                <p className="text-gray-500 text-sm md:text-sm bg-gray-700/50 px-4 py-2 rounded-full">👆 Tap to see meaning</p>
+            <div className="absolute w-full h-full backface-hidden bg-gradient-to-br from-gray-800 to-gray-800/80 rounded-3xl md:rounded-2xl border-2 border-gray-700 flex flex-col items-center justify-center p-4 md:p-8 shadow-2xl active:border-blue-500 md:hover:border-blue-500 transition-colors overflow-hidden">
+              <span className="text-xs text-blue-400 font-semibold uppercase tracking-wider mb-3 bg-blue-500/10 px-3 py-1.5 rounded-full flex-shrink-0">Chaldean</span>
+              <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-2 md:mb-4 text-center font-serif break-words max-w-full">{currentCard.script}</h2>
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 md:mb-4 text-center text-gray-300 break-words max-w-full">{currentCard.word}</h3>
+              <div className="mt-auto pt-3 flex-shrink-0">
+                <p className="text-gray-500 text-xs sm:text-sm bg-gray-700/50 px-3 py-1.5 rounded-full">👆 Tap to see meaning</p>
               </div>
             </div>
 
             {/* Back */}
-            <div className="absolute w-full h-full backface-hidden rotate-y-180 bg-gradient-to-br from-blue-900/30 to-gray-800 rounded-3xl md:rounded-2xl border-2 border-blue-500/50 flex flex-col items-center justify-center p-6 md:p-8 shadow-2xl">
-              <span className="text-xs md:text-sm text-blue-400 font-semibold uppercase tracking-wider mb-3 bg-blue-500/10 px-3 py-1.5 rounded-full">English</span>
-              <h3 className="text-3xl md:text-4xl font-bold mb-6 md:mb-6 text-center text-blue-400">{currentCard.translation}</h3>
+            <div className="absolute w-full h-full backface-hidden rotate-y-180 bg-gradient-to-br from-blue-900/30 to-gray-800 rounded-3xl md:rounded-2xl border-2 border-blue-500/50 flex flex-col items-center justify-center p-4 md:p-8 shadow-2xl overflow-hidden">
+              <span className="text-xs text-blue-400 font-semibold uppercase tracking-wider mb-2 bg-blue-500/10 px-3 py-1.5 rounded-full flex-shrink-0">English</span>
+              <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 md:mb-6 text-center text-blue-400 break-words max-w-full">{currentCard.translation}</h3>
               
-              <div className="w-20 h-px bg-gray-700 my-3 md:my-4"></div>
+              <div className="w-16 h-px bg-gray-700 my-2 md:my-4 flex-shrink-0"></div>
               
-              <span className="text-xs md:text-sm text-gray-400 uppercase tracking-wider mb-2">Pronunciation</span>
-              <p className="text-xl md:text-2xl italic text-gray-300 font-medium">{currentCard.phonetic}</p>
+              <span className="text-xs text-gray-400 uppercase tracking-wider mb-1 flex-shrink-0">Pronunciation</span>
+              <p className="text-lg sm:text-xl md:text-2xl italic text-gray-300 font-medium break-words max-w-full text-center">{currentCard.phonetic}</p>
             </div>
           </div>
         </div>
