@@ -77,14 +77,13 @@ export default function Dictionary() {
       .map(item => item.entry);
   }, [debouncedSearchTerm, selectedCategory, showFavoritesOnly, isFavorite]);
   
-  const speakWord = (text: string, lang: string = 'ar-SA') => {
-    if (!preferences.audioEnabled || !window.speechSynthesis) return;
+  const speakWord = (text: string) => {
+    if (!preferences.audioEnabled) return;
     
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = lang;
-    utterance.rate = 0.8;
-    window.speechSynthesis.speak(utterance);
+    // Use dynamic import to avoid SSR issues
+    import('../utils/speech').then(({ speak }) => {
+      speak(text, { rate: 0.85 });
+    });
   };
 
   const categories = ['all', ...Array.from(new Set(dictionaryData.map(d => d.category)))];

@@ -74,13 +74,11 @@ export default function Practice() {
   };
 
   const speakWord = (text: string) => {
-    if (!preferences.audioEnabled || !window.speechSynthesis) return;
+    if (!preferences.audioEnabled) return;
     
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'ar-SA';
-    utterance.rate = 0.8;
-    window.speechSynthesis.speak(utterance);
+    import('../utils/speech').then(({ speak }) => {
+      speak(text, { rate: 0.85 });
+    });
   };
 
   const handleCardClick = (id: string) => {

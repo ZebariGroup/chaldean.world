@@ -1,8 +1,34 @@
 import { useProgress } from '../context/ProgressContext';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { requestNotificationPermission } from '../utils/notifications';
+import { getArabicVoices, savePreferredVoice, getPreferredVoice, speak } from '../utils/speech';
 
 export default function Settings() {
+  const [availableVoices, setAvailableVoices] = useState<Array<{voice: SpeechSynthesisVoice, name: string}>>([]);
+  const [selectedVoice, setSelectedVoice] = useState<string>('');
+  
+  useEffect(() => {
+    // Load voices
+    const loadVoices = () => {
+      const voices = getArabicVoices();
+      setAvailableVoices(voices);
+      
+      const preferred = getPreferredVoice();
+      if (preferred) {
+        setSelectedVoice(preferred.name);
+      } else if (voices.length > 0) {
+        setSelectedVoice(voices[0].name);
+      }
+    };
+    
+    loadVoices();
+    
+    // Some browsers need to wait for voices
+    if (window.speechSynthesis) {
+      window.speechSynthesis.addEventListener('voiceschanged', loadVoices);
+      return () => window.speechSynthesis.removeEventListener('voiceschanged', loadVoices);
+    }
+  }, []);
   const { 
     preferences, 
     updatePreferences, 
@@ -183,6 +209,43 @@ export default function Settings() {
               }`} />
             </button>
           </div>
+
+          {/* Voice Selection */}
+          {preferences.audioEnabled && availableVoices.length > 0 && (
+            <div>
+              <label className="block text-sm font-medium mb-2">Voice Selection</label>
+              <div className="flex gap-2">
+                <select
+                  value={selectedVoice}
+                  onChange={(e) => {
+                    setSelectedVoice(e.target.value);
+                    savePreferredVoice(e.target.value);
+                  }}
+                  className="flex-1 p-3 rounded-xl bg-gray-700 border-2 border-gray-600 focus:border-blue-500 outline-none text-sm"
+                >
+                  {availableVoices.map((v) => (
+                    <option key={v.voice.name} value={v.voice.name}>
+                      {v.voice.name} ({v.voice.lang})
+                    </option>
+                  ))}
+                </select>
+                <button
+                  onClick={() => speak('ܫܠܡܐ Shlama', { rate: 0.85 })}
+                  className="px-4 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 transition-colors flex items-center gap-2"
+                  title="Test voice"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                  </svg>
+                  Test
+                </button>
+              </div>
+              <p className="text-xs text-gray-400 mt-1">
+                {availableVoices.length} Arabic voice{availableVoices.length !== 1 ? 's' : ''} available
+              </p>
+            </div>
+          )}
 
           {/* Dark Mode Toggle */}
           <div className="flex items-center justify-between">
