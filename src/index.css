@@ -20,7 +20,8 @@
 body {
   margin: 0;
   min-width: 320px;
-  min-height: 100vh;
+  height: 100dvh; /* Dynamic viewport height for mobile */
+  overflow: hidden; /* Prevent body scroll, handle inside layout */
 }
 
 /* 3D Flip Card Utilities */

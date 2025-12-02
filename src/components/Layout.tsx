@@ -14,8 +14,8 @@ export default function Layout() {
   `;
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex flex-col font-sans">
-      <nav className="bg-gray-800 border-b border-gray-700 sticky top-0 z-20">
+    <div className="h-[100dvh] bg-gray-900 text-white flex flex-col font-sans overflow-hidden">
+      <nav className="bg-gray-800 border-b border-gray-700 flex-shrink-0 z-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             
@@ -82,11 +82,11 @@ export default function Layout() {
         )}
       </nav>
 
-      <main className="flex-grow w-full mx-auto py-6">
+      <main className="flex-1 w-full mx-auto py-6 overflow-y-auto overflow-x-hidden scroll-smooth">
         <Outlet />
       </main>
 
-      <footer className="bg-gray-800 border-t border-gray-700 p-6 text-center text-gray-500 text-sm">
+      <footer className="bg-gray-800 border-t border-gray-700 p-6 text-center text-gray-500 text-sm flex-shrink-0">
         <p>&copy; {new Date().getFullYear()} Chaldean World. Open Source on GitHub.</p>
       </footer>
     </div>
