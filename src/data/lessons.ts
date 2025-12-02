@@ -41,7 +41,14 @@ export const lessonsData: Lesson[] = [
         id: 3,
         type: 'translation',
         question: "Translate: Hello (to a male)",
-        correctAnswer: "Shlamalokh" // Basic string match for now
+        correctAnswer: "Shlamalokh"
+      },
+      {
+        id: 4,
+        type: 'multiple-choice',
+        question: "How do you say 'How are you?'",
+        options: ["Dakhiwit", "Basima", "Shlama", "Spay"],
+        correctAnswer: "Dakhiwit"
       }
     ]
   },
@@ -95,8 +102,43 @@ export const lessonsData: Lesson[] = [
         question: "What is 'Sister' in Chaldean?",
         options: ["Khatha", "Akhona", "Yima", "Sawa"],
         correctAnswer: "Khatha"
+      },
+      {
+        id: 3,
+        type: 'multiple-choice',
+        question: "Who is 'Sawa'?",
+        options: ["Uncle", "Grandfather", "Father", "Brother"],
+        correctAnswer: "Grandfather"
+      }
+    ]
+  },
+  {
+    id: 4,
+    title: "Common Colors",
+    description: "Learn basic colors in Chaldean.",
+    level: "Beginner",
+    xpReward: 120,
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "What is 'Red' in Chaldean?",
+        options: ["Smoqa", "Khwara", "Ukma", "Yaruka"],
+        correctAnswer: "Smoqa"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "What color is 'Ukma'?",
+        options: ["White", "Black", "Blue", "Green"],
+        correctAnswer: "Black"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: White",
+        correctAnswer: "Khwara"
       }
     ]
   }
 ];
-
