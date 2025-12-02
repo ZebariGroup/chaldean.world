@@ -700,5 +700,866 @@ export const lessonsData: Lesson[] = [
         correctAnswer: "Malpantha"
       }
     ]
+  },
+  {
+    id: 18,
+    title: "Emotions",
+    description: "Expressing how you feel.",
+    level: "Intermediate",
+    xpReward: 150,
+    icon: "🎭",
+    vocabulary: [
+      { word: "Khidiya", translation: "Happy", phonetic: "Khi-di-ya", script: "ܚܕܝܐ" },
+      { word: "Kriwa", translation: "Sad", phonetic: "Kri-wa", script: "ܟܪܝܒܐ" },
+      { word: "Karpana", translation: "Angry", phonetic: "Kar-pa-na", script: "ܟܪܦܢܐ" },
+      { word: "Zdi'a", translation: "Scared", phonetic: "Zdi-a", script: "ܙܕܝܥܐ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "How do you say 'Happy'?",
+        options: ["Khidiya", "Kriwa", "Chilya", "Karpana"],
+        correctAnswer: "Khidiya"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "What means 'Sad'?",
+        options: ["Kriwa", "Khidiya", "Zdi'a", "Spay"],
+        correctAnswer: "Kriwa"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: Scared",
+        correctAnswer: "Zdi'a"
+      }
+    ]
+  },
+  {
+    id: 19,
+    title: "Travel",
+    description: "Words for traveling.",
+    level: "Intermediate",
+    xpReward: 150,
+    icon: "✈️",
+    vocabulary: [
+      { word: "Tayara", translation: "Airplane", phonetic: "Ta-ya-ra", script: "ܛܝܪܐ" },
+      { word: "Bosta", translation: "Bus", phonetic: "Bos-ta", script: "ܒܐܨ" },
+      { word: "Orkha", translation: "Road", phonetic: "Or-kha", script: "ܐܘܪܚܐ" },
+      { word: "Tiket", translation: "Ticket", phonetic: "Ti-ket", script: "ܬܝܟܬ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "What flies in the sky?",
+        options: ["Tayara", "Bosta", "Sayara", "Orkha"],
+        correctAnswer: "Tayara"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "What is 'Orkha'?",
+        options: ["Road", "Car", "Ticket", "Bag"],
+        correctAnswer: "Road"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: Ticket",
+        correctAnswer: "Tiket"
+      }
+    ]
+  },
+  {
+    id: 20,
+    title: "More Places",
+    description: "Important locations in a city.",
+    level: "Intermediate",
+    xpReward: 160,
+    icon: "🏥",
+    vocabulary: [
+      { word: "Bayta d-Asye", translation: "Hospital", phonetic: "Bay-ta d-As-ye", script: "ܒܝܬ ܐܣܝܐ" },
+      { word: "Dukana", translation: "Store", phonetic: "Du-ka-na", script: "ܕܘܟܢܐ" },
+      { word: "Mat'am", translation: "Restaurant", phonetic: "Mat-am", script: "ܡܛܥܡ" },
+      { word: "Parqa", translation: "Park", phonetic: "Par-qa", script: "ܦܪܩܐ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "Where do you go when you are sick?",
+        options: ["Bayta d-Asye", "Dukana", "Mat'am", "Parqa"],
+        correctAnswer: "Bayta d-Asye"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "Where do you buy food?",
+        options: ["Dukana", "Parqa", "Bayta d-Asye", "Knishta"],
+        correctAnswer: "Dukana"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: Restaurant",
+        correctAnswer: "Mat'am"
+      }
+    ]
+  },
+  {
+    id: 21,
+    title: "More Professions",
+    description: "Jobs people do.",
+    level: "Intermediate",
+    xpReward: 160,
+    icon: "👨‍🍳",
+    vocabulary: [
+      { word: "Tabakha", translation: "Chef", phonetic: "Ta-ba-kha", script: "ܛܒܟ݂ܐ" },
+      { word: "Sayuqa", translation: "Driver", phonetic: "Sa-yu-qa", script: "ܣܝܘܩܐ" },
+      { word: "Shurta", translation: "Police", phonetic: "Shur-ta", script: "ܫܘܪܛܐ" },
+      { word: "Nakhopa", translation: "Baker", phonetic: "Na-kho-pa", script: "ܢܚܘܦܐ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "Who cooks food?",
+        options: ["Tabakha", "Shurta", "Sayuqa", "Asya"],
+        correctAnswer: "Tabakha"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "Who drives a car?",
+        options: ["Sayuqa", "Nakhopa", "Malpana", "Tabakha"],
+        correctAnswer: "Sayuqa"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: Police",
+        correctAnswer: "Shurta"
+      }
+    ]
+  },
+  {
+    id: 22,
+    title: "Advanced Colors",
+    description: "More colors to describe things.",
+    level: "Advanced",
+    xpReward: 170,
+    icon: "🌈",
+    vocabulary: [
+      { word: "Dahba", translation: "Gold", phonetic: "Dah-ba", script: "ܕܗܒܐ" },
+      { word: "Sipa", translation: "Silver", phonetic: "Si-pa", script: "ܣܐܡܐ" },
+      { word: "Bahra", translation: "Light (Color)", phonetic: "Bah-ra", script: "ܒܗܪܐ" },
+      { word: "Khekha", translation: "Dark (Color)", phonetic: "Khe-kha", script: "ܚܘܟ݂ܐ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "What is the color of gold?",
+        options: ["Dahba", "Sipa", "Bahra", "Khekha"],
+        correctAnswer: "Dahba"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "Opposite of Light (Bahra) is:",
+        options: ["Khekha", "Sipa", "Dahba", "Smoqa"],
+        correctAnswer: "Khekha"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: Silver",
+        correctAnswer: "Sipa"
+      }
+    ]
+  },
+  {
+    id: 23,
+    title: "Days of the Week",
+    description: "Learn all the days of the week in Chaldean.",
+    level: "Beginner",
+    xpReward: 130,
+    icon: "📆",
+    vocabulary: [
+      { word: "Iroha", translation: "Sunday", phonetic: "I-ro-ha", script: "ܝܪܘܚܐ" },
+      { word: "Trinbšaba", translation: "Monday", phonetic: "Trin-b-ša-ba", script: "ܬܪܝܢܒܫܒܐ" },
+      { word: "Tlitbšaba", translation: "Tuesday", phonetic: "Tlit-b-ša-ba", script: "ܬܠܝܬܒܫܒܐ" },
+      { word: "Arbibšaba", translation: "Wednesday", phonetic: "Ar-bib-ša-ba", script: "ܐܪܒܥܒܫܒܐ" },
+      { word: "Khamiša", translation: "Thursday", phonetic: "Kha-mi-ša", script: "ܚܡܝܫܐ" },
+      { word: "Khamšibšaba", translation: "Friday", phonetic: "Kham-ši-b-ša-ba", script: "ܚܡܫܒܫܒܐ" },
+      { word: "Shabta", translation: "Saturday", phonetic: "Shab-ta", script: "ܫܒܬܐ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "What day is 'Iroha'?",
+        options: ["Sunday", "Monday", "Saturday", "Friday"],
+        correctAnswer: "Sunday"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "What is 'Friday' in Chaldean?",
+        options: ["Khamšibšaba", "Khamiša", "Shabta", "Arbibšaba"],
+        correctAnswer: "Khamšibšaba"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: Wednesday",
+        correctAnswer: "Arbibšaba"
+      }
+    ]
+  },
+  {
+    id: 24,
+    title: "Seasons & Weather",
+    description: "Learn the four seasons and weather terms.",
+    level: "Intermediate",
+    xpReward: 150,
+    icon: "🌦️",
+    vocabulary: [
+      { word: "Kharta", translation: "Spring", phonetic: "Khar-ta", script: "ܟܪܬܐ" },
+      { word: "Qayṭa", translation: "Summer", phonetic: "Qay-ṭa", script: "ܩܝܛܐ" },
+      { word: "Ṭarpa", translation: "Autumn", phonetic: "Ṭar-pa", script: "ܛܪܦܐ" },
+      { word: "Sitwa", translation: "Winter", phonetic: "Sit-wa", script: "ܣܬܘܐ" },
+      { word: "Qarira", translation: "Cold", phonetic: "Qa-ri-ra", script: "ܩܪܝܪܐ" },
+      { word: "Khamima", translation: "Hot", phonetic: "Kha-mi-ma", script: "ܚܡܝܡܐ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "What season is 'Qayṭa'?",
+        options: ["Summer", "Winter", "Spring", "Fall"],
+        correctAnswer: "Summer"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "When is it cold?",
+        options: ["Sitwa", "Qayṭa", "Kharta", "Ṭarpa"],
+        correctAnswer: "Sitwa"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: Spring",
+        correctAnswer: "Kharta"
+      }
+    ]
+  },
+  {
+    id: 25,
+    title: "More Fruits",
+    description: "Expand your fruit vocabulary.",
+    level: "Beginner",
+    xpReward: 140,
+    icon: "🍇",
+    vocabulary: [
+      { word: "Tīna", translation: "Fig", phonetic: "Tī-na", script: "ܬܐܢܐ" },
+      { word: "Rummana", translation: "Pomegranate", phonetic: "Rum-ma-na", script: "ܪܘܡܢܐ" },
+      { word: "Khawkha", translation: "Peach", phonetic: "Khaw-kha", script: "ܚܘܟܐ" },
+      { word: "Mešmeša", translation: "Apricot", phonetic: "Meš-me-ša", script: "ܡܫܡܫܐ" },
+      { word: "Talyana", translation: "Watermelon", phonetic: "Tal-ya-na", script: "ܛܠܝܢܐ" },
+      { word: "Limuna", translation: "Lemon", phonetic: "Li-mu-na", script: "ܠܝܡܘܢܐ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "What is a 'Rummana'?",
+        options: ["Pomegranate", "Fig", "Peach", "Apricot"],
+        correctAnswer: "Pomegranate"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "Which fruit is 'Talyana'?",
+        options: ["Watermelon", "Melon", "Lemon", "Orange"],
+        correctAnswer: "Watermelon"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: Apricot",
+        correctAnswer: "Mešmeša"
+      }
+    ]
+  },
+  {
+    id: 26,
+    title: "Vegetables",
+    description: "Learn common vegetable names.",
+    level: "Beginner",
+    xpReward: 140,
+    icon: "🥕",
+    vocabulary: [
+      { word: "Tuma", translation: "Garlic", phonetic: "Tu-ma", script: "ܬܘܡܐ" },
+      { word: "Pilpila", translation: "Pepper", phonetic: "Pil-pi-la", script: "ܦܠܦܠܐ" },
+      { word: "Khassa", translation: "Lettuce", phonetic: "Khas-sa", script: "ܚܣܐ" },
+      { word: "Shilpa", translation: "Eggplant", phonetic: "Shil-pa", script: "ܫܠܦܐ" },
+      { word: "Gzara", translation: "Carrot", phonetic: "Gza-ra", script: "ܓܙܪܐ" },
+      { word: "Lifta", translation: "Turnip", phonetic: "Lif-ta", script: "ܠܦܬܐ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "What is 'Gzara'?",
+        options: ["Carrot", "Turnip", "Lettuce", "Pepper"],
+        correctAnswer: "Carrot"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "What vegetable is 'Tuma'?",
+        options: ["Garlic", "Onion", "Pepper", "Lettuce"],
+        correctAnswer: "Garlic"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: Eggplant",
+        correctAnswer: "Shilpa"
+      }
+    ]
+  },
+  {
+    id: 27,
+    title: "Kitchen Items",
+    description: "Things you find in the kitchen.",
+    level: "Intermediate",
+    xpReward: 150,
+    icon: "🍳",
+    vocabulary: [
+      { word: "Sanduqa", translation: "Pot", phonetic: "San-du-qa", script: "ܣܢܕܘܩܐ" },
+      { word: "Qarora", translation: "Kettle", phonetic: "Qa-ro-ra", script: "ܩܪܘܪܐ" },
+      { word: "Piala", translation: "Bowl", phonetic: "Pia-la", script: "ܦܝܠܐ" },
+      { word: "Maqliya", translation: "Frying Pan", phonetic: "Maq-li-ya", script: "ܡܩܠܝܐ" },
+      { word: "Tannura", translation: "Oven", phonetic: "Tan-nu-ra", script: "ܬܢܘܪܐ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "You cook in a:",
+        options: ["Tannura", "Piala", "Stikana", "Sahna"],
+        correctAnswer: "Tannura"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "What is a 'Maqliya'?",
+        options: ["Frying Pan", "Pot", "Bowl", "Kettle"],
+        correctAnswer: "Frying Pan"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: Bowl",
+        correctAnswer: "Piala"
+      }
+    ]
+  },
+  {
+    id: 28,
+    title: "More Animals",
+    description: "Expand your animal vocabulary.",
+    level: "Beginner",
+    xpReward: 140,
+    icon: "🐰",
+    vocabulary: [
+      { word: "Para", translation: "Cow", phonetic: "Pa-ra", script: "ܦܪܐ" },
+      { word: "Ṭarpa", translation: "Goat", phonetic: "Ṭar-pa", script: "ܛܪܦܐ" },
+      { word: "Arnava", translation: "Rabbit", phonetic: "Ar-na-va", script: "ܐܪܢܒܐ" },
+      { word: "Ṭayra", translation: "Bird", phonetic: "Ṭay-ra", script: "ܛܝܪܐ" },
+      { word: "Yōna", translation: "Dove", phonetic: "Yō-na", script: "ܝܘܢܐ" },
+      { word: "Gamal", translation: "Camel", phonetic: "Ga-mal", script: "ܓܡܠ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "What animal is 'Para'?",
+        options: ["Cow", "Goat", "Sheep", "Horse"],
+        correctAnswer: "Cow"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "What is a 'Yōna'?",
+        options: ["Dove", "Eagle", "Bird", "Rooster"],
+        correctAnswer: "Dove"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: Rabbit",
+        correctAnswer: "Arnava"
+      }
+    ]
+  },
+  {
+    id: 29,
+    title: "More Verbs",
+    description: "Essential action words for daily life.",
+    level: "Intermediate",
+    xpReward: 160,
+    icon: "🏃‍♂️",
+    vocabulary: [
+      { word: "Ḥli", translation: "To Wash", phonetic: "Ḥli", script: "ܚܠܝ" },
+      { word: "Tbi", translation: "To Cook", phonetic: "Tbi", script: "ܛܒܝ" },
+      { word: "Bni", translation: "To Build", phonetic: "Bni", script: "ܒܢܝ" },
+      { word: "Ḥyi", translation: "To Live", phonetic: "Ḥyi", script: "ܚܝܝ" },
+      { word: "Zmēr", translation: "To Sing", phonetic: "Zmēr", script: "ܙܡܪ" },
+      { word: "Rqiḏ", translation: "To Dance", phonetic: "Rqi-ḏ", script: "ܪܓܕ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "What means 'To Cook'?",
+        options: ["Tbi", "Ḥli", "Qli", "Akhal"],
+        correctAnswer: "Tbi"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "What is 'To Sing'?",
+        options: ["Zmēr", "Rqiḏ", "Mahki", "Q'ā"],
+        correctAnswer: "Zmēr"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: To Build",
+        correctAnswer: "Bni"
+      }
+    ]
+  },
+  {
+    id: 30,
+    title: "Pronouns",
+    description: "Learn personal pronouns in Chaldean.",
+    level: "Intermediate",
+    xpReward: 150,
+    icon: "👤",
+    vocabulary: [
+      { word: "Ana", translation: "I", phonetic: "A-na", script: "ܐܢܐ" },
+      { word: "At", translation: "You (masc.)", phonetic: "At", script: "ܐܢܬ" },
+      { word: "Ati", translation: "You (fem.)", phonetic: "A-ti", script: "ܐܢܬܝ" },
+      { word: "Awa", translation: "He", phonetic: "A-wa", script: "ܗܘ" },
+      { word: "Aya", translation: "She", phonetic: "A-ya", script: "ܗܝ" },
+      { word: "Akhnan", translation: "We", phonetic: "Akh-nan", script: "ܐܚܢܢ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "What is 'I' in Chaldean?",
+        options: ["Ana", "At", "Awa", "Akhnan"],
+        correctAnswer: "Ana"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "What pronoun is 'Akhnan'?",
+        options: ["We", "They", "You", "I"],
+        correctAnswer: "We"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: She",
+        correctAnswer: "Aya"
+      }
+    ]
+  },
+  {
+    id: 31,
+    title: "More Body Parts",
+    description: "Advanced body vocabulary.",
+    level: "Intermediate",
+    xpReward: 150,
+    icon: "🦴",
+    vocabulary: [
+      { word: "Gaba", translation: "Shoulder", phonetic: "Ga-ba", script: "ܓܒܐ" },
+      { word: "Pakhda", translation: "Thigh", phonetic: "Pakh-da", script: "ܦܟܕܐ" },
+      { word: "Qādla", translation: "Neck", phonetic: "Qād-la", script: "ܩܕܠܐ" },
+      { word: "Daqna", translation: "Beard", phonetic: "Daq-na", script: "ܕܩܢܐ" },
+      { word: "Gavīna", translation: "Eyebrow", phonetic: "Ga-vī-na", script: "ܓܒܝܢܐ" },
+      { word: "Šaptha", translation: "Lip", phonetic: "Šap-tha", script: "ܫܦܬܐ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "What is 'Qādla'?",
+        options: ["Neck", "Shoulder", "Arm", "Leg"],
+        correctAnswer: "Neck"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "What body part is 'Gavīna'?",
+        options: ["Eyebrow", "Eyelash", "Eye", "Nose"],
+        correctAnswer: "Eyebrow"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: Shoulder",
+        correctAnswer: "Gaba"
+      }
+    ]
+  },
+  {
+    id: 32,
+    title: "Demonstratives",
+    description: "Learn this, that, these, and those.",
+    level: "Intermediate",
+    xpReward: 150,
+    icon: "👉",
+    vocabulary: [
+      { word: "Haḏā", translation: "This (masc.)", phonetic: "Ha-ḏā", script: "ܗܕܐ" },
+      { word: "Haḏē", translation: "This (fem.)", phonetic: "Ha-ḏē", script: "ܗܕܐ" },
+      { word: "Haw", translation: "That (masc.)", phonetic: "Haw", script: "ܗܘ" },
+      { word: "Hayē", translation: "That (fem.)", phonetic: "Ha-yē", script: "ܗܝ" },
+      { word: "Hālen", translation: "These", phonetic: "Hā-len", script: "ܗܠܝܢ" },
+      { word: "Hānōn", translation: "Those", phonetic: "Hā-nōn", script: "ܗܢܘܢ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "How do you say 'This' for masculine?",
+        options: ["Haḏā", "Haw", "Hālen", "Haḏē"],
+        correctAnswer: "Haḏā"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "What means 'Those'?",
+        options: ["Hānōn", "Hālen", "Haw", "Hayē"],
+        correctAnswer: "Hānōn"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: These",
+        correctAnswer: "Hālen"
+      }
+    ]
+  },
+  {
+    id: 33,
+    title: "Nature & Geography",
+    description: "Natural features and geography.",
+    level: "Intermediate",
+    xpReward: 160,
+    icon: "🏔️",
+    vocabulary: [
+      { word: "Šmaya", translation: "Sky/Heaven", phonetic: "Šma-ya", script: "ܫܡܝܐ" },
+      { word: "Shuna", translation: "Stone/Rock", phonetic: "Shu-na", script: "ܫܘܢܐ" },
+      { word: "Barqa", translation: "Lightning", phonetic: "Bar-qa", script: "ܒܪܩܐ" },
+      { word: "Yabal", translation: "Hill", phonetic: "Ya-bal", script: "ܝܒܠ" },
+      { word: "Gōba", translation: "Valley", phonetic: "Gō-ba", script: "ܓܘܒܐ" },
+      { word: "Qešā", translation: "Forest", phonetic: "Qe-šā", script: "ܩܫܐ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "What is the sky called?",
+        options: ["Šmaya", "Ar'a", "Tura", "Gōba"],
+        correctAnswer: "Šmaya"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "What is 'Barqa'?",
+        options: ["Lightning", "Thunder", "Rain", "Wind"],
+        correctAnswer: "Lightning"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: Forest",
+        correctAnswer: "Qešā"
+      }
+    ]
+  },
+  {
+    id: 34,
+    title: "Advanced Adjectives",
+    description: "More descriptive words.",
+    level: "Advanced",
+    xpReward: 170,
+    icon: "📝",
+    vocabulary: [
+      { word: "Bīša", translation: "Bad/Evil", phonetic: "Bī-ša", script: "ܒܝܫܐ" },
+      { word: "Halyā", translation: "Sweet", phonetic: "Hal-yā", script: "ܚܠܝܐ" },
+      { word: "Marirā", translation: "Bitter", phonetic: "Ma-ri-rā", script: "ܡܪܝܪܐ" },
+      { word: "Melyā", translation: "Full", phonetic: "Mel-yā", script: "ܡܠܝܐ" },
+      { word: "Sriqa", translation: "Empty", phonetic: "Sri-qa", script: "ܣܪܝܩܐ" },
+      { word: "Ṭuvrā", translation: "Clean", phonetic: "Ṭuv-rā", script: "ܛܘܒܪܐ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "What means 'Sweet'?",
+        options: ["Halyā", "Marirā", "Bīša", "Sriqa"],
+        correctAnswer: "Halyā"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "Opposite of Full (Melyā) is:",
+        options: ["Sriqa", "Halyā", "Ṭuvrā", "Bīša"],
+        correctAnswer: "Sriqa"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: Clean",
+        correctAnswer: "Ṭuvrā"
+      }
+    ]
+  },
+  {
+    id: 35,
+    title: "Useful Phrases",
+    description: "Common expressions for conversation.",
+    level: "Intermediate",
+    xpReward: 160,
+    icon: "💬",
+    vocabulary: [
+      { word: "Ana Itwan", translation: "I am here", phonetic: "A-na It-wan", script: "ܐܢܐ ܐܝܬܘܢ" },
+      { word: "Yadin ana", translation: "I know", phonetic: "Ya-din a-na", script: "ܝܕܥ ܐܢܐ" },
+      { word: "Ba'en ana", translation: "I want", phonetic: "Ba-'en a-na", script: "ܒܥܐ ܐܢܐ" },
+      { word: "La Ba'en", translation: "I don't want", phonetic: "La Ba-'en", script: "ܠܐ ܒܥܐ" },
+      { word: "La Marri", translation: "Don't worry", phonetic: "La Mar-ri", script: "ܠܐ ܡܪܝ" },
+      { word: "Min Fadhlokh", translation: "Please (to male)", phonetic: "Min Fadh-lokh", script: "ܡܢ ܦܕܠܘܟ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "How do you say 'I am here'?",
+        options: ["Ana Itwan", "Yadin ana", "Ba'en ana", "La yadin"],
+        correctAnswer: "Ana Itwan"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "What does 'La Marri' mean?",
+        options: ["Don't worry", "I don't want", "I don't know", "Please"],
+        correctAnswer: "Don't worry"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: I want",
+        correctAnswer: "Ba'en ana"
+      }
+    ]
+  },
+  {
+    id: 36,
+    title: "Clothing & Accessories",
+    description: "More items you wear.",
+    level: "Intermediate",
+    xpReward: 150,
+    icon: "👗",
+    vocabulary: [
+      { word: "Nakhta", translation: "Dress", phonetic: "Nakh-ta", script: "ܢܚܬܐ" },
+      { word: "Ṭaylasa", translation: "Veil/Scarf", phonetic: "Ṭay-la-sa", script: "ܛܝܠܣܐ" },
+      { word: "Zunara", translation: "Belt", phonetic: "Zu-na-ra", script: "ܙܢܪܐ" },
+      { word: "Quptha", translation: "Coat", phonetic: "Qup-tha", script: "ܩܘܦܬܐ" },
+      { word: "Jubba", translation: "Robe", phonetic: "Jub-ba", script: "ܓܘܒܐ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "What is a 'Nakhta'?",
+        options: ["Dress", "Shirt", "Pants", "Coat"],
+        correctAnswer: "Dress"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "What do you wear around your waist?",
+        options: ["Zunara", "Ṭaylasa", "Jubba", "Quptha"],
+        correctAnswer: "Zunara"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: Coat",
+        correctAnswer: "Quptha"
+      }
+    ]
+  },
+  {
+    id: 37,
+    title: "Cooking & Food Preparation",
+    description: "Verbs related to cooking.",
+    level: "Intermediate",
+    xpReward: 160,
+    icon: "👨‍🍳",
+    vocabulary: [
+      { word: "Tbi", translation: "To Cook", phonetic: "Tbi", script: "ܛܒܝ" },
+      { word: "Qli", translation: "To Fry", phonetic: "Qli", script: "ܩܠܝ" },
+      { word: "Blē", translation: "To Mix", phonetic: "Blē", script: "ܒܠܝ" },
+      { word: "Ḥṣid", translation: "To Harvest", phonetic: "Ḥṣid", script: "ܚܨܕ" },
+      { word: "Zri", translation: "To Plant", phonetic: "Zri", script: "ܙܪܥ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "What means 'To Fry'?",
+        options: ["Qli", "Tbi", "Blē", "Akhal"],
+        correctAnswer: "Qli"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "What do farmers do with seeds?",
+        options: ["Zri", "Ḥṣid", "Tbi", "Qli"],
+        correctAnswer: "Zri"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: To Mix",
+        correctAnswer: "Blē"
+      }
+    ]
+  },
+  {
+    id: 38,
+    title: "Emotions & Feelings",
+    description: "Advanced emotional vocabulary.",
+    level: "Advanced",
+    xpReward: 170,
+    icon: "❤️",
+    vocabulary: [
+      { word: "Ḥib", translation: "To Love", phonetic: "Ḥib", script: "ܚܒ" },
+      { word: "Sni", translation: "To Hate", phonetic: "Sni", script: "ܣܢܐ" },
+      { word: "Nši", translation: "To Kiss", phonetic: "Nši", script: "ܢܫܩ" },
+      { word: "Ḥbiq", translation: "To Hug", phonetic: "Ḥbiq", script: "ܚܒܩ" },
+      { word: "Gkhikh", translation: "To Laugh", phonetic: "Gkhikh", script: "ܓܚܟ" },
+      { word: "Bkhe", translation: "To Cry", phonetic: "Bkhe", script: "ܒܟܐ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "What means 'To Love'?",
+        options: ["Ḥib", "Sni", "Nši", "Ḥbiq"],
+        correctAnswer: "Ḥib"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "Opposite of Laugh (Gkhikh) is:",
+        options: ["Bkhe", "Ḥib", "Sni", "Nši"],
+        correctAnswer: "Bkhe"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: To Hug",
+        correctAnswer: "Ḥbiq"
+      }
+    ]
+  },
+  {
+    id: 39,
+    title: "Insects & Small Animals",
+    description: "Common insects and small creatures.",
+    level: "Intermediate",
+    xpReward: 150,
+    icon: "🐝",
+    vocabulary: [
+      { word: "Namla", translation: "Ant", phonetic: "Nam-la", script: "ܢܡܠܐ" },
+      { word: "Dbōrta", translation: "Bee", phonetic: "Dbōr-ta", script: "ܕܒܘܪܬܐ" },
+      { word: "Parpāša", translation: "Butterfly", phonetic: "Par-pā-ša", script: "ܦܪܦܫܐ" },
+      { word: "Dadūna", translation: "Fly", phonetic: "Da-dū-na", script: "ܕܕܘܢܐ" },
+      { word: "Qarda", translation: "Mosquito", phonetic: "Qar-da", script: "ܩܪܕܐ" },
+      { word: "Ḥiwya", translation: "Snake", phonetic: "Ḥiw-ya", script: "ܚܘܝܐ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "What makes honey?",
+        options: ["Dbōrta", "Namla", "Parpāša", "Dadūna"],
+        correctAnswer: "Dbōrta"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "What is 'Parpāša'?",
+        options: ["Butterfly", "Bee", "Fly", "Ant"],
+        correctAnswer: "Butterfly"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: Ant",
+        correctAnswer: "Namla"
+      }
+    ]
+  },
+  {
+    id: 40,
+    title: "Birds",
+    description: "Learn names of various birds.",
+    level: "Intermediate",
+    xpReward: 150,
+    icon: "🦅",
+    vocabulary: [
+      { word: "Nišra", translation: "Eagle", phonetic: "Niš-ra", script: "ܢܫܪܐ" },
+      { word: "Tarnagōlta", translation: "Rooster/Hen", phonetic: "Tar-na-gōl-ta", script: "ܬܪܢܓܘܠܬܐ" },
+      { word: "Barōza", translation: "Duck", phonetic: "Ba-rō-za", script: "ܒܪܘܙܐ" },
+      { word: "Wazza", translation: "Goose", phonetic: "Waz-za", script: "ܘܙܐ" },
+      { word: "Yōna", translation: "Dove/Pigeon", phonetic: "Yō-na", script: "ܝܘܢܐ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "What bird is a symbol of peace?",
+        options: ["Yōna", "Nišra", "Barōza", "Wazza"],
+        correctAnswer: "Yōna"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "What is an 'Nišra'?",
+        options: ["Eagle", "Duck", "Goose", "Hen"],
+        correctAnswer: "Eagle"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: Duck",
+        correctAnswer: "Barōza"
+      }
+    ]
   }
 ];
