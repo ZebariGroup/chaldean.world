@@ -32,18 +32,19 @@ export default function LessonRunner() {
     return (
       <div className="h-full flex items-center justify-center px-4">
         <div className="max-w-2xl w-full text-center animate-fade-in">
-          <h1 className="text-3xl md:text-4xl font-bold mb-4 md:mb-6">{lesson.title}</h1>
-          <p className="text-lg md:text-xl text-gray-300 mb-8 md:mb-12">{lesson.description}</p>
-          <div className="bg-gray-800 p-4 md:p-6 rounded-lg inline-block mb-8 md:mb-12">
-            <p className="text-sm text-gray-400 uppercase tracking-wider mb-2">Vocabulary to Learn</p>
-            <p className="text-2xl font-bold text-blue-400">{lesson.vocabulary.length} Words</p>
+          <div className="text-5xl md:text-6xl mb-4 md:mb-6">{lesson.icon || "📚"}</div>
+          <h1 className="text-2xl md:text-4xl font-bold mb-3 md:mb-6">{lesson.title}</h1>
+          <p className="text-base md:text-xl text-gray-300 mb-6 md:mb-8">{lesson.description}</p>
+          <div className="bg-gradient-to-br from-gray-800 to-gray-800/50 p-5 md:p-6 rounded-2xl inline-block mb-6 md:mb-8 border border-gray-700">
+            <p className="text-xs md:text-sm text-gray-400 uppercase tracking-wider mb-2">You'll Learn</p>
+            <p className="text-2xl md:text-3xl font-bold text-blue-400">{lesson.vocabulary.length} Words</p>
           </div>
           <div>
             <button
               onClick={() => setPhase('learning')}
-              className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 md:py-4 px-8 md:px-12 rounded-full text-base md:text-lg transition-transform transform hover:scale-105 shadow-lg"
+              className="w-full md:w-auto bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-4 md:py-4 px-8 md:px-12 rounded-2xl md:rounded-full text-lg transition-transform active:scale-95 md:hover:scale-105 shadow-lg"
             >
-              Start Learning
+              Start Learning →
             </button>
           </div>
         </div>
@@ -69,21 +70,21 @@ export default function LessonRunner() {
       <div className="h-full flex items-center justify-center px-4">
         <div className="max-w-md w-full">
           {/* Progress Bar for Flashcards */}
-          <div className="w-full bg-gray-700 rounded-full h-2.5 mb-4 md:mb-8">
+          <div className="w-full bg-gray-700/50 rounded-full h-3 mb-4 md:mb-6 shadow-inner">
             <div 
-              className="bg-blue-500 h-2.5 rounded-full transition-all duration-500" 
+              className="bg-gradient-to-r from-blue-500 to-blue-600 h-3 rounded-full transition-all duration-500 shadow-sm" 
               style={{ width: `${progressPercentage}%` }}
             ></div>
           </div>
 
-          <div className="mb-4 md:mb-6 flex justify-between items-center text-sm text-gray-400">
-            <span>Card {currentCardIndex + 1} of {lesson.vocabulary.length}</span>
-            <span className="bg-blue-900 text-blue-200 px-2 py-1 rounded text-xs">Flashcards</span>
+          <div className="mb-4 md:mb-6 flex justify-between items-center text-xs md:text-sm">
+            <span className="font-medium text-gray-300">Card {currentCardIndex + 1} of {lesson.vocabulary.length}</span>
+            <span className="bg-blue-900/50 text-blue-200 px-3 py-1.5 rounded-full text-xs font-medium border border-blue-700/50">Flashcards</span>
           </div>
 
           {/* Card */}
           <div 
-            className="relative h-80 md:h-96 w-full cursor-pointer perspective-1000 group"
+            className="relative h-[420px] md:h-96 w-full cursor-pointer perspective-1000 group"
             onClick={() => setIsCardFlipped(!isCardFlipped)}
           >
           <div className={`
@@ -91,33 +92,35 @@ export default function LessonRunner() {
             ${isCardFlipped ? 'rotate-y-180' : ''}
           `}>
             {/* Front */}
-            <div className="absolute w-full h-full backface-hidden bg-gray-800 rounded-2xl border-2 border-gray-700 flex flex-col items-center justify-center p-6 md:p-8 shadow-2xl hover:border-blue-500 transition-colors">
-              <span className="text-xs md:text-sm text-gray-400 uppercase tracking-wider mb-3 md:mb-4">Chaldean</span>
-              <h2 className="text-4xl md:text-6xl font-bold mb-3 md:mb-4 text-center font-serif">{currentCard.script}</h2>
-              <h3 className="text-2xl md:text-3xl font-bold mb-3 md:mb-4 text-center text-gray-300">{currentCard.word}</h3>
-              <p className="text-gray-500 mt-2 md:mt-4 text-xs md:text-sm">Tap to flip</p>
+            <div className="absolute w-full h-full backface-hidden bg-gradient-to-br from-gray-800 to-gray-800/80 rounded-3xl md:rounded-2xl border-2 border-gray-700 flex flex-col items-center justify-center p-6 md:p-8 shadow-2xl active:border-blue-500 md:hover:border-blue-500 transition-colors">
+              <span className="text-xs md:text-sm text-blue-400 font-semibold uppercase tracking-wider mb-4 md:mb-4 bg-blue-500/10 px-3 py-1.5 rounded-full">Chaldean</span>
+              <h2 className="text-5xl md:text-6xl font-bold mb-3 md:mb-4 text-center font-serif">{currentCard.script}</h2>
+              <h3 className="text-2xl md:text-3xl font-bold mb-4 md:mb-4 text-center text-gray-300">{currentCard.word}</h3>
+              <div className="mt-auto pt-4">
+                <p className="text-gray-500 text-sm md:text-sm bg-gray-700/50 px-4 py-2 rounded-full">👆 Tap to see meaning</p>
+              </div>
             </div>
 
             {/* Back */}
-            <div className="absolute w-full h-full backface-hidden rotate-y-180 bg-gray-800 rounded-2xl border-2 border-blue-500/50 flex flex-col items-center justify-center p-6 md:p-8 shadow-2xl">
-              <span className="text-xs md:text-sm text-gray-400 uppercase tracking-wider mb-2">English</span>
-              <h3 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6 text-center text-blue-400">{currentCard.translation}</h3>
+            <div className="absolute w-full h-full backface-hidden rotate-y-180 bg-gradient-to-br from-blue-900/30 to-gray-800 rounded-3xl md:rounded-2xl border-2 border-blue-500/50 flex flex-col items-center justify-center p-6 md:p-8 shadow-2xl">
+              <span className="text-xs md:text-sm text-blue-400 font-semibold uppercase tracking-wider mb-3 bg-blue-500/10 px-3 py-1.5 rounded-full">English</span>
+              <h3 className="text-3xl md:text-4xl font-bold mb-6 md:mb-6 text-center text-blue-400">{currentCard.translation}</h3>
               
-              <div className="w-full h-px bg-gray-700 my-3 md:my-4"></div>
+              <div className="w-20 h-px bg-gray-700 my-3 md:my-4"></div>
               
               <span className="text-xs md:text-sm text-gray-400 uppercase tracking-wider mb-2">Pronunciation</span>
-              <p className="text-lg md:text-xl italic text-gray-300">{currentCard.phonetic}</p>
+              <p className="text-xl md:text-2xl italic text-gray-300 font-medium">{currentCard.phonetic}</p>
             </div>
           </div>
         </div>
 
           {/* Controls */}
-          <div className="mt-4 md:mt-8 flex justify-center">
+          <div className="mt-5 md:mt-8 flex justify-center">
             <button
               onClick={(e) => { e.stopPropagation(); handleNextCard(); }}
-              className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 md:px-12 rounded-full shadow-lg transition-transform transform hover:scale-105"
+              className="w-full md:w-auto bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-4 px-8 md:px-12 rounded-2xl md:rounded-full shadow-lg transition-transform active:scale-95 md:hover:scale-105"
             >
-              {currentCardIndex < lesson.vocabulary.length - 1 ? 'Next Card' : 'Start Quiz'}
+              {currentCardIndex < lesson.vocabulary.length - 1 ? 'Next Card →' : 'Start Quiz 🎯'}
             </button>
           </div>
         </div>
@@ -156,40 +159,40 @@ export default function LessonRunner() {
       <div className="h-full flex items-center justify-center px-4">
         <div className="max-w-2xl w-full">
           {/* Progress Bar */}
-          <div className="w-full bg-gray-700 rounded-full h-2.5 mb-4 md:mb-8">
+          <div className="w-full bg-gray-700/50 rounded-full h-3 mb-4 md:mb-6 shadow-inner">
             <div 
-              className="bg-green-500 h-2.5 rounded-full transition-all duration-500" 
+              className="bg-gradient-to-r from-green-500 to-green-600 h-3 rounded-full transition-all duration-500 shadow-sm" 
               style={{ width: `${progressPercentage}%` }}
             ></div>
           </div>
 
-          <div className="bg-gray-800 p-4 md:p-8 rounded-xl border border-gray-700 shadow-xl flex flex-col">
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-base md:text-xl text-gray-400">Question {currentQuestionIndex + 1} of {lesson.content.length}</h3>
-            <span className="bg-green-900 text-green-200 px-2 py-1 rounded text-xs">Quiz Mode</span>
+          <div className="bg-gradient-to-br from-gray-800 to-gray-800/80 p-5 md:p-8 rounded-3xl md:rounded-xl border-2 border-gray-700 shadow-xl flex flex-col">
+          <div className="flex justify-between items-center mb-4 md:mb-6">
+            <h3 className="text-sm md:text-lg font-medium text-gray-300">Question {currentQuestionIndex + 1} of {lesson.content.length}</h3>
+            <span className="bg-green-900/50 text-green-200 px-3 py-1.5 rounded-full text-xs font-medium border border-green-700/50">Quiz</span>
           </div>
           
           <div>
-            <h2 className="text-xl md:text-2xl font-bold mb-4 md:mb-8">{currentQuestion.question}</h2>
+            <h2 className="text-lg md:text-2xl font-bold mb-5 md:mb-8 leading-snug">{currentQuestion.question}</h2>
             
             {currentQuestion.type === 'multiple-choice' && currentQuestion.options && (
-              <div className="grid gap-4">
+              <div className="grid gap-3">
                 {currentQuestion.options.map((option) => (
                   <button
                     key={option}
                     onClick={() => !isCorrect && setSelectedOption(option)}
                     disabled={isCorrect !== null}
                     className={`
-                      p-4 rounded-lg border-2 text-left transition-all
+                      p-4 md:p-5 rounded-2xl md:rounded-xl border-2 text-left transition-all font-medium active:scale-95
                       ${selectedOption === option 
                         ? isCorrect === null 
-                          ? 'border-blue-500 bg-blue-500/10' 
+                          ? 'border-blue-500 bg-blue-500/20 shadow-lg shadow-blue-500/20' 
                           : isCorrect 
-                            ? 'border-green-500 bg-green-500/10'
-                            : 'border-red-500 bg-red-500/10'
-                        : 'border-gray-600 hover:border-gray-500 bg-gray-700/50'
+                            ? 'border-green-500 bg-green-500/20 shadow-lg shadow-green-500/20'
+                            : 'border-red-500 bg-red-500/20 shadow-lg shadow-red-500/20'
+                        : 'border-gray-600 md:hover:border-gray-500 bg-gray-700/50 md:hover:bg-gray-700'
                       }
-                      ${isCorrect !== null && option === currentQuestion.correctAnswer ? 'border-green-500 bg-green-500/10' : ''}
+                      ${isCorrect !== null && option === currentQuestion.correctAnswer ? 'border-green-500 bg-green-500/20' : ''}
                     `}
                   >
                     {option}
@@ -206,34 +209,37 @@ export default function LessonRunner() {
                   onChange={(e) => !isCorrect && setSelectedOption(e.target.value)}
                   disabled={isCorrect !== null}
                   placeholder="Type your answer..."
-                  className="w-full p-4 rounded-lg bg-gray-700 border border-gray-600 text-white focus:border-blue-500 outline-none"
+                  className="w-full p-4 md:p-5 rounded-2xl md:rounded-xl bg-gray-700/50 border-2 border-gray-600 text-white text-lg focus:border-blue-500 focus:bg-gray-700 outline-none transition-all"
                 />
               </div>
             )}
           </div>
 
-          <div className="mt-4 md:mt-8 pt-4 md:pt-6 border-t border-gray-700">
+          <div className="mt-5 md:mt-8 pt-5 md:pt-6 border-t border-gray-700">
             {isCorrect === null ? (
               <button
                 onClick={handleCheck}
                 disabled={!selectedOption}
-                className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3 px-6 rounded-lg transition-colors"
+                className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-4 px-6 rounded-2xl md:rounded-xl transition-all active:scale-95 shadow-lg"
               >
                 Check Answer
               </button>
             ) : (
-              <div className={`flex flex-col md:flex-row items-center justify-between gap-3 md:gap-0 ${isCorrect ? 'text-green-400' : 'text-red-400'}`}>
-                <span className="font-bold text-base md:text-lg text-center md:text-left">
-                  {isCorrect ? 'Correct! 🎉' : `Incorrect. The answer is: ${currentQuestion.correctAnswer}`}
-                </span>
+              <div className={`flex flex-col gap-3 ${isCorrect ? 'text-green-400' : 'text-red-400'}`}>
+                <div className={`p-4 rounded-2xl md:rounded-xl ${isCorrect ? 'bg-green-500/10 border-2 border-green-500/30' : 'bg-red-500/10 border-2 border-red-500/30'}`}>
+                  <span className="font-bold text-base md:text-lg block">
+                    {isCorrect ? '✓ Correct! Amazing!' : `✗ ${currentQuestion.correctAnswer}`}
+                  </span>
+                  {!isCorrect && <span className="text-sm text-gray-400 block mt-1">Keep practicing!</span>}
+                </div>
                 <button
                   onClick={handleNextQuestion}
                   className={`
-                    font-bold py-3 px-8 rounded-lg text-white transition-colors w-full md:w-auto
-                    ${isCorrect ? 'bg-green-600 hover:bg-green-700' : 'bg-red-600 hover:bg-red-700'}
+                    font-bold py-4 px-8 rounded-2xl md:rounded-xl text-white transition-all active:scale-95 shadow-lg
+                    ${isCorrect ? 'bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800' : 'bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800'}
                   `}
                 >
-                  {currentQuestionIndex < lesson.content.length - 1 ? 'Next' : 'Finish'}
+                  {currentQuestionIndex < lesson.content.length - 1 ? 'Continue →' : 'Finish Lesson 🎉'}
                 </button>
               </div>
             )}
@@ -247,18 +253,26 @@ export default function LessonRunner() {
   // --- Completed View ---
   return (
     <div className="h-full flex items-center justify-center px-4">
-      <div className="max-w-2xl w-full text-center animate-fade-in">
-        <div className="mb-6 md:mb-8 text-5xl md:text-6xl">🎉</div>
-        <h2 className="text-2xl md:text-3xl font-bold mb-3 md:mb-4">Lesson Completed!</h2>
-        <p className="text-lg md:text-xl text-gray-300 mb-6 md:mb-8">
-          You earned <span className="text-yellow-400 font-bold">{lesson.xpReward} XP</span>
+      <div className="max-w-md w-full text-center animate-fade-in bg-gradient-to-br from-gray-800 to-gray-800/50 rounded-3xl md:rounded-2xl p-8 md:p-10 border-2 border-green-500/30 shadow-2xl">
+        <div className="mb-6 md:mb-8 text-6xl md:text-7xl">🎉</div>
+        <h2 className="text-2xl md:text-3xl font-bold mb-3 md:mb-4">Lesson Complete!</h2>
+        <p className="text-base md:text-lg text-gray-300 mb-6 md:mb-8">
+          You earned <span className="text-yellow-400 font-bold text-xl md:text-2xl">+{lesson.xpReward} XP</span>
         </p>
-        <button
-          onClick={() => navigate('/lessons')}
-          className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition-all transform hover:scale-105"
-        >
-          Back to Lessons
-        </button>
+        <div className="space-y-3">
+          <button
+            onClick={() => navigate('/lessons')}
+            className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-4 px-8 rounded-2xl md:rounded-xl transition-all active:scale-95 shadow-lg"
+          >
+            Continue Learning →
+          </button>
+          <button
+            onClick={() => window.location.reload()}
+            className="w-full bg-gray-700 hover:bg-gray-600 text-white font-bold py-4 px-8 rounded-2xl md:rounded-xl transition-all active:scale-95"
+          >
+            ↻ Practice Again
+          </button>
+        </div>
       </div>
     </div>
   );
