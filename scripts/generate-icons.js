@@ -22,3 +22,4 @@ const png512Base64 = `iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42m
 // The vite-plugin-pwa should handle SVG icons
 console.log('Icons will use SVG format for better compatibility');
 
+

@@ -22,3 +22,4 @@ Alternatively, use an online tool like:
 
 Or use the SVG icon (`pwa-icon.svg`) as a source and convert it to PNG at 192x192 and 512x512 sizes.
 
+

@@ -3,9 +3,10 @@ import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useProgress } from '../context/ProgressContext';
 
 export default function Layout() {
-  const { points } = useProgress();
+  const { points, level, getWordsToReview } = useProgress();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const wordsToReview = getWordsToReview().length;
 
   const isActive = (path: string) => location.pathname === path;
   const linkClass = (path: string) => `
@@ -36,11 +37,24 @@ export default function Layout() {
                 <Link to="/lessons" className={linkClass('/lessons')}>📚 Lessons</Link>
                 <Link to="/practice" className={linkClass('/practice')}>🎯 Practice</Link>
                 <Link to="/dictionary" className={linkClass('/dictionary')}>📖 Dictionary</Link>
+                <Link to="/review" className={linkClass('/review') + ' relative'}>
+                  🔄 Review
+                  {wordsToReview > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-orange-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
+                      {wordsToReview}
+                    </span>
+                  )}
+                </Link>
+                <Link to="/settings" className={linkClass('/settings')}>⚙️</Link>
               </div>
             </div>
 
             {/* Points Display */}
             <div className="flex items-center gap-3">
+              <div className="hidden md:flex bg-gradient-to-br from-blue-600/20 to-blue-500/10 px-3 py-1.5 rounded-full border border-blue-500/50 items-center gap-2 shadow-lg">
+                <span className="text-blue-400 text-sm font-bold">LVL</span>
+                <span className="font-bold text-blue-100 text-sm">{level}</span>
+              </div>
               <div className="bg-gradient-to-br from-yellow-600/20 to-yellow-500/10 px-3 py-1.5 rounded-full border border-yellow-500/50 flex items-center gap-2 shadow-lg">
                 <span className="text-yellow-400 text-lg">★</span>
                 <span className="font-bold text-yellow-100 text-sm md:text-base">{points}</span>
@@ -85,6 +99,17 @@ export default function Layout() {
               </Link>
               <Link to="/dictionary" onClick={() => setIsMenuOpen(false)} className={`block ${linkClass('/dictionary')} text-base py-3`}>
                 📖 Dictionary
+              </Link>
+              <Link to="/review" onClick={() => setIsMenuOpen(false)} className={`block ${linkClass('/review')} text-base py-3 relative`}>
+                🔄 Review
+                {wordsToReview > 0 && (
+                  <span className="absolute top-2 right-2 bg-orange-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
+                    {wordsToReview}
+                  </span>
+                )}
+              </Link>
+              <Link to="/settings" onClick={() => setIsMenuOpen(false)} className={`block ${linkClass('/settings')} text-base py-3`}>
+                ⚙️ Settings
               </Link>
             </div>
           </div>

@@ -4,7 +4,16 @@ import { dictionaryData } from '../data/dictionary';
 import { useMemo } from 'react';
 
 export default function Home() {
-  const { currentStreak } = useProgress();
+  const { 
+    currentStreak, 
+    level,
+    wordsLearned, 
+    getWordsToReview,
+    dailyProgress,
+    preferences,
+  } = useProgress();
+  
+  const wordsToReview = getWordsToReview().length;
 
   const wordOfTheDay = useMemo(() => {
     // Generate a random word based on the date so it's consistent for the day
@@ -27,12 +36,57 @@ export default function Home() {
           Learn Chaldean through interactive lessons, flashcards, and comprehensive dictionary.
         </p>
         
-        {/* Streak Badge */}
-        <div className="inline-flex items-center bg-gray-800/80 border border-orange-500/30 rounded-full px-4 md:px-6 py-2 mb-4 md:mb-6">
-          <span className="text-xl md:text-2xl mr-2">🔥</span>
-          <span className="text-orange-400 font-bold text-base md:text-lg">{currentStreak} Day Streak</span>
+        {/* Stats Row */}
+        <div className="flex flex-wrap justify-center gap-3 mb-4 md:mb-6">
+          <div className="inline-flex items-center bg-gray-800/80 border border-orange-500/30 rounded-full px-4 md:px-6 py-2">
+            <span className="text-xl md:text-2xl mr-2">🔥</span>
+            <span className="text-orange-400 font-bold text-base md:text-lg">{currentStreak} Day Streak</span>
+          </div>
+          <div className="inline-flex items-center bg-gray-800/80 border border-blue-500/30 rounded-full px-4 md:px-6 py-2">
+            <span className="text-xl md:text-2xl mr-2">⭐</span>
+            <span className="text-blue-400 font-bold text-base md:text-lg">Level {level}</span>
+          </div>
+          <div className="inline-flex items-center bg-gray-800/80 border border-purple-500/30 rounded-full px-4 md:px-6 py-2">
+            <span className="text-xl md:text-2xl mr-2">📚</span>
+            <span className="text-purple-400 font-bold text-base md:text-lg">{wordsLearned.length} Words</span>
+          </div>
+        </div>
+        
+        {/* Daily Progress */}
+        <div className="max-w-md mx-auto mb-4">
+          <div className="flex justify-between text-sm text-gray-400 mb-2">
+            <span>Daily Goal</span>
+            <span>{dailyProgress} / {preferences.dailyGoal} lessons</span>
+          </div>
+          <div className="w-full bg-gray-700 h-2 rounded-full overflow-hidden">
+            <div 
+              className="bg-gradient-to-r from-green-500 to-green-600 h-full transition-all duration-500"
+              style={{ width: `${Math.min((dailyProgress / preferences.dailyGoal) * 100, 100)}%` }}
+            />
+          </div>
         </div>
       </div>
+      
+      {/* Review Notification */}
+      {wordsToReview > 0 && (
+        <Link 
+          to="/review"
+          className="block w-full max-w-md mx-auto bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 rounded-2xl p-4 mb-6 border-2 border-orange-500/50 transition-all active:scale-95"
+        >
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <span className="text-3xl">🔄</span>
+              <div>
+                <div className="font-bold text-lg">Time to Review!</div>
+                <div className="text-sm text-orange-200">{wordsToReview} words ready</div>
+              </div>
+            </div>
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </div>
+        </Link>
+      )}
       
       {/* Word of the Day Card - Optimized for mobile */}
       <div className="w-full max-w-md mx-auto bg-gradient-to-br from-gray-800 to-gray-800/50 rounded-2xl border border-gray-700 p-6 md:p-8 mb-6 md:mb-8 shadow-xl hover:border-blue-500 transition-all">

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { lessonsData } from '../data/lessons';
 import { useProgress } from '../context/ProgressContext';
@@ -8,7 +8,7 @@ type LessonPhase = 'intro' | 'learning' | 'quiz' | 'completed';
 export default function LessonRunner() {
   const { lessonId } = useParams();
   const navigate = useNavigate();
-  const { completeLesson, addPoints } = useProgress();
+  const { completeLesson, addPoints, addWordToReview, addIncorrectAnswer, addStudyTime } = useProgress();
   
   const lesson = lessonsData.find(l => l.id === Number(lessonId));
   
@@ -22,10 +22,20 @@ export default function LessonRunner() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
+  const [startTime] = useState(Date.now());
 
   if (!lesson) {
     return <div className="text-center py-12">Lesson not found</div>;
   }
+
+  // Add words to review system when learning
+  useEffect(() => {
+    if (phase === 'learning') {
+      lesson.vocabulary.forEach(word => {
+        addWordToReview(`${word.word}-vocab`);
+      });
+    }
+  }, [phase, lesson, addWordToReview]);
 
   // --- Intro View ---
   if (phase === 'intro') {
@@ -137,6 +147,18 @@ export default function LessonRunner() {
       if (!selectedOption) return;
       const correct = selectedOption.toLowerCase() === currentQuestion.correctAnswer.toLowerCase();
       setIsCorrect(correct);
+      
+      // Track incorrect answers
+      if (!correct) {
+        addIncorrectAnswer({
+          lessonId: lesson.id,
+          questionId: currentQuestion.id,
+          timestamp: new Date().toISOString(),
+          question: currentQuestion.question,
+          userAnswer: selectedOption,
+          correctAnswer: currentQuestion.correctAnswer,
+        });
+      }
     };
 
     const handleNextQuestion = () => {
@@ -152,6 +174,11 @@ export default function LessonRunner() {
     const finishLesson = () => {
       completeLesson(lesson.id);
       addPoints(lesson.xpReward);
+      
+      // Track study time
+      const studyTime = Math.round((Date.now() - startTime) / 60000); // minutes
+      addStudyTime(studyTime);
+      
       setPhase('completed');
     };
 
