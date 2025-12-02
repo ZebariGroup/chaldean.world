@@ -65,8 +65,16 @@ export default function LessonRunner() {
 
     return (
       <div className="max-w-md mx-auto w-full py-8">
+        {/* Progress Bar for Flashcards */}
+        <div className="w-full bg-gray-700 rounded-full h-2.5 mb-8">
+          <div 
+            className="bg-blue-500 h-2.5 rounded-full transition-all duration-500" 
+            style={{ width: `${progressPercentage}%` }}
+          ></div>
+        </div>
+
          <div className="mb-6 flex justify-between items-center text-sm text-gray-400">
-          <span>Learning {currentCardIndex + 1} of {lesson.vocabulary.length}</span>
+          <span>Card {currentCardIndex + 1} of {lesson.vocabulary.length}</span>
           <span className="bg-blue-900 text-blue-200 px-2 py-1 rounded text-xs">Flashcards</span>
         </div>
 
