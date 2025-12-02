@@ -51,13 +51,30 @@ export const getArabicVoices = (): VoiceOption[] => {
 
 // Get the best Arabic voice available
 export const getBestArabicVoice = (): SpeechSynthesisVoice | null => {
+  const allVoices = window.speechSynthesis.getVoices();
+  
+  // First priority: Google Arabic Female (exact match)
+  let googleFemale = allVoices.find(v => 
+    v.name.toLowerCase().includes('google') && 
+    v.name.toLowerCase().includes('arabic') && 
+    v.name.toLowerCase().includes('female')
+  );
+  
+  if (googleFemale) return googleFemale;
+  
+  // Second priority: Any Google Arabic voice
+  let googleArabic = allVoices.find(v => 
+    v.name.toLowerCase().includes('google') && 
+    (v.name.toLowerCase().includes('arabic') || v.lang.toLowerCase().includes('ar'))
+  );
+  
+  if (googleArabic) return googleArabic;
+  
+  // Third priority: Use sorted list from getArabicVoices
   const voices = getArabicVoices();
   
   if (voices.length === 0) {
     // Fallback to any voice that might work
-    const allVoices = window.speechSynthesis.getVoices();
-    
-    // Try to find any voice with 'ar' in lang
     const fallback = allVoices.find(v => v.lang.toLowerCase().includes('ar'));
     if (fallback) return fallback;
     
