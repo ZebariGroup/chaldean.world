@@ -10,6 +10,7 @@ interface ProgressState {
 interface ProgressContextType extends ProgressState {
   addPoints: (amount: number) => void;
   completeLesson: (lessonId: number) => void;
+  checkStreak: () => void;
 }
 
 const defaultState: ProgressState = {
@@ -31,6 +32,42 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     localStorage.setItem('chaldean-progress', JSON.stringify(state));
   }, [state]);
 
+  // Run streak check on mount
+  useEffect(() => {
+    checkStreak();
+  }, []);
+
+  const checkStreak = () => {
+    setState(prev => {
+      const today = new Date().toDateString();
+      const lastLogin = prev.lastLogin;
+      
+      // If logged in today already, do nothing
+      if (lastLogin === today) return prev;
+
+      // Calculate if streak continues
+      let newStreak = 1; // Default to 1 if no streak or broken streak
+      
+      if (lastLogin) {
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        
+        if (lastLogin === yesterday.toDateString()) {
+          newStreak = prev.currentStreak + 1;
+        } else {
+          // Streak broken
+          newStreak = 1;
+        }
+      }
+
+      return {
+        ...prev,
+        currentStreak: newStreak,
+        lastLogin: today
+      };
+    });
+  };
+
   const addPoints = (amount: number) => {
     setState(prev => ({ ...prev, points: prev.points + amount }));
   };
@@ -47,7 +84,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <ProgressContext.Provider value={{ ...state, addPoints, completeLesson }}>
+    <ProgressContext.Provider value={{ ...state, addPoints, completeLesson, checkStreak }}>
       {children}
     </ProgressContext.Provider>
   );
@@ -60,4 +97,3 @@ export function useProgress() {
   }
   return context;
 }
-
