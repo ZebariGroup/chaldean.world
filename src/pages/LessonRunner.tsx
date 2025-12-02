@@ -8,7 +8,7 @@ type LessonPhase = 'intro' | 'learning' | 'quiz' | 'completed';
 export default function LessonRunner() {
   const { lessonId } = useParams();
   const navigate = useNavigate();
-  const { completeLesson } = useProgress();
+  const { completeLesson, addPoints } = useProgress();
   
   const lesson = lessonsData.find(l => l.id === Number(lessonId));
   
@@ -124,7 +124,7 @@ export default function LessonRunner() {
   // --- Quiz View ---
   if (phase === 'quiz') {
     const currentQuestion = lesson.content[currentQuestionIndex];
-    const progressPercentage = ((currentQuestionIndex) / lesson.content.length) * 100;
+    const progressPercentage = ((currentQuestionIndex + 1) / lesson.content.length) * 100;
 
     const handleCheck = () => {
       if (!selectedOption) return;
@@ -144,6 +144,7 @@ export default function LessonRunner() {
 
     const finishLesson = () => {
       completeLesson(lesson.id);
+      addPoints(lesson.xpReward);
       setPhase('completed');
     };
 

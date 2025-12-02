@@ -24,8 +24,19 @@ const ProgressContext = createContext<ProgressContextType | undefined>(undefined
 
 export function ProgressProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<ProgressState>(() => {
-    const saved = localStorage.getItem('chaldean-progress');
-    return saved ? JSON.parse(saved) : defaultState;
+    try {
+      const saved = localStorage.getItem('chaldean-progress');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        // Validate structure
+        if (parsed && typeof parsed.points === 'number' && Array.isArray(parsed.completedLessons)) {
+          return parsed;
+        }
+      }
+    } catch (error) {
+      console.error('Error loading progress from localStorage:', error);
+    }
+    return defaultState;
   });
 
   useEffect(() => {
@@ -77,8 +88,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
       if (prev.completedLessons.includes(lessonId)) return prev;
       return {
         ...prev,
-        completedLessons: [...prev.completedLessons, lessonId],
-        points: prev.points + 50 // Bonus for completing a lesson
+        completedLessons: [...prev.completedLessons, lessonId]
       };
     });
   };

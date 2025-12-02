@@ -3,7 +3,7 @@ import { dictionaryData } from '../data/dictionary';
 import { useProgress } from '../context/ProgressContext';
 
 interface Card {
-  id: number;
+  id: string;
   content: string;
   type: 'word' | 'translation';
   pairId: string;
@@ -15,7 +15,7 @@ interface Card {
 export default function Practice() {
   const { addPoints } = useProgress();
   const [cards, setCards] = useState<Card[]>([]);
-  const [flippedCards, setFlippedCards] = useState<number[]>([]);
+  const [flippedCards, setFlippedCards] = useState<string[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [moves, setMoves] = useState(0);
   const [gameWon, setGameWon] = useState(false);
@@ -29,7 +29,7 @@ export default function Practice() {
     selectedWords.forEach((entry, index) => {
       // Card 1: Chaldean Word + Script
       gameCards.push({
-        id: index * 2,
+        id: `${entry.word}-word-${index}`,
         content: entry.word,
         script: entry.script,
         type: 'word',
@@ -39,7 +39,7 @@ export default function Practice() {
       });
       // Card 2: English Translation
       gameCards.push({
-        id: index * 2 + 1,
+        id: `${entry.word}-translation-${index}`,
         content: entry.translation,
         type: 'translation',
         pairId: entry.word, // Pair by the unique word key
@@ -60,7 +60,7 @@ export default function Practice() {
     initializeGame();
   }, []);
 
-  const handleCardClick = (id: number) => {
+  const handleCardClick = (id: string) => {
     if (isProcessing || flippedCards.includes(id) || cards.find(c => c.id === id)?.isMatched) return;
 
     const newFlipped = [...flippedCards, id];
@@ -87,7 +87,6 @@ export default function Practice() {
           ));
           setFlippedCards([]);
           setIsProcessing(false);
-          checkWin();
         }, 500);
       } else {
         // No match
@@ -104,16 +103,12 @@ export default function Practice() {
     }
   };
 
-  const checkWin = () => {
-    // We use useEffect below to react to state changes
-  };
-
   useEffect(() => {
     if (cards.length > 0 && cards.every(c => c.isMatched)) {
       setGameWon(true);
       addPoints(50); // Reward for winning
     }
-  }, [cards]);
+  }, [cards, addPoints]);
 
   return (
     <div className="w-full h-full max-w-4xl mx-auto px-4 md:px-0 flex flex-col">

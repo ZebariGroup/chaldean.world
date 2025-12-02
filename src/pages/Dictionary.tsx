@@ -1,22 +1,35 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { dictionaryData } from '../data/dictionary';
 
 export default function Dictionary() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
+  // Debounce search input
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [searchTerm]);
+
   const filteredWords = useMemo(() => {
     return dictionaryData.filter((entry) => {
+      const searchLower = debouncedSearchTerm.toLowerCase();
       const matchesSearch = 
-        entry.word.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        entry.translation.toLowerCase().includes(searchTerm.toLowerCase());
+        entry.word.toLowerCase().includes(searchLower) ||
+        entry.translation.toLowerCase().includes(searchLower) ||
+        entry.phonetic.toLowerCase().includes(searchLower) ||
+        entry.script.includes(debouncedSearchTerm); // Script search is case-sensitive
       
       const matchesCategory = selectedCategory === 'all' || entry.category === selectedCategory;
 
       return matchesSearch && matchesCategory;
     });
-  }, [searchTerm, selectedCategory]);
+  }, [debouncedSearchTerm, selectedCategory]);
 
   const categories = ['all', ...Array.from(new Set(dictionaryData.map(d => d.category)))];
 
@@ -65,9 +78,9 @@ export default function Dictionary() {
 
       {filteredWords.length > 0 ? (
         <div className={viewMode === 'grid' ? "grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" : "flex flex-col gap-3"}>
-          {filteredWords.map((entry, index) => (
+          {filteredWords.map((entry) => (
             <div 
-              key={index} 
+              key={`${entry.word}-${entry.category}-${entry.translation}`} 
               className={`
                 bg-gray-800 border border-gray-700 hover:border-blue-500 transition-all duration-300 overflow-hidden
                 ${viewMode === 'grid' ? 'rounded-xl flex flex-col' : 'rounded-lg flex flex-row items-center p-4'}
