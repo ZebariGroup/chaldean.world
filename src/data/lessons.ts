@@ -10,6 +10,7 @@ export interface LessonVocabulary {
   word: string;
   translation: string;
   phonetic: string;
+  script?: string;
 }
 
 export interface Lesson {
@@ -30,10 +31,10 @@ export const lessonsData: Lesson[] = [
     level: "Beginner",
     xpReward: 100,
     vocabulary: [
-      { word: "Shlama", translation: "Hello / Peace", phonetic: "Shla-ma" },
-      { word: "Bshina", translation: "Welcome", phonetic: "B-shi-na" },
-      { word: "Shlamalokh", translation: "Hello (to a male)", phonetic: "Shla-ma-lokh" },
-      { word: "Dakhiwit", translation: "How are you?", phonetic: "Da-khi-wit" }
+      { word: "Shlama", translation: "Hello / Peace", phonetic: "Shla-ma", script: "ܫܠܡܐ" },
+      { word: "Bshina", translation: "Welcome", phonetic: "B-shi-na", script: "ܒܫܝܢܐ" },
+      { word: "Shlamalokh", translation: "Hello (to a male)", phonetic: "Shla-ma-lokh", script: "ܫܠܡܐ ܠܘܟ" },
+      { word: "Dakhiwit", translation: "How are you?", phonetic: "Da-khi-wit", script: "ܕܐܟ݂ܝ ܘܬ" }
     ],
     content: [
       {
@@ -72,11 +73,11 @@ export const lessonsData: Lesson[] = [
     level: "Beginner",
     xpReward: 100,
     vocabulary: [
-      { word: "Kha", translation: "One", phonetic: "Kha" },
-      { word: "Tre", translation: "Two", phonetic: "Tre" },
-      { word: "Tlatha", translation: "Three", phonetic: "Tla-tha" },
-      { word: "Arba", translation: "Four", phonetic: "Ar-ba" },
-      { word: "Khamsha", translation: "Five", phonetic: "Kham-sha" }
+      { word: "Kha", translation: "One", phonetic: "Kha", script: "ܚܕ" },
+      { word: "Tre", translation: "Two", phonetic: "Tre", script: "ܬܪܝܢ" },
+      { word: "Tlatha", translation: "Three", phonetic: "Tla-tha", script: "ܬܠܬܐ" },
+      { word: "Arba", translation: "Four", phonetic: "Ar-ba", script: "ܐܪܒܥܐ" },
+      { word: "Khamsha", translation: "Five", phonetic: "Kham-sha", script: "ܚܡܫܐ" }
     ],
     content: [
       {
@@ -109,11 +110,11 @@ export const lessonsData: Lesson[] = [
     level: "Beginner",
     xpReward: 100,
     vocabulary: [
-      { word: "Baba", translation: "Father", phonetic: "Ba-ba" },
-      { word: "Yima", translation: "Mother", phonetic: "Yi-ma" },
-      { word: "Akhona", translation: "Brother", phonetic: "A-kho-na" },
-      { word: "Khatha", translation: "Sister", phonetic: "Kha-tha" },
-      { word: "Sawa", translation: "Grandfather", phonetic: "Sa-wa" }
+      { word: "Baba", translation: "Father", phonetic: "Ba-ba", script: "ܒܒܐ" },
+      { word: "Yima", translation: "Mother", phonetic: "Yi-ma", script: "ܝܡܐ" },
+      { word: "Akhona", translation: "Brother", phonetic: "A-kho-na", script: "ܐܚܘܢܐ" },
+      { word: "Khatha", translation: "Sister", phonetic: "Kha-tha", script: "ܚܬܐ" },
+      { word: "Sawa", translation: "Grandfather", phonetic: "Sa-wa", script: "ܣܒܐ" }
     ],
     content: [
       {
@@ -146,11 +147,11 @@ export const lessonsData: Lesson[] = [
     level: "Beginner",
     xpReward: 120,
     vocabulary: [
-      { word: "Smoqa", translation: "Red", phonetic: "Smo-qa" },
-      { word: "Khwara", translation: "White", phonetic: "Khwa-ra" },
-      { word: "Ukma", translation: "Black", phonetic: "Uk-ma" },
-      { word: "Yaruka", translation: "Green", phonetic: "Ya-ru-ka" },
-      { word: "Khawra", translation: "Blue", phonetic: "Khaw-ra" }
+      { word: "Smoqa", translation: "Red", phonetic: "Smo-qa", script: "ܣܡܘܩܐ" },
+      { word: "Khwara", translation: "White", phonetic: "Khwa-ra", script: "ܚܘܪܐ" },
+      { word: "Ukma", translation: "Black", phonetic: "Uk-ma", script: "ܐܘܟܡܐ" },
+      { word: "Yaruka", translation: "Green", phonetic: "Ya-ru-ka", script: "ܝܪܘܩܐ" },
+      { word: "Khawra", translation: "Blue", phonetic: "Khaw-ra", script: "ܟܘܪܐ" }
     ],
     content: [
       {
@@ -182,11 +183,11 @@ export const lessonsData: Lesson[] = [
     level: "Beginner",
     xpReward: 150,
     vocabulary: [
-      { word: "Mya", translation: "Water", phonetic: "M-ya" },
-      { word: "Lakhma", translation: "Bread", phonetic: "Lakh-ma" },
-      { word: "Bisra", translation: "Meat", phonetic: "Bis-ra" },
-      { word: "Chai", translation: "Tea", phonetic: "Chai" },
-      { word: "Tapukha", translation: "Apple", phonetic: "Ta-pu-kha" }
+      { word: "Mya", translation: "Water", phonetic: "M-ya", script: "ܡܝܐ" },
+      { word: "Lakhma", translation: "Bread", phonetic: "Lakh-ma", script: "ܠܚܡܐ" },
+      { word: "Bisra", translation: "Meat", phonetic: "Bis-ra", script: "ܒܣܪܐ" },
+      { word: "Chai", translation: "Tea", phonetic: "Chai", script: "ܟܐܝ" },
+      { word: "Tapukha", translation: "Apple", phonetic: "Ta-pu-kha", script: "ܬܦܘܚܐ" }
     ],
     content: [
       {
@@ -218,11 +219,11 @@ export const lessonsData: Lesson[] = [
     level: "Intermediate",
     xpReward: 150,
     vocabulary: [
-      { word: "Akhal", translation: "To Eat", phonetic: "A-khal" },
-      { word: "Shtay", translation: "To Drink", phonetic: "Sh-tay" },
-      { word: "Dmikh", translation: "To Sleep", phonetic: "D-mikh" },
-      { word: "Yithib", translation: "To Sit", phonetic: "Yi-thib" },
-      { word: "Azil", translation: "To Go", phonetic: "A-zil" }
+      { word: "Akhal", translation: "To Eat", phonetic: "A-khal", script: "ܐܟܠ" },
+      { word: "Shtay", translation: "To Drink", phonetic: "Sh-tay", script: "ܫܬܐ" },
+      { word: "Dmikh", translation: "To Sleep", phonetic: "D-mikh", script: "ܕܡܟ" },
+      { word: "Yithib", translation: "To Sit", phonetic: "Yi-thib", script: "ܝܬܒ" },
+      { word: "Azil", translation: "To Go", phonetic: "A-zil", script: "ܐܙܠ" }
     ],
     content: [
       {
@@ -254,11 +255,11 @@ export const lessonsData: Lesson[] = [
     level: "Intermediate",
     xpReward: 150,
     vocabulary: [
-      { word: "Yoma", translation: "Day", phonetic: "Yo-ma" },
-      { word: "Lelya", translation: "Night", phonetic: "Lel-ya" },
-      { word: "Idyo", translation: "Today", phonetic: "Id-yo" },
-      { word: "Qam", translation: "Tomorrow", phonetic: "Qam" },
-      { word: "Shabta", translation: "Saturday", phonetic: "Shab-ta" }
+      { word: "Yoma", translation: "Day", phonetic: "Yo-ma", script: "ܝܘܡܐ" },
+      { word: "Lelya", translation: "Night", phonetic: "Lel-ya", script: "ܠܠܝܐ" },
+      { word: "Idyo", translation: "Today", phonetic: "Id-yo", script: "ܐܕܝܘ" },
+      { word: "Qam", translation: "Tomorrow", phonetic: "Qam", script: "ܩܐܡ" },
+      { word: "Shabta", translation: "Saturday", phonetic: "Shab-ta", script: "ܫܒܬܐ" }
     ],
     content: [
       {

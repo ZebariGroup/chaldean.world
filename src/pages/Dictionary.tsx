@@ -48,7 +48,10 @@ export default function Dictionary() {
           filteredWords.map((entry, index) => (
             <div key={index} className="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:border-blue-500 transition-colors">
               <div className="flex justify-between items-start mb-2">
-                <h3 className="text-2xl font-bold text-blue-400">{entry.word}</h3>
+                <div>
+                  <h3 className="text-4xl font-bold text-white mb-1 font-serif">{entry.script}</h3>
+                  <h4 className="text-xl font-bold text-blue-400">{entry.word}</h4>
+                </div>
                 <span className="text-xs bg-gray-700 px-2 py-1 rounded text-gray-300 capitalize">{entry.category}</span>
               </div>
               <p className="text-xl mb-2">{entry.translation}</p>

@@ -33,6 +33,7 @@ export default function Layout() {
               <div className="ml-10 flex items-baseline space-x-4">
                 <Link to="/" className={linkClass('/')}>Home</Link>
                 <Link to="/lessons" className={linkClass('/lessons')}>Lessons</Link>
+                <Link to="/practice" className={linkClass('/practice')}>Practice</Link>
                 <Link to="/dictionary" className={linkClass('/dictionary')}>Dictionary</Link>
               </div>
             </div>
@@ -74,6 +75,7 @@ export default function Layout() {
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
               <Link to="/" onClick={() => setIsMenuOpen(false)} className={`block ${linkClass('/')}`}>Home</Link>
               <Link to="/lessons" onClick={() => setIsMenuOpen(false)} className={`block ${linkClass('/lessons')}`}>Lessons</Link>
+              <Link to="/practice" onClick={() => setIsMenuOpen(false)} className={`block ${linkClass('/practice')}`}>Practice</Link>
               <Link to="/dictionary" onClick={() => setIsMenuOpen(false)} className={`block ${linkClass('/dictionary')}`}>Dictionary</Link>
             </div>
           </div>

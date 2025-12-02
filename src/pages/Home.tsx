@@ -38,7 +38,8 @@ export default function Home() {
       <div className="w-full max-w-md bg-gray-800 rounded-2xl border border-gray-700 p-8 mb-12 shadow-xl hover:border-blue-500 transition-all transform hover:-translate-y-1 cursor-default">
         <div className="text-center">
           <p className="text-blue-400 text-sm font-bold uppercase tracking-widest mb-4">Word of the Day</p>
-          <h2 className="text-4xl font-bold text-white mb-2">{wordOfTheDay.word}</h2>
+          <h2 className="text-5xl font-bold text-white mb-2 font-serif">{wordOfTheDay.script}</h2>
+          <h3 className="text-2xl font-bold text-gray-300 mb-2">{wordOfTheDay.word}</h3>
           <p className="text-gray-400 italic mb-6">{wordOfTheDay.phonetic}</p>
           <div className="h-px w-16 bg-gray-700 mx-auto mb-6"></div>
           <p className="text-2xl text-gray-200 font-medium">{wordOfTheDay.translation}</p>

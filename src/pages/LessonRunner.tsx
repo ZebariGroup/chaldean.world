@@ -90,7 +90,8 @@ export default function LessonRunner() {
             {/* Front */}
             <div className="absolute w-full h-full backface-hidden bg-gray-800 rounded-2xl border-2 border-gray-700 flex flex-col items-center justify-center p-8 shadow-2xl hover:border-blue-500 transition-colors">
               <span className="text-sm text-gray-400 uppercase tracking-wider mb-4">Chaldean</span>
-              <h2 className="text-5xl font-bold mb-4 text-center">{currentCard.word}</h2>
+              <h2 className="text-6xl font-bold mb-4 text-center font-serif">{currentCard.script}</h2>
+              <h3 className="text-3xl font-bold mb-4 text-center text-gray-300">{currentCard.word}</h3>
               <p className="text-gray-500 mt-4 text-sm">Tap to flip</p>
             </div>
 
