@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode, useCallback, useMemo } from 'react';
 
 interface ProgressState {
   points: number;
@@ -43,12 +43,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     localStorage.setItem('chaldean-progress', JSON.stringify(state));
   }, [state]);
 
-  // Run streak check on mount
-  useEffect(() => {
-    checkStreak();
-  }, []);
-
-  const checkStreak = () => {
+  const checkStreak = useCallback(() => {
     setState(prev => {
       const today = new Date().toDateString();
       const lastLogin = prev.lastLogin;
@@ -77,13 +72,18 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
         lastLogin: today
       };
     });
-  };
+  }, []);
 
-  const addPoints = (amount: number) => {
+  // Run streak check on mount
+  useEffect(() => {
+    checkStreak();
+  }, [checkStreak]);
+
+  const addPoints = useCallback((amount: number) => {
     setState(prev => ({ ...prev, points: prev.points + amount }));
-  };
+  }, []);
 
-  const completeLesson = (lessonId: number) => {
+  const completeLesson = useCallback((lessonId: number) => {
     setState(prev => {
       if (prev.completedLessons.includes(lessonId)) return prev;
       return {
@@ -91,10 +91,17 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
         completedLessons: [...prev.completedLessons, lessonId]
       };
     });
-  };
+  }, []);
+
+  const value = useMemo(() => ({
+    ...state,
+    addPoints,
+    completeLesson,
+    checkStreak
+  }), [state, addPoints, completeLesson, checkStreak]);
 
   return (
-    <ProgressContext.Provider value={{ ...state, addPoints, completeLesson, checkStreak }}>
+    <ProgressContext.Provider value={value}>
       {children}
     </ProgressContext.Provider>
   );

@@ -17,18 +17,68 @@ export default function Dictionary() {
   }, [searchTerm]);
 
   const filteredWords = useMemo(() => {
-    return dictionaryData.filter((entry) => {
-      const searchLower = debouncedSearchTerm.toLowerCase();
-      const matchesSearch = 
-        entry.word.toLowerCase().includes(searchLower) ||
-        entry.translation.toLowerCase().includes(searchLower) ||
-        entry.phonetic.toLowerCase().includes(searchLower) ||
-        entry.script.includes(debouncedSearchTerm); // Script search is case-sensitive
-      
-      const matchesCategory = selectedCategory === 'all' || entry.category === selectedCategory;
+    if (!debouncedSearchTerm) {
+      if (selectedCategory === 'all') return dictionaryData;
+      return dictionaryData.filter(entry => entry.category === selectedCategory);
+    }
 
-      return matchesSearch && matchesCategory;
-    });
+    const searchLower = debouncedSearchTerm.toLowerCase().trim();
+    
+    // Helper to escape regex characters
+    const escapeRegExp = (string: string) => {
+      return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); 
+    };
+
+    // Create regex for word boundary matching
+    const searchRegex = new RegExp(`\\b${escapeRegExp(searchLower)}`, 'i');
+
+    return dictionaryData
+      .map((entry) => {
+        let score = 0;
+        const wordLower = entry.word.toLowerCase();
+        const translationLower = entry.translation.toLowerCase();
+        const phoneticLower = entry.phonetic.toLowerCase();
+        const script = entry.script;
+
+        // 1. Exact matches (Highest Priority)
+        if (wordLower === searchLower) score += 100;
+        if (translationLower === searchLower) score += 100;
+        if (phoneticLower === searchLower) score += 100;
+        if (script === debouncedSearchTerm) score += 100;
+
+        // 2. Starts with (High Priority)
+        if (wordLower.startsWith(searchLower)) score += 50;
+        if (translationLower.startsWith(searchLower)) score += 50;
+        if (phoneticLower.startsWith(searchLower)) score += 50;
+        if (script.startsWith(debouncedSearchTerm)) score += 50;
+
+        // 3. Word Boundary Match (Medium Priority)
+        // Matches "Apple" in "Big Apple", or "Eat" in "To Eat"
+        // We assume startsWith covered the prefix case, so we check if it matches regex 
+        // but is NOT a start match to add cumulative score or just distinct score.
+        // Actually, simpler to just add score if it matches regex. 
+        // StartsWith matches are also boundary matches usually, so they get double points, 
+        // ensuring "Apple" (Starts+Boundary) > "Big Apple" (Boundary only).
+        if (searchRegex.test(wordLower)) score += 30;
+        if (searchRegex.test(translationLower)) score += 30;
+        if (searchRegex.test(phoneticLower)) score += 30;
+        
+        // 4. Script contains (Low Priority) - scripts are unique enough that includes is mostly fine
+        if (script.includes(debouncedSearchTerm) && !script.startsWith(debouncedSearchTerm)) score += 10;
+
+        return { entry, score };
+      })
+      .filter(item => {
+        const matchesCategory = selectedCategory === 'all' || item.entry.category === selectedCategory;
+        // Filter out zero scores - this removes "false positives" like "cat" in "education"
+        return item.score > 0 && matchesCategory;
+      })
+      .sort((a, b) => {
+        if (b.score !== a.score) return b.score - a.score;
+        // Secondary sort alphabetical
+        return a.entry.word.localeCompare(b.entry.word);
+      })
+      .map(item => item.entry);
   }, [debouncedSearchTerm, selectedCategory]);
 
   const categories = ['all', ...Array.from(new Set(dictionaryData.map(d => d.category)))];

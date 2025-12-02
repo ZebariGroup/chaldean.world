@@ -87,7 +87,7 @@ export default function Practice() {
           ));
           setFlippedCards([]);
           setIsProcessing(false);
-        }, 500);
+        }, 1500);
       } else {
         // No match
         setTimeout(() => {
@@ -98,17 +98,17 @@ export default function Practice() {
           ));
           setFlippedCards([]);
           setIsProcessing(false);
-        }, 1000);
+        }, 1500);
       }
     }
   };
 
   useEffect(() => {
-    if (cards.length > 0 && cards.every(c => c.isMatched)) {
+    if (cards.length > 0 && cards.every(c => c.isMatched) && !gameWon) {
       setGameWon(true);
       addPoints(50); // Reward for winning
     }
-  }, [cards, addPoints]);
+  }, [cards, addPoints, gameWon]);
 
   return (
     <div className="w-full h-full max-w-4xl mx-auto px-4 md:px-0 flex flex-col">
