@@ -19,6 +19,7 @@ export interface Lesson {
   description: string;
   level: string;
   xpReward: number;
+  icon?: string;
   vocabulary: LessonVocabulary[];
   content: LessonQuestion[];
 }
@@ -30,6 +31,7 @@ export const lessonsData: Lesson[] = [
     description: "Learn how to say hello and welcome in Chaldean.",
     level: "Beginner",
     xpReward: 100,
+    icon: "👋",
     vocabulary: [
       { word: "Shlama", translation: "Hello / Peace", phonetic: "Shla-ma", script: "ܫܠܡܐ" },
       { word: "Bshina", translation: "Welcome", phonetic: "B-shi-na", script: "ܒܫܝܢܐ" },
@@ -72,6 +74,7 @@ export const lessonsData: Lesson[] = [
     description: "Learn the first five numbers.",
     level: "Beginner",
     xpReward: 100,
+    icon: "🔢",
     vocabulary: [
       { word: "Kha", translation: "One", phonetic: "Kha", script: "ܚܕ" },
       { word: "Tre", translation: "Two", phonetic: "Tre", script: "ܬܪܝܢ" },
@@ -109,6 +112,7 @@ export const lessonsData: Lesson[] = [
     description: "Learn words for family.",
     level: "Beginner",
     xpReward: 100,
+    icon: "👨‍👩‍👧‍👦",
     vocabulary: [
       { word: "Baba", translation: "Father", phonetic: "Ba-ba", script: "ܒܒܐ" },
       { word: "Yima", translation: "Mother", phonetic: "Yi-ma", script: "ܝܡܐ" },
@@ -146,6 +150,7 @@ export const lessonsData: Lesson[] = [
     description: "Learn basic colors in Chaldean.",
     level: "Beginner",
     xpReward: 120,
+    icon: "🎨",
     vocabulary: [
       { word: "Smoqa", translation: "Red", phonetic: "Smo-qa", script: "ܣܡܘܩܐ" },
       { word: "Khwara", translation: "White", phonetic: "Khwa-ra", script: "ܚܘܪܐ" },
@@ -182,6 +187,7 @@ export const lessonsData: Lesson[] = [
     description: "Essential vocabulary for eating and drinking.",
     level: "Beginner",
     xpReward: 150,
+    icon: "🍽️",
     vocabulary: [
       { word: "Mya", translation: "Water", phonetic: "M-ya", script: "ܡܝܐ" },
       { word: "Lakhma", translation: "Bread", phonetic: "Lakh-ma", script: "ܠܚܡܐ" },
@@ -218,6 +224,7 @@ export const lessonsData: Lesson[] = [
     description: "Learn common verbs to express actions.",
     level: "Intermediate",
     xpReward: 150,
+    icon: "🏃",
     vocabulary: [
       { word: "Akhal", translation: "To Eat", phonetic: "A-khal", script: "ܐܟܠ" },
       { word: "Shtay", translation: "To Drink", phonetic: "Sh-tay", script: "ܫܬܐ" },
@@ -254,6 +261,7 @@ export const lessonsData: Lesson[] = [
     description: "Learn about time and days of the week.",
     level: "Intermediate",
     xpReward: 150,
+    icon: "📅",
     vocabulary: [
       { word: "Yoma", translation: "Day", phonetic: "Yo-ma", script: "ܝܘܡܐ" },
       { word: "Lelya", translation: "Night", phonetic: "Lel-ya", script: "ܠܠܝܐ" },
@@ -281,6 +289,302 @@ export const lessonsData: Lesson[] = [
         type: 'translation',
         question: "Translate: Saturday",
         correctAnswer: "Shabta"
+      }
+    ]
+  },
+  {
+    id: 8,
+    title: "Animals",
+    description: "Common animals you might see.",
+    level: "Beginner",
+    xpReward: 130,
+    icon: "🐕",
+    vocabulary: [
+      { word: "Kalba", translation: "Dog", phonetic: "Kal-ba", script: "ܟܠܒܐ" },
+      { word: "Qato", translation: "Cat", phonetic: "Qa-to", script: "ܩܛܘ" },
+      { word: "Susya", translation: "Horse", phonetic: "Sus-ya", script: "ܣܘܣܝܐ" },
+      { word: "Tawra", translation: "Bull", phonetic: "Taw-ra", script: "ܬܘܪܐ" },
+      { word: "Khmara", translation: "Donkey", phonetic: "Khma-ra", script: "ܚܡܪܐ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "What is 'Dog'?",
+        options: ["Kalba", "Qato", "Susya", "Tawra"],
+        correctAnswer: "Kalba"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "Translate 'Qato':",
+        options: ["Dog", "Cat", "Horse", "Mouse"],
+        correctAnswer: "Cat"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: Horse",
+        correctAnswer: "Susya"
+      }
+    ]
+  },
+  {
+    id: 9,
+    title: "Nature & Weather",
+    description: "Words for the world around us.",
+    level: "Intermediate",
+    xpReward: 140,
+    icon: "🌤️",
+    vocabulary: [
+      { word: "Shimsha", translation: "Sun", phonetic: "Shim-sha", script: "ܫܡܫܐ" },
+      { word: "Sahra", translation: "Moon", phonetic: "Sah-ra", script: "ܣܗܪܐ" },
+      { word: "Matra", translation: "Rain", phonetic: "Mat-ra", script: "ܡܛܪܐ" },
+      { word: "Talga", translation: "Snow", phonetic: "Tal-ga", script: "ܬܠܓܐ" },
+      { word: "Kokhva", translation: "Star", phonetic: "Kokh-va", script: "ܟܘܟܒܐ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "What shines during the day?",
+        options: ["Shimsha", "Sahra", "Kokhva", "Talga"],
+        correctAnswer: "Shimsha"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "What is 'Rain'?",
+        options: ["Matra", "Talga", "Mya", "Yoma"],
+        correctAnswer: "Matra"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: Snow",
+        correctAnswer: "Talga"
+      }
+    ]
+  },
+  {
+    id: 10,
+    title: "The Body",
+    description: "Parts of the human body.",
+    level: "Intermediate",
+    xpReward: 150,
+    icon: "👀",
+    vocabulary: [
+      { word: "Ena", translation: "Eye", phonetic: "E-na", script: "ܥܝܢܐ" },
+      { word: "Nakhira", translation: "Nose", phonetic: "Na-khi-ra", script: "ܢܚܝܪܐ" },
+      { word: "Puma", translation: "Mouth", phonetic: "Pu-ma", script: "ܦܘܡܐ" },
+      { word: "Odna", translation: "Ear", phonetic: "Od-na", script: "ܐܕܢܐ" },
+      { word: "Itha", translation: "Hand", phonetic: "I-tha", script: "ܐܝܕܐ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "What do you see with?",
+        options: ["Ena", "Odna", "Puma", "Nakhira"],
+        correctAnswer: "Ena"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "What is 'Hand'?",
+        options: ["Itha", "Regla", "Reesha", "Libba"],
+        correctAnswer: "Itha"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: Mouth",
+        correctAnswer: "Puma"
+      }
+    ]
+  },
+  {
+    id: 11,
+    title: "At Home",
+    description: "Items found in a house.",
+    level: "Beginner",
+    xpReward: 130,
+    icon: "🏠",
+    vocabulary: [
+      { word: "Bayta", translation: "House", phonetic: "Bay-ta", script: "ܒܝܬܐ" },
+      { word: "Tarra", translation: "Door", phonetic: "Tar-ra", script: "ܬܪܥܐ" },
+      { word: "Kawtha", translation: "Window", phonetic: "Kaw-tha", script: "ܟܘܬܐ" },
+      { word: "Kursa", translation: "Chair", phonetic: "Kur-sa", script: "ܟܘܪܣܝܐ" },
+      { word: "Shwitha", translation: "Bed", phonetic: "Shwi-tha", script: "ܫܘܝܬܐ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "What is 'House'?",
+        options: ["Bayta", "Igara", "Tarra", "Kursa"],
+        correctAnswer: "Bayta"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "You sleep on a:",
+        options: ["Shwitha", "Kursa", "Pata", "Tarra"],
+        correctAnswer: "Shwitha"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: Door",
+        correctAnswer: "Tarra"
+      }
+    ]
+  },
+  {
+    id: 12,
+    title: "Clothing",
+    description: "Names of clothes.",
+    level: "Intermediate",
+    xpReward: 140,
+    icon: "👕",
+    vocabulary: [
+      { word: "Sudra", translation: "Shirt", phonetic: "Sud-ra", script: "ܨܘܕܪܐ" },
+      { word: "Sharwala", translation: "Pants", phonetic: "Shar-wa-la", script: "ܫܪܘܠܐ" },
+      { word: "Soltha", translation: "Shoe", phonetic: "Sol-tha", script: "ܣܘܠܬܐ" },
+      { word: "Kusitha", translation: "Hat", phonetic: "Ku-si-tha", script: "ܟܘܣܝܬܐ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "What are 'Pants'?",
+        options: ["Sharwala", "Sudra", "Soltha", "Kusitha"],
+        correctAnswer: "Sharwala"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "You wear this on your feet:",
+        options: ["Soltha", "Kusitha", "Sudra", "Sharwala"],
+        correctAnswer: "Soltha"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: Shirt",
+        correctAnswer: "Sudra"
+      }
+    ]
+  },
+  {
+    id: 13,
+    title: "Common Adjectives",
+    description: "Describing things.",
+    level: "Intermediate",
+    xpReward: 150,
+    icon: "✨",
+    vocabulary: [
+      { word: "Raba", translation: "Big", phonetic: "Ra-ba", script: "ܪܒܐ" },
+      { word: "Zora", translation: "Small", phonetic: "Zo-ra", script: "ܙܥܘܪܐ" },
+      { word: "Yarikha", translation: "Long", phonetic: "Ya-ri-kha", script: "ܝܪܝܟ݂ܐ" },
+      { word: "Krya", translation: "Short", phonetic: "Kry-a", script: "ܟܪܝܐ" },
+      { word: "Khatha", translation: "New", phonetic: "Kha-tha", script: "ܚܕܬܐ" },
+      { word: "Atiqa", translation: "Old", phonetic: "A-ti-qa", script: "ܥܬܝܩܐ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "Opposite of Small (Zora) is:",
+        options: ["Raba", "Krya", "Atiqa", "Khatha"],
+        correctAnswer: "Raba"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "What means 'New'?",
+        options: ["Khatha", "Atiqa", "Yarikha", "Zora"],
+        correctAnswer: "Khatha"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: Small",
+        correctAnswer: "Zora"
+      }
+    ]
+  },
+  {
+    id: 14,
+    title: "More Numbers",
+    description: "Counting 6-10.",
+    level: "Beginner",
+    xpReward: 120,
+    icon: "#️⃣",
+    vocabulary: [
+      { word: "Ishta", translation: "Six", phonetic: "Ish-ta", script: "ܐܫܬܐ" },
+      { word: "Shwa", translation: "Seven", phonetic: "Shwa", script: "ܫܒܥܐ" },
+      { word: "Tmanya", translation: "Eight", phonetic: "Tman-ya", script: "ܬܡܢܝܐ" },
+      { word: "Tisha", translation: "Nine", phonetic: "Ti-sha", script: "ܬܫܥܐ" },
+      { word: "Asar", translation: "Ten", phonetic: "A-sar", script: "ܥܣܪܐ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "What is 'Ten'?",
+        options: ["Asar", "Tisha", "Tmanya", "Ishta"],
+        correctAnswer: "Asar"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "Which is 'Seven'?",
+        options: ["Shwa", "Ishta", "Tmanya", "Khamsha"],
+        correctAnswer: "Shwa"
+      },
+      {
+        id: 3,
+        type: 'multiple-choice',
+        question: "Order: 8, 9, 10",
+        options: ["Tmanya, Tisha, Asar", "Tisha, Tmanya, Asar", "Asar, Tisha, Tmanya"],
+        correctAnswer: "Tmanya, Tisha, Asar"
+      }
+    ]
+  },
+  {
+    id: 15,
+    title: "School Objects",
+    description: "Things you use to learn.",
+    level: "Intermediate",
+    xpReward: 140,
+    icon: "🎒",
+    vocabulary: [
+      { word: "Ktawa", translation: "Book", phonetic: "Kta-wa", script: "ܟܬܒܐ" },
+      { word: "Qalama", translation: "Pen", phonetic: "Qa-la-ma", script: "ܩܠܡܐ" },
+      { word: "Ktiv", translation: "To Write", phonetic: "K-tiv", script: "ܟܬܒ" },
+      { word: "Qari", translation: "To Read", phonetic: "Qa-ri", script: "ܩܪܐ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "You write with a:",
+        options: ["Qalama", "Ktawa", "Pata", "Kursa"],
+        correctAnswer: "Qalama"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "What means 'To Read'?",
+        options: ["Qari", "Ktiv", "Akhal", "Shtay"],
+        correctAnswer: "Qari"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: Book",
+        correctAnswer: "Ktawa"
       }
     ]
   }

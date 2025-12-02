@@ -37,6 +37,10 @@ export default function Lessons() {
                 {lesson.level}
               </div>
               <h3 className="text-xl font-bold mb-2">{lesson.title}</h3>
+              
+              {/* Lesson Icon/Image Placeholder */}
+              <div className="text-4xl mb-4">{lesson.icon || "📚"}</div>
+
               <p className="text-gray-400 text-sm mb-4 min-h-[40px]">{lesson.description}</p>
               
               <div className="flex items-center justify-between text-sm">
