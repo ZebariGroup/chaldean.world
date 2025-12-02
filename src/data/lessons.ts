@@ -118,7 +118,9 @@ export const lessonsData: Lesson[] = [
       { word: "Yima", translation: "Mother", phonetic: "Yi-ma", script: "ܝܡܐ" },
       { word: "Akhona", translation: "Brother", phonetic: "A-kho-na", script: "ܐܚܘܢܐ" },
       { word: "Khatha", translation: "Sister", phonetic: "Kha-tha", script: "ܚܬܐ" },
-      { word: "Sawa", translation: "Grandfather", phonetic: "Sa-wa", script: "ܣܒܐ" }
+      { word: "Sawa", translation: "Grandfather", phonetic: "Sa-wa", script: "ܣܒܐ" },
+      { word: "Gawra", translation: "Husband", phonetic: "Gaw-ra", script: "ܓܒܪܐ" },
+      { word: "Bakhta", translation: "Wife", phonetic: "Bakh-ta", script: "ܒܟ݂ܬܐ" }
     ],
     content: [
       {
@@ -141,6 +143,13 @@ export const lessonsData: Lesson[] = [
         question: "Who is 'Sawa'?",
         options: ["Uncle", "Grandfather", "Father", "Brother"],
         correctAnswer: "Grandfather"
+      },
+      {
+        id: 4,
+        type: 'multiple-choice',
+        question: "What does 'Bakhta' mean?",
+        options: ["Wife", "Husband", "Sister", "Mother"],
+        correctAnswer: "Wife"
       }
     ]
   },
@@ -193,7 +202,9 @@ export const lessonsData: Lesson[] = [
       { word: "Lakhma", translation: "Bread", phonetic: "Lakh-ma", script: "ܠܚܡܐ" },
       { word: "Bisra", translation: "Meat", phonetic: "Bis-ra", script: "ܒܣܪܐ" },
       { word: "Chai", translation: "Tea", phonetic: "Chai", script: "ܟܐܝ" },
-      { word: "Tapukha", translation: "Apple", phonetic: "Ta-pu-kha", script: "ܬܦܘܚܐ" }
+      { word: "Tapukha", translation: "Apple", phonetic: "Ta-pu-kha", script: "ܬܦܘܚܐ" },
+      { word: "Kthayta", translation: "Chicken", phonetic: "Kthay-ta", script: "ܟܬܝܬܐ" },
+      { word: "Pera", translation: "Fruit", phonetic: "Pe-ra", script: "ܦܐܪܐ" }
     ],
     content: [
       {
@@ -215,6 +226,13 @@ export const lessonsData: Lesson[] = [
         type: 'translation',
         question: "Translate: Tea",
         correctAnswer: "Chai"
+      },
+      {
+        id: 4,
+        type: 'multiple-choice',
+        question: "What is 'Kthayta'?",
+        options: ["Chicken", "Meat", "Bread", "Fish"],
+        correctAnswer: "Chicken"
       }
     ]
   },
@@ -304,7 +322,8 @@ export const lessonsData: Lesson[] = [
       { word: "Qato", translation: "Cat", phonetic: "Qa-to", script: "ܩܛܘ" },
       { word: "Susya", translation: "Horse", phonetic: "Sus-ya", script: "ܣܘܣܝܐ" },
       { word: "Tawra", translation: "Bull", phonetic: "Taw-ra", script: "ܬܘܪܐ" },
-      { word: "Khmara", translation: "Donkey", phonetic: "Khma-ra", script: "ܚܡܪܐ" }
+      { word: "Khmara", translation: "Donkey", phonetic: "Khma-ra", script: "ܚܡܪܐ" },
+      { word: "Arya", translation: "Lion", phonetic: "Ar-ya", script: "ܐܪܝܐ" }
     ],
     content: [
       {
@@ -326,6 +345,13 @@ export const lessonsData: Lesson[] = [
         type: 'translation',
         question: "Translate: Horse",
         correctAnswer: "Susya"
+      },
+      {
+        id: 4,
+        type: 'multiple-choice',
+        question: "What animal is 'Arya'?",
+        options: ["Lion", "Bear", "Tiger", "Wolf"],
+        correctAnswer: "Lion"
       }
     ]
   },
@@ -341,7 +367,8 @@ export const lessonsData: Lesson[] = [
       { word: "Sahra", translation: "Moon", phonetic: "Sah-ra", script: "ܣܗܪܐ" },
       { word: "Matra", translation: "Rain", phonetic: "Mat-ra", script: "ܡܛܪܐ" },
       { word: "Talga", translation: "Snow", phonetic: "Tal-ga", script: "ܬܠܓܐ" },
-      { word: "Kokhva", translation: "Star", phonetic: "Kokh-va", script: "ܟܘܟܒܐ" }
+      { word: "Kokhva", translation: "Star", phonetic: "Kokh-va", script: "ܟܘܟܒܐ" },
+      { word: "Nura", translation: "Fire", phonetic: "Nu-ra", script: "ܢܘܪܐ" }
     ],
     content: [
       {
@@ -363,6 +390,13 @@ export const lessonsData: Lesson[] = [
         type: 'translation',
         question: "Translate: Snow",
         correctAnswer: "Talga"
+      },
+      {
+        id: 4,
+        type: 'multiple-choice',
+        question: "What does 'Nura' mean?",
+        options: ["Fire", "Water", "Earth", "Air"],
+        correctAnswer: "Fire"
       }
     ]
   },
@@ -378,7 +412,8 @@ export const lessonsData: Lesson[] = [
       { word: "Nakhira", translation: "Nose", phonetic: "Na-khi-ra", script: "ܢܚܝܪܐ" },
       { word: "Puma", translation: "Mouth", phonetic: "Pu-ma", script: "ܦܘܡܐ" },
       { word: "Odna", translation: "Ear", phonetic: "Od-na", script: "ܐܕܢܐ" },
-      { word: "Itha", translation: "Hand", phonetic: "I-tha", script: "ܐܝܕܐ" }
+      { word: "Itha", translation: "Hand", phonetic: "I-tha", script: "ܐܝܕܐ" },
+      { word: "Lishana", translation: "Tongue/Language", phonetic: "Li-sha-na", script: "ܠܫܢܐ" }
     ],
     content: [
       {
@@ -400,6 +435,13 @@ export const lessonsData: Lesson[] = [
         type: 'translation',
         question: "Translate: Mouth",
         correctAnswer: "Puma"
+      },
+      {
+        id: 4,
+        type: 'multiple-choice',
+        question: "What is 'Lishana'?",
+        options: ["Tongue", "Tooth", "Lip", "Nose"],
+        correctAnswer: "Tongue"
       }
     ]
   },
@@ -585,6 +627,77 @@ export const lessonsData: Lesson[] = [
         type: 'translation',
         question: "Translate: Book",
         correctAnswer: "Ktawa"
+      }
+    ]
+  },
+  {
+    id: 16,
+    title: "Places",
+    description: "Important places in a town.",
+    level: "Intermediate",
+    xpReward: 150,
+    icon: "🏙️",
+    vocabulary: [
+      { word: "Madrasa", translation: "School", phonetic: "Mad-ra-sa", script: "ܡܕܪܫܬܐ" },
+      { word: "Knishta", translation: "Church", phonetic: "Knish-ta", script: "ܟܢܘܫܬܐ" },
+      { word: "Shuqa", translation: "Market", phonetic: "Shu-qa", script: "ܫܘܩܐ" },
+      { word: "Matha", translation: "Village", phonetic: "Ma-tha", script: "ܡܬܐ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "Where do you go to learn?",
+        options: ["Madrasa", "Shuqa", "Knishta", "Bayta"],
+        correctAnswer: "Madrasa"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "What is 'Shuqa'?",
+        options: ["Market", "School", "Church", "House"],
+        correctAnswer: "Market"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: Church",
+        correctAnswer: "Knishta"
+      }
+    ]
+  },
+  {
+    id: 17,
+    title: "Professions",
+    description: "Jobs and roles.",
+    level: "Intermediate",
+    xpReward: 150,
+    icon: "👨‍⚕️",
+    vocabulary: [
+      { word: "Malpana", translation: "Teacher (Masc)", phonetic: "Mal-pa-na", script: "ܡܠܦܢܐ" },
+      { word: "Malpantha", translation: "Teacher (Fem)", phonetic: "Mal-pan-tha", script: "ܡܠܦܢܬܐ" },
+      { word: "Asya", translation: "Doctor", phonetic: "As-ya", script: "ܐܣܝܐ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "Who teaches at a school?",
+        options: ["Malpana", "Asya", "Khatota", "Ranya"],
+        correctAnswer: "Malpana"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "What is 'Asya'?",
+        options: ["Doctor", "Teacher", "Singer", "Tailor"],
+        correctAnswer: "Doctor"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: Teacher (Female)",
+        correctAnswer: "Malpantha"
       }
     ]
   }
