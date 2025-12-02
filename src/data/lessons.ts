@@ -174,5 +174,113 @@ export const lessonsData: Lesson[] = [
         correctAnswer: "Khwara"
       }
     ]
+  },
+  {
+    id: 5,
+    title: "Food & Drink",
+    description: "Essential vocabulary for eating and drinking.",
+    level: "Beginner",
+    xpReward: 150,
+    vocabulary: [
+      { word: "Mya", translation: "Water", phonetic: "M-ya" },
+      { word: "Lakhma", translation: "Bread", phonetic: "Lakh-ma" },
+      { word: "Bisra", translation: "Meat", phonetic: "Bis-ra" },
+      { word: "Chai", translation: "Tea", phonetic: "Chai" },
+      { word: "Tapukha", translation: "Apple", phonetic: "Ta-pu-kha" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "What is 'Water' in Chaldean?",
+        options: ["Mya", "Lakhma", "Chai", "Qahwa"],
+        correctAnswer: "Mya"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "Translate 'Lakhma':",
+        options: ["Meat", "Bread", "Cheese", "Apple"],
+        correctAnswer: "Bread"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: Tea",
+        correctAnswer: "Chai"
+      }
+    ]
+  },
+  {
+    id: 6,
+    title: "Basic Actions",
+    description: "Learn common verbs to express actions.",
+    level: "Intermediate",
+    xpReward: 150,
+    vocabulary: [
+      { word: "Akhal", translation: "To Eat", phonetic: "A-khal" },
+      { word: "Shtay", translation: "To Drink", phonetic: "Sh-tay" },
+      { word: "Dmikh", translation: "To Sleep", phonetic: "D-mikh" },
+      { word: "Yithib", translation: "To Sit", phonetic: "Yi-thib" },
+      { word: "Azil", translation: "To Go", phonetic: "A-zil" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "What means 'To Eat'?",
+        options: ["Shtay", "Akhal", "Dmikh", "Qim"],
+        correctAnswer: "Akhal"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "If you are thirsty, you want to ___?",
+        options: ["Akhal", "Shtay", "Yithib", "Dmikh"],
+        correctAnswer: "Shtay"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: To Sleep",
+        correctAnswer: "Dmikh"
+      }
+    ]
+  },
+  {
+    id: 7,
+    title: "Time & Days",
+    description: "Learn about time and days of the week.",
+    level: "Intermediate",
+    xpReward: 150,
+    vocabulary: [
+      { word: "Yoma", translation: "Day", phonetic: "Yo-ma" },
+      { word: "Lelya", translation: "Night", phonetic: "Lel-ya" },
+      { word: "Idyo", translation: "Today", phonetic: "Id-yo" },
+      { word: "Qam", translation: "Tomorrow", phonetic: "Qam" },
+      { word: "Shabta", translation: "Saturday", phonetic: "Shab-ta" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "What is 'Today'?",
+        options: ["Idyo", "Timmal", "Qam", "Yoma"],
+        correctAnswer: "Idyo"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "What comes after day (Yoma)?",
+        options: ["Lelya", "Shabta", "Idyo", "Qam"],
+        correctAnswer: "Lelya"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: Saturday",
+        correctAnswer: "Shabta"
+      }
+    ]
   }
 ];
