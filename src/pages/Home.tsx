@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center justify-center h-full py-12">
+    <div className="flex flex-col items-center justify-center min-h-[80vh] w-full px-4 text-center">
       <h1 className="text-5xl font-bold mb-6 text-center">
         Welcome to <span className="bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text">Chaldean World</span>
       </h1>

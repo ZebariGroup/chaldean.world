@@ -6,8 +6,8 @@ export default function Lessons() {
   const { completedLessons } = useProgress();
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold mb-8">Lessons</h1>
+    <div className="w-full max-w-6xl mx-auto px-4 md:px-0">
+      <h1 className="text-3xl font-bold mb-8 text-center md:text-left">Lessons</h1>
       
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {lessonsData.map((lesson) => {

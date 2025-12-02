@@ -20,8 +20,8 @@ export default function Dictionary() {
   const categories = ['all', ...Array.from(new Set(dictionaryData.map(d => d.category)))];
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold mb-8">Dictionary</h1>
+    <div className="w-full max-w-4xl mx-auto px-4 md:px-0">
+      <h1 className="text-3xl font-bold mb-8 text-center md:text-left">Dictionary</h1>
       
       <div className="flex flex-col md:flex-row gap-4 mb-8">
         <input
