@@ -1,4 +1,5 @@
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 import Layout from './components/Layout';
 import Home from './pages/Home';
 import Lessons from './pages/Lessons';
@@ -7,10 +8,24 @@ import Practice from './pages/Practice';
 import Dictionary from './pages/Dictionary';
 import { ProgressProvider } from './context/ProgressContext';
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    const mainElement = document.querySelector('main');
+    if (mainElement) {
+      mainElement.scrollTo(0, 0);
+    }
+  }, [pathname]);
+
+  return null;
+}
+
 function App() {
   return (
     <ProgressProvider>
       <HashRouter>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
