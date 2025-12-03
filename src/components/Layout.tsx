@@ -37,7 +37,8 @@ export default function Layout() {
             
             {/* Logo */}
             <div className="flex items-center">
-              <Link to="/" className="flex-shrink-0" onClick={() => setIsMenuOpen(false)}>
+              <Link to="/" className="flex items-center gap-2 flex-shrink-0" onClick={() => setIsMenuOpen(false)}>
+                <img src="/assyrian-star.png" alt="Assyrian Star" className="w-8 h-8 md:w-10 md:h-10" />
                 <span className="text-lg md:text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text">
                   Chaldean World
                 </span>
