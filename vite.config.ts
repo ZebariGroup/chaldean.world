@@ -8,7 +8,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'pwa-icon.svg'],
+      includeAssets: ['favicon.ico', 'assyrian-star.svg'],
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,json,woff2}'],
         skipWaiting: true,
@@ -80,7 +80,7 @@ export default defineConfig({
         ],
         icons: [
           {
-            src: 'pwa-icon.svg',
+            src: 'assyrian-star.svg',
             sizes: 'any',
             type: 'image/svg+xml',
             purpose: 'any maskable'
