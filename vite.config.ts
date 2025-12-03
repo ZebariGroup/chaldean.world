@@ -11,6 +11,8 @@ export default defineConfig({
       includeAssets: ['favicon.ico', 'pwa-icon.svg'],
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,json,woff2}'],
+        skipWaiting: true,
+        clientsClaim: true,
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
@@ -51,8 +53,31 @@ export default defineConfig({
         display: 'standalone',
         scope: '/',
         start_url: '/',
-        orientation: 'portrait',
+        orientation: 'portrait-primary',
         categories: ['education', 'language'],
+        shortcuts: [
+          {
+            name: 'Start Learning',
+            short_name: 'Lessons',
+            description: 'Continue your lessons',
+            url: '/#/lessons',
+            icons: [{ src: 'pwa-192x192.png', sizes: '192x192' }]
+          },
+          {
+            name: 'Practice',
+            short_name: 'Practice',
+            description: 'Practice words',
+            url: '/#/practice',
+            icons: [{ src: 'pwa-192x192.png', sizes: '192x192' }]
+          },
+          {
+            name: 'Review',
+            short_name: 'Review',
+            description: 'Review words',
+            url: '/#/review',
+            icons: [{ src: 'pwa-192x192.png', sizes: '192x192' }]
+          }
+        ],
         icons: [
           {
             src: 'pwa-icon.svg',

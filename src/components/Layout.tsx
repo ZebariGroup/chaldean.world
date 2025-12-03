@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useProgress } from '../context/ProgressContext';
+import PWAInstallPrompt from './PWAInstallPrompt';
+import OfflineIndicator from './OfflineIndicator';
+import UpdateNotification from './UpdateNotification';
 
 export default function Layout() {
   const { points, level, getWordsToReview } = useProgress();
@@ -13,11 +16,22 @@ export default function Layout() {
     transition-colors px-3 py-2 rounded-md text-sm font-medium
     ${isActive(path) ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}
   `;
+  
+  const bottomNavClass = (path: string) => `
+    flex flex-col items-center justify-center gap-1 py-2 px-3 rounded-xl transition-all min-w-[60px]
+    ${isActive(path) 
+      ? 'text-blue-400 bg-blue-500/10' 
+      : 'text-gray-400 active:bg-gray-700/50'
+    }
+  `;
 
   return (
-    <div className="h-[100dvh] bg-gray-900 text-white flex flex-col font-sans overflow-hidden">
+    <div className="h-[100dvh] bg-gray-900 text-white flex flex-col font-sans overflow-hidden safe-area">
+      <OfflineIndicator />
+      <UpdateNotification />
+      
       {/* Top Navigation Bar */}
-      <nav className="bg-gradient-to-b from-gray-800 to-gray-800/95 border-b border-gray-700 flex-shrink-0 z-20 backdrop-blur-sm">
+      <nav className="bg-gradient-to-b from-gray-800 to-gray-800/95 border-b border-gray-700 flex-shrink-0 z-20 backdrop-blur-sm pt-safe">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between h-14 md:h-16">
             
@@ -116,13 +130,61 @@ export default function Layout() {
         )}
       </nav>
 
-      <main className="flex-1 w-full mx-auto md:py-6 overflow-y-auto overflow-x-hidden scroll-smooth">
+      <main className="flex-1 w-full mx-auto md:py-6 overflow-y-auto overflow-x-hidden scroll-smooth pb-safe-bottom md:pb-0">
         <Outlet />
       </main>
 
-      <footer className="bg-gray-800 border-t border-gray-700 p-4 md:p-6 text-center text-gray-500 text-xs md:text-sm flex-shrink-0">
+      {/* Bottom Navigation - Mobile Only */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-gray-800/95 backdrop-blur-lg border-t border-gray-700 z-30 pb-safe">
+        <div className="flex items-center justify-around px-2 py-1">
+          <Link to="/" className={bottomNavClass('/')} onClick={() => setIsMenuOpen(false)}>
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+            <span className="text-xs font-medium">Home</span>
+          </Link>
+          
+          <Link to="/lessons" className={bottomNavClass('/lessons')} onClick={() => setIsMenuOpen(false)}>
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+            <span className="text-xs font-medium">Lessons</span>
+          </Link>
+          
+          <Link to="/practice" className={bottomNavClass('/practice')} onClick={() => setIsMenuOpen(false)}>
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+            </svg>
+            <span className="text-xs font-medium">Practice</span>
+          </Link>
+          
+          <Link to="/review" className={bottomNavClass('/review') + ' relative'} onClick={() => setIsMenuOpen(false)}>
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            <span className="text-xs font-medium">Review</span>
+            {wordsToReview > 0 && (
+              <span className="absolute -top-1 -right-1 bg-orange-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
+                {wordsToReview}
+              </span>
+            )}
+          </Link>
+          
+          <Link to="/settings" className={bottomNavClass('/settings')} onClick={() => setIsMenuOpen(false)}>
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <span className="text-xs font-medium">Settings</span>
+          </Link>
+        </div>
+      </nav>
+
+      <footer className="hidden md:block bg-gray-800 border-t border-gray-700 p-4 md:p-6 text-center text-gray-500 text-xs md:text-sm flex-shrink-0">
         <p>&copy; {new Date().getFullYear()} Chaldean World. Open Source on GitHub.</p>
       </footer>
+      
+      <PWAInstallPrompt />
     </div>
   );
 }
