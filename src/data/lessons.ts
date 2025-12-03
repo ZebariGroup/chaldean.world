@@ -1642,5 +1642,461 @@ export const lessonsData: Lesson[] = [
         correctAnswer: "Twelve"
       }
     ]
+  },
+  {
+    id: 43,
+    title: "Common Verbs - Actions",
+    description: "Learn essential action verbs for daily communication.",
+    level: "Intermediate",
+    xpReward: 150,
+    icon: "🏃",
+    vocabulary: [
+      { word: "Azil", translation: "Go / Going", phonetic: "A-zil", script: "ܐܙܠ" },
+      { word: "Ate", translation: "Come / Coming", phonetic: "A-te", script: "ܐܬܐ" },
+      { word: "Yatib", translation: "Sit / Sitting", phonetic: "Ya-tib", script: "ܝܬܒ" },
+      { word: "Qaym", translation: "Stand / Standing", phonetic: "Qaym", script: "ܩܝܡ" },
+      { word: "Pateakh", translation: "Open / Opening", phonetic: "Pa-te-akh", script: "ܦܬܚ" },
+      { word: "Sakir", translation: "Close / Closing", phonetic: "Sa-kir", script: "ܣܟܪ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "How do you say 'Go' in Chaldean?",
+        options: ["Azil", "Ate", "Yatib", "Qaym"],
+        correctAnswer: "Azil"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "What does 'Pateakh' mean?",
+        options: ["Close", "Open", "Sit", "Stand"],
+        correctAnswer: "Open"
+      },
+      {
+        id: 3,
+        type: 'multiple-choice',
+        question: "What is 'Sit' in Chaldean?",
+        options: ["Yatib", "Qaym", "Azil", "Ate"],
+        correctAnswer: "Yatib"
+      }
+    ]
+  },
+  {
+    id: 44,
+    title: "Daily Greetings",
+    description: "Greet people throughout the day in Chaldean.",
+    level: "Beginner",
+    xpReward: 120,
+    icon: "👋",
+    vocabulary: [
+      { word: "Tsafra Taba", translation: "Good morning", phonetic: "Tsaf-ra Ta-ba", script: "ܨܦܪܐ ܛܒܐ" },
+      { word: "Ramsha Taba", translation: "Good evening", phonetic: "Ram-sha Ta-ba", script: "ܪܡܫܐ ܛܒܐ" },
+      { word: "Lele Taba", translation: "Good night", phonetic: "Le-le Ta-ba", script: "ܠܠܝܐ ܛܒܐ" },
+      { word: "Khat Bokh", translation: "I love you (to male)", phonetic: "Khat Bo-kh", script: "ܟܬ ܒܘܟ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "How do you say 'Good morning'?",
+        options: ["Tsafra Taba", "Ramsha Taba", "Lele Taba", "Shlama"],
+        correctAnswer: "Tsafra Taba"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "What does 'Lele Taba' mean?",
+        options: ["Good night", "Good morning", "Good evening", "Goodbye"],
+        correctAnswer: "Good night"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: Good evening",
+        correctAnswer: "Ramsha Taba"
+      }
+    ]
+  },
+  {
+    id: 45,
+    title: "In the House",
+    description: "Learn words for rooms and household items.",
+    level: "Intermediate",
+    xpReward: 150,
+    icon: "🏠",
+    vocabulary: [
+      { word: "Tara", translation: "Door", phonetic: "Ta-ra", script: "ܬܪܥܐ" },
+      { word: "Kawta", translation: "Window", phonetic: "Kaw-ta", script: "ܟܘܬܐ" },
+      { word: "Madkhna", translation: "Kitchen", phonetic: "Mad-khna", script: "ܡܕܟܢܐ" },
+      { word: "Madrasha", translation: "Bedroom", phonetic: "Mad-ra-sha", script: "ܡܕܪܫܐ" },
+      { word: "Nuhra", translation: "Light/Lamp", phonetic: "Nuh-ra", script: "ܢܘܗܪܐ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "What is 'Door' in Chaldean?",
+        options: ["Tara", "Kawta", "Nuhra", "Gayra"],
+        correctAnswer: "Tara"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "What does 'Madkhna' mean?",
+        options: ["Kitchen", "Bedroom", "Bathroom", "Living room"],
+        correctAnswer: "Kitchen"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: Window",
+        correctAnswer: "Kawta"
+      }
+    ]
+  },
+  {
+    id: 46,
+    title: "Weather & Nature",
+    description: "Talk about weather and natural elements.",
+    level: "Intermediate",
+    xpReward: 150,
+    icon: "🌤️",
+    vocabulary: [
+      { word: "Shamsha", translation: "Sun", phonetic: "Sham-sha", script: "ܫܡܫܐ" },
+      { word: "Sahra", translation: "Moon", phonetic: "Sah-ra", script: "ܣܗܪܐ" },
+      { word: "Mitra", translation: "Rain", phonetic: "Mit-ra", script: "ܡܛܪܐ" },
+      { word: "Talga", translation: "Snow", phonetic: "Tal-ga", script: "ܬܠܓܐ" },
+      { word: "Rukha", translation: "Wind", phonetic: "Ru-kha", script: "ܪܘܚܐ" },
+      { word: "Qarta", translation: "Cold", phonetic: "Qar-ta", script: "ܩܪܬܐ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "What is 'Sun' in Chaldean?",
+        options: ["Shamsha", "Sahra", "Mitra", "Rukha"],
+        correctAnswer: "Shamsha"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "What does 'Talga' mean?",
+        options: ["Snow", "Rain", "Wind", "Cloud"],
+        correctAnswer: "Snow"
+      },
+      {
+        id: 3,
+        type: 'multiple-choice',
+        question: "How do you say 'Cold'?",
+        options: ["Qarta", "Shimsha", "Mitra", "Rukha"],
+        correctAnswer: "Qarta"
+      }
+    ]
+  },
+  {
+    id: 47,
+    title: "Grammar: Masculine & Feminine",
+    description: "Learn how words change between masculine and feminine forms.",
+    level: "Advanced",
+    xpReward: 200,
+    icon: "📖",
+    vocabulary: [
+      { word: "Spay", translation: "Good (masc)", phonetic: "Spay", script: "ܣܦܝ" },
+      { word: "Spayta", translation: "Good (fem)", phonetic: "Spay-ta", script: "ܣܦܝܬܐ" },
+      { word: "Shapira", translation: "Beautiful (masc)", phonetic: "Sha-pi-ra", script: "ܫܦܝܪܐ" },
+      { word: "Shapirta", translation: "Beautiful (fem)", phonetic: "Sha-pir-ta", script: "ܫܦܝܪܬܐ" },
+      { word: "Zora", translation: "Small (masc)", phonetic: "Zo-ra", script: "ܙܥܘܪܐ" },
+      { word: "Zorta", translation: "Small (fem)", phonetic: "Zor-ta", script: "ܙܥܘܪܬܐ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "Feminine adjectives typically end in what sound?",
+        options: ["-ta", "-a", "-na", "-ra"],
+        correctAnswer: "-ta"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "What is the feminine form of 'Shapira' (beautiful)?",
+        options: ["Shapirta", "Shapirana", "Shapirna", "Shapir"],
+        correctAnswer: "Shapirta"
+      },
+      {
+        id: 3,
+        type: 'multiple-choice',
+        question: "Which is the masculine form?",
+        options: ["Spay", "Spayta", "Both", "Neither"],
+        correctAnswer: "Spay"
+      },
+      {
+        id: 4,
+        type: 'translation',
+        question: "Translate: Small (feminine)",
+        correctAnswer: "Zorta"
+      }
+    ]
+  },
+  {
+    id: 48,
+    title: "Grammar: Verb Forms",
+    description: "Learn basic verb conjugation patterns.",
+    level: "Advanced",
+    xpReward: 200,
+    icon: "✍️",
+    vocabulary: [
+      { word: "Akhal", translation: "To Eat", phonetic: "A-khal", script: "ܐܟܠ" },
+      { word: "Akhlin", translation: "Eating (I eat)", phonetic: "Akh-lin", script: "ܐܟܠܝܢ" },
+      { word: "Azil", translation: "To Go", phonetic: "A-zil", script: "ܐܙܠ" },
+      { word: "Azilin", translation: "Going (I go)", phonetic: "A-zi-lin", script: "ܐܙܠܝܢ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "The root form 'Akhal' means:",
+        options: ["To Eat", "I eat", "Eating", "Ate"],
+        correctAnswer: "To Eat"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "What does 'Azilin' mean?",
+        options: ["Going / I go", "To go", "Went", "Will go"],
+        correctAnswer: "Going / I go"
+      },
+      {
+        id: 3,
+        type: 'multiple-choice',
+        question: "Present tense verbs often end in:",
+        options: ["-in", "-ta", "-a", "-na"],
+        correctAnswer: "-in"
+      }
+    ]
+  },
+  {
+    id: 49,
+    title: "Making Sentences: Subject + Verb",
+    description: "Learn to construct basic sentences.",
+    level: "Advanced",
+    xpReward: 200,
+    icon: "💬",
+    vocabulary: [
+      { word: "Ana", translation: "I", phonetic: "A-na", script: "ܐܢܐ" },
+      { word: "At", translation: "You (male)", phonetic: "At", script: "ܐܢܬ" },
+      { word: "Akh", translation: "You (female)", phonetic: "Akh", script: "ܐܢܬܝ" },
+      { word: "Ana azilin", translation: "I am going", phonetic: "A-na a-zi-lin", script: "ܐܢܐ ܐܙܠܝܢ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "How do you say 'I' in Chaldean?",
+        options: ["Ana", "At", "Akh", "Aw"],
+        correctAnswer: "Ana"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "What is the word order for 'I am going'?",
+        options: ["Subject + Verb", "Verb + Subject", "Both work", "Neither"],
+        correctAnswer: "Subject + Verb"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: I am going",
+        correctAnswer: "Ana azilin"
+      }
+    ]
+  },
+  {
+    id: 50,
+    title: "Possessives: My, Your, His, Her",
+    description: "Learn to express possession in Chaldean.",
+    level: "Advanced",
+    xpReward: 200,
+    icon: "🤝",
+    vocabulary: [
+      { word: "Bayta dili", translation: "My house", phonetic: "Bay-ta di-li", script: "ܒܝܬܐ ܕܝܠܝ" },
+      { word: "Bayta dilokh", translation: "Your house (male)", phonetic: "Bay-ta di-lokh", script: "ܒܝܬܐ ܕܝܠܘܟ" },
+      { word: "Bayta dilakh", translation: "Your house (female)", phonetic: "Bay-ta di-lakh", script: "ܒܝܬܐ ܕܝܠܟ" },
+      { word: "Dili", translation: "Of mine / My", phonetic: "Di-li", script: "ܕܝܠܝ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "'Dili' means:",
+        options: ["Of mine / My", "Of yours", "Of his", "Of hers"],
+        correctAnswer: "Of mine / My"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "How do you say 'My house'?",
+        options: ["Bayta dili", "Bayta dilokh", "Bayta dilakh", "Bayta"],
+        correctAnswer: "Bayta dili"
+      },
+      {
+        id: 3,
+        type: 'multiple-choice',
+        question: "The possessive comes:",
+        options: ["After the noun", "Before the noun", "Either way", "Not used"],
+        correctAnswer: "After the noun"
+      }
+    ]
+  },
+  {
+    id: 51,
+    title: "Question Formation",
+    description: "Learn to ask questions using question words.",
+    level: "Advanced",
+    xpReward: 200,
+    icon: "❓",
+    vocabulary: [
+      { word: "Mana", translation: "What", phonetic: "Ma-na", script: "ܡܢܐ" },
+      { word: "Aykha", translation: "Where", phonetic: "Ay-kha", script: "ܐܝܟܐ" },
+      { word: "Aymat", translation: "When", phonetic: "Ay-mat", script: "ܐܝܡܬ" },
+      { word: "Lamana", translation: "Why", phonetic: "La-ma-na", script: "ܠܡܢܐ" },
+      { word: "Aykana", translation: "How", phonetic: "Ay-ka-na", script: "ܐܝܟܢܐ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "How do you say 'What' in Chaldean?",
+        options: ["Mana", "Aykha", "Aymat", "Lamana"],
+        correctAnswer: "Mana"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "What does 'Aykha' mean?",
+        options: ["Where", "What", "When", "Why"],
+        correctAnswer: "Where"
+      },
+      {
+        id: 3,
+        type: 'multiple-choice',
+        question: "'Lamana' means:",
+        options: ["Why", "How", "Where", "When"],
+        correctAnswer: "Why"
+      }
+    ]
+  },
+  {
+    id: 52,
+    title: "Prepositions & Location",
+    description: "Learn to describe where things are.",
+    level: "Advanced",
+    xpReward: 200,
+    icon: "📍",
+    vocabulary: [
+      { word: "B-", translation: "In/At/With", phonetic: "B-", script: "ܒ" },
+      { word: "Al", translation: "On/Upon", phonetic: "Al", script: "ܥܠ" },
+      { word: "Takh", translation: "Under/Below", phonetic: "Takh", script: "ܬܚܬ" },
+      { word: "Gaw", translation: "Inside", phonetic: "Gaw", script: "ܓܘ" },
+      { word: "Bar", translation: "Outside", phonetic: "Bar", script: "ܒܪ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "What does 'Al' mean?",
+        options: ["On/Upon", "Under", "Inside", "Outside"],
+        correctAnswer: "On/Upon"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "'Takh' means:",
+        options: ["Under/Below", "On", "Inside", "Outside"],
+        correctAnswer: "Under/Below"
+      },
+      {
+        id: 3,
+        type: 'multiple-choice',
+        question: "How do you say 'Inside'?",
+        options: ["Gaw", "Bar", "Al", "Takh"],
+        correctAnswer: "Gaw"
+      }
+    ]
+  },
+  {
+    id: 53,
+    title: "Time Expressions",
+    description: "Learn to talk about time and when things happen.",
+    level: "Intermediate",
+    xpReward: 150,
+    icon: "⏰",
+    vocabulary: [
+      { word: "Hashâ", translation: "Now", phonetic: "Ha-shâ", script: "ܗܫܐ" },
+      { word: "Yawma Akhrin", translation: "Tomorrow", phonetic: "Yaw-ma Akh-rin", script: "ܝܘܡܐ ܐܚܪܝܢ" },
+      { word: "Etmali", translation: "Yesterday", phonetic: "Et-ma-li", script: "ܐܬܡܠܝ" },
+      { word: "Awdana", translation: "Always", phonetic: "Aw-da-na", script: "ܐܘܕܢܐ" },
+      { word: "Qalil", translation: "Sometimes", phonetic: "Qa-lil", script: "ܩܠܝܠ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "How do you say 'Now'?",
+        options: ["Hashâ", "Etmali", "Awdana", "Qalil"],
+        correctAnswer: "Hashâ"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "What does 'Yawma Akhrin' mean?",
+        options: ["Tomorrow", "Yesterday", "Today", "Now"],
+        correctAnswer: "Tomorrow"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: Yesterday",
+        correctAnswer: "Etmali"
+      }
+    ]
+  },
+  {
+    id: 54,
+    title: "Emotions & Feelings",
+    description: "Express how you feel in Chaldean.",
+    level: "Intermediate",
+    xpReward: 150,
+    icon: "😊",
+    vocabulary: [
+      { word: "Khudta", translation: "Joy/Happiness", phonetic: "Khud-ta", script: "ܚܕܘܬܐ" },
+      { word: "Kriuta", translation: "Sadness", phonetic: "Kriu-ta", script: "ܟܪܝܘܬܐ" },
+      { word: "Dekhla", translation: "Fear", phonetic: "Dekh-la", script: "ܕܚܠܐ" },
+      { word: "Khuba", translation: "Love", phonetic: "Khu-ba", script: "ܚܘܒܐ" },
+      { word: "Shurkha", translation: "Hope", phonetic: "Shur-kha", script: "ܣܘܟܝܐ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "What is 'Love' in Chaldean?",
+        options: ["Khuba", "Khudta", "Kriuta", "Dekhla"],
+        correctAnswer: "Khuba"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "What does 'Khudta' mean?",
+        options: ["Joy/Happiness", "Sadness", "Fear", "Anger"],
+        correctAnswer: "Joy/Happiness"
+      },
+      {
+        id: 3,
+        type: 'translation',
+        question: "Translate: Hope",
+        correctAnswer: "Shurkha"
+      }
+    ]
   }
 ];
