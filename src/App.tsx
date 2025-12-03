@@ -6,6 +6,7 @@ import Lessons from './pages/Lessons';
 import LessonRunner from './pages/LessonRunner';
 import Practice from './pages/Practice';
 import Dictionary from './pages/Dictionary';
+import Translator from './pages/Translator';
 import Settings from './pages/Settings';
 import Review from './pages/Review';
 import { ProgressProvider } from './context/ProgressContext';
@@ -35,6 +36,7 @@ function App() {
             <Route path="lessons/:lessonId" element={<LessonRunner />} />
             <Route path="practice" element={<Practice />} />
             <Route path="dictionary" element={<Dictionary />} />
+            <Route path="translator" element={<Translator />} />
             <Route path="review" element={<Review />} />
             <Route path="settings" element={<Settings />} />
           </Route>

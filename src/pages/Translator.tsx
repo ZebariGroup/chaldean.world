@@ -1,0 +1,215 @@
+import { useState } from 'react';
+import { dictionaryData } from '../data/dictionary';
+import { useProgress } from '../context/ProgressContext';
+
+export default function Translator() {
+  const { preferences } = useProgress();
+  const [inputText, setInputText] = useState('');
+  const [translationResults, setTranslationResults] = useState<any[]>([]);
+
+  const speakWord = (text: string) => {
+    if (!preferences.audioEnabled) return;
+    
+    import('../utils/speech').then(({ speak }) => {
+      speak(text, { rate: 0.85 });
+    });
+  };
+
+  const translateText = (text: string) => {
+    if (!text.trim()) {
+      setTranslationResults([]);
+      return;
+    }
+
+    const input = text.toLowerCase().trim();
+    const words = input.split(/\s+/);
+    
+    // Find matches for the entire phrase first
+    const phraseMatches = dictionaryData.filter(entry => 
+      entry.translation.toLowerCase() === input ||
+      entry.translation.toLowerCase().includes(input)
+    );
+
+    // Find matches for individual words
+    const wordMatches = words.map(word => {
+      const matches = dictionaryData.filter(entry => {
+        const translation = entry.translation.toLowerCase();
+        return translation === word || 
+               translation.split('/').some(part => part.trim() === word) ||
+               translation.includes(word);
+      });
+      return { word, matches };
+    }).filter(item => item.matches.length > 0);
+
+    // Combine results
+    const results = [];
+    
+    if (phraseMatches.length > 0) {
+      results.push({
+        type: 'phrase',
+        input: input,
+        matches: phraseMatches
+      });
+    }
+
+    wordMatches.forEach(item => {
+      results.push({
+        type: 'word',
+        input: item.word,
+        matches: item.matches
+      });
+    });
+
+    setTranslationResults(results);
+  };
+
+  const handleTranslate = () => {
+    translateText(inputText);
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleTranslate();
+    }
+  };
+
+  return (
+    <div className="w-full max-w-4xl mx-auto px-4 py-4 md:py-6">
+      <div className="mb-6 md:mb-8">
+        <h1 className="text-2xl md:text-3xl font-bold mb-2">English to Chaldean Translator</h1>
+        <p className="text-gray-400 text-sm md:text-base">Type an English word or phrase to translate</p>
+      </div>
+
+      {/* Translation Input */}
+      <div className="mb-6">
+        <div className="bg-gradient-to-br from-gray-800 to-gray-800/80 rounded-2xl border-2 border-gray-700 p-6">
+          <label className="block text-sm font-semibold text-blue-400 uppercase tracking-wider mb-3">
+            English
+          </label>
+          <div className="flex gap-3">
+            <input
+              type="text"
+              value={inputText}
+              onChange={(e) => setInputText(e.target.value)}
+              onKeyPress={handleKeyPress}
+              placeholder="Type a word or phrase..."
+              className="flex-1 p-4 rounded-xl bg-gray-900 border-2 border-gray-700 text-white text-lg focus:outline-none focus:border-blue-500 transition-all"
+              autoFocus
+            />
+            <button
+              onClick={handleTranslate}
+              className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold px-8 rounded-xl transition-all active:scale-95"
+            >
+              Translate
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Translation Results */}
+      {translationResults.length > 0 ? (
+        <div className="space-y-6">
+          {translationResults.map((result, idx) => (
+            <div key={idx} className="space-y-3">
+              {result.type === 'phrase' && (
+                <div className="flex items-center gap-2 text-sm text-gray-400">
+                  <span className="bg-green-500/10 text-green-400 px-3 py-1 rounded-full font-semibold">
+                    Full Phrase Match
+                  </span>
+                  <span>"{result.input}"</span>
+                </div>
+              )}
+              {result.type === 'word' && (
+                <div className="flex items-center gap-2 text-sm text-gray-400">
+                  <span className="bg-blue-500/10 text-blue-400 px-3 py-1 rounded-full font-semibold">
+                    Word Match
+                  </span>
+                  <span>"{result.input}"</span>
+                </div>
+              )}
+              
+              <div className="grid gap-3 md:grid-cols-2">
+                {result.matches.map((entry: typeof dictionaryData[0], matchIdx: number) => (
+                  <div
+                    key={`${entry.word}-${entry.category}-${matchIdx}`}
+                    className="bg-gradient-to-br from-gray-800 to-gray-800/50 rounded-2xl border-2 border-gray-700 hover:border-blue-500 p-6 transition-all"
+                  >
+                    <div className="flex justify-between items-start mb-4">
+                      <div className="text-xs font-bold text-blue-400 uppercase tracking-wider bg-blue-500/10 px-2 py-1 rounded-full">
+                        {entry.category}
+                      </div>
+                      {preferences.audioEnabled && (
+                        <button
+                          onClick={() => speakWord(entry.word)}
+                          className="text-blue-400 hover:text-blue-300 transition-colors p-2 hover:bg-blue-500/10 rounded-lg"
+                          title="Listen to pronunciation"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                          </svg>
+                        </button>
+                      )}
+                    </div>
+                    
+                    <div className="text-center mb-4">
+                      <div className="text-5xl md:text-6xl font-bold mb-2 font-serif text-blue-100">
+                        {entry.script}
+                      </div>
+                      <div className="text-2xl md:text-3xl font-bold text-blue-400 mb-1">
+                        {entry.word}
+                      </div>
+                      <div className="text-sm text-gray-400 italic">
+                        "{entry.phonetic}"
+                      </div>
+                    </div>
+
+                    <div className="border-t border-gray-700 pt-4">
+                      <div className="text-lg font-semibold text-gray-300 text-center">
+                        {entry.translation}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : inputText.trim() ? (
+        <div className="text-center py-12 bg-gray-800/50 rounded-2xl border-2 border-gray-700">
+          <div className="text-6xl mb-4">🔍</div>
+          <p className="text-gray-400 text-lg">No translations found</p>
+          <p className="text-gray-500 text-sm mt-2">Try searching for individual words or simpler phrases</p>
+        </div>
+      ) : (
+        <div className="text-center py-12 bg-gray-800/50 rounded-2xl border-2 border-gray-700">
+          <div className="text-6xl mb-4">💬</div>
+          <p className="text-gray-400 text-lg">Enter text above to translate</p>
+          <p className="text-gray-500 text-sm mt-2">Try words like "hello", "thank you", or "family"</p>
+        </div>
+      )}
+
+      {/* Quick Examples */}
+      <div className="mt-8">
+        <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">
+          Try These Examples:
+        </h3>
+        <div className="flex flex-wrap gap-2">
+          {['Hello', 'Thank you', 'Good', 'Father', 'Water', 'How are you', 'One', 'Red', 'Peace'].map((example) => (
+            <button
+              key={example}
+              onClick={() => {
+                setInputText(example);
+                translateText(example);
+              }}
+              className="bg-gray-800 hover:bg-gray-700 border border-gray-700 hover:border-blue-500 text-gray-300 px-4 py-2 rounded-lg transition-all text-sm active:scale-95"
+            >
+              {example}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+

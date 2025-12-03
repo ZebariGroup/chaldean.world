@@ -106,11 +106,15 @@ export default function Home() {
           <div className="text-xl md:text-lg">🎓 Start Learning</div>
           <div className="text-blue-200 text-sm font-normal mt-1">Interactive Lessons</div>
         </Link>
+        <Link to="/translator" className="group bg-gradient-to-r from-cyan-600 to-cyan-700 hover:from-cyan-700 hover:to-cyan-800 text-white text-center font-bold py-5 md:py-4 px-6 rounded-2xl md:rounded-xl transition-all shadow-lg active:scale-95">
+          <div className="text-xl md:text-lg">💬 Translator</div>
+          <div className="text-cyan-200 text-sm font-normal mt-1">English to Chaldean</div>
+        </Link>
         <Link to="/dictionary" className="group bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white text-center font-bold py-5 md:py-4 px-6 rounded-2xl md:rounded-xl transition-all shadow-lg active:scale-95">
           <div className="text-xl md:text-lg">📖 Dictionary</div>
           <div className="text-purple-200 text-sm font-normal mt-1">{dictionaryData.length}+ Words</div>
         </Link>
-        <Link to="/practice" className="group bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white text-center font-bold py-5 md:py-4 px-6 rounded-2xl md:rounded-xl transition-all shadow-lg active:scale-95 md:col-span-2">
+        <Link to="/practice" className="group bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white text-center font-bold py-5 md:py-4 px-6 rounded-2xl md:rounded-xl transition-all shadow-lg active:scale-95">
           <div className="text-xl md:text-lg">🎯 Practice Game</div>
           <div className="text-green-200 text-sm font-normal mt-1">Match words & meanings</div>
         </Link>
