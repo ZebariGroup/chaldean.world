@@ -2,6 +2,58 @@ import { useState } from 'react';
 import { dictionaryData } from '../data/dictionary';
 import { useProgress } from '../context/ProgressContext';
 
+// Common English words to filter out (stop words)
+const STOP_WORDS = new Set([
+  'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for',
+  'of', 'with', 'by', 'from', 'up', 'about', 'into', 'through', 'during',
+  'before', 'after', 'above', 'below', 'between', 'under', 'again', 'further',
+  'then', 'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all',
+  'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'only',
+  'own', 'same', 'so', 'than', 'too', 'very', 'can', 'will', 'just', 'should',
+  'now', 'i', 'you', 'he', 'she', 'it', 'we', 'they', 'them', 'their', 'what',
+  'which', 'who', 'this', 'that', 'these', 'those', 'am', 'is', 'are', 'was',
+  'were', 'be', 'been', 'being', 'have', 'has', 'had', 'do', 'does', 'did',
+  'doing', 'would', 'could', 'should', 'may', 'might', 'must', 'shall'
+]);
+
+// Synonym mappings for common words to improve search
+const SYNONYMS: Record<string, string[]> = {
+  'shut': ['close', 'closed'],
+  'close': ['shut', 'near'],
+  'hello': ['hi', 'greetings', 'peace', 'welcome'],
+  'hi': ['hello', 'greetings', 'peace'],
+  'thanks': ['thank you', 'grateful'],
+  'mom': ['mother'],
+  'dad': ['father'],
+  'grandpa': ['grandfather'],
+  'grandma': ['grandmother'],
+  'bro': ['brother'],
+  'sis': ['sister'],
+  'kid': ['child', 'boy', 'girl'],
+  'kids': ['children'],
+  'house': ['home'],
+  'car': ['vehicle', 'automobile'],
+  'drink': ['beverage'],
+  'food': ['eat', 'meal'],
+  'big': ['large', 'great'],
+  'small': ['little', 'tiny'],
+  'good': ['well', 'fine', 'nice'],
+  'bad': ['poor', 'wrong'],
+  'beautiful': ['pretty', 'lovely'],
+  'happy': ['glad', 'joyful'],
+  'sad': ['unhappy', 'sorry'],
+  'sick': ['ill', 'unwell'],
+  'help': ['assist', 'aid'],
+  'want': ['need', 'wish'],
+  'love': ['like', 'adore'],
+  'go': ['leave', 'depart'],
+  'come': ['arrive'],
+  'turn off': ['shut', 'close'],
+  'turn on': ['open', 'start'],
+  'open': ['opened'],
+  'door': ['gate', 'entrance'],
+};
+
 export default function Translator() {
   const { preferences } = useProgress();
   const [inputText, setInputText] = useState('');
@@ -15,6 +67,34 @@ export default function Translator() {
     });
   };
 
+  // Get all variations of a word including synonyms
+  const getWordVariations = (word: string): string[] => {
+    const variations = [word];
+    if (SYNONYMS[word]) {
+      variations.push(...SYNONYMS[word]);
+    }
+    return variations;
+  };
+
+  // Check if a word matches a translation (whole word matching)
+  const matchesWord = (translation: string, searchWord: string): boolean => {
+    const translationLower = translation.toLowerCase();
+    const searchLower = searchWord.toLowerCase();
+    
+    // Exact match
+    if (translationLower === searchLower) return true;
+    
+    // Check if it's one of the slash-separated alternatives
+    const parts = translationLower.split('/').map(p => p.trim());
+    if (parts.some(part => part === searchLower)) return true;
+    
+    // Word boundary match (whole word only, not partial)
+    const wordBoundaryRegex = new RegExp(`\\b${searchLower}\\b`, 'i');
+    if (wordBoundaryRegex.test(translationLower)) return true;
+    
+    return false;
+  };
+
   const translateText = (text: string) => {
     if (!text.trim()) {
       setTranslationResults([]);
@@ -22,23 +102,38 @@ export default function Translator() {
     }
 
     const input = text.toLowerCase().trim();
-    const words = input.split(/\s+/);
     
-    // Find matches for the entire phrase first
-    const phraseMatches = dictionaryData.filter(entry => 
-      entry.translation.toLowerCase() === input ||
-      entry.translation.toLowerCase().includes(input)
-    );
+    // Find exact phrase matches first
+    const phraseMatches = dictionaryData.filter(entry => {
+      const translation = entry.translation.toLowerCase();
+      return translation === input || 
+             translation.split('/').some(part => part.trim() === input);
+    });
 
-    // Find matches for individual words
+    // Split into words and filter out stop words
+    const words = input
+      .split(/\s+/)
+      .filter(word => !STOP_WORDS.has(word.toLowerCase()) && word.length > 0);
+    
+    // Find matches for meaningful words with synonym support
     const wordMatches = words.map(word => {
-      const matches = dictionaryData.filter(entry => {
-        const translation = entry.translation.toLowerCase();
-        return translation === word || 
-               translation.split('/').some(part => part.trim() === word) ||
-               translation.includes(word);
+      const variations = getWordVariations(word);
+      const allMatches = new Set<typeof dictionaryData[0]>();
+      
+      // Search for the word and all its synonyms
+      variations.forEach(variation => {
+        dictionaryData.forEach(entry => {
+          if (matchesWord(entry.translation, variation)) {
+            allMatches.add(entry);
+          }
+        });
       });
-      return { word, matches };
+      
+      return { 
+        word, 
+        matches: Array.from(allMatches),
+        synonymsUsed: variations.filter(v => v !== word)
+      };
     }).filter(item => item.matches.length > 0);
 
     // Combine results
@@ -56,11 +151,17 @@ export default function Translator() {
       results.push({
         type: 'word',
         input: item.word,
-        matches: item.matches
+        matches: item.matches,
+        synonymsUsed: item.synonymsUsed
       });
     });
 
-    setTranslationResults(results);
+    // If no results and we filtered words, show a message
+    if (results.length === 0 && words.length === 0 && input.split(/\s+/).length > 0) {
+      setTranslationResults([{ type: 'no-meaningful-words', filteredWords: input.split(/\s+/).filter(w => STOP_WORDS.has(w)) }]);
+    } else {
+      setTranslationResults(results);
+    }
   };
 
   const handleTranslate = () => {
@@ -109,27 +210,44 @@ export default function Translator() {
       {/* Translation Results */}
       {translationResults.length > 0 ? (
         <div className="space-y-6">
-          {translationResults.map((result, idx) => (
-            <div key={idx} className="space-y-3">
-              {result.type === 'phrase' && (
-                <div className="flex items-center gap-2 text-sm text-gray-400">
-                  <span className="bg-green-500/10 text-green-400 px-3 py-1 rounded-full font-semibold">
-                    Full Phrase Match
-                  </span>
-                  <span>"{result.input}"</span>
+          {translationResults.map((result, idx) => {
+            if (result.type === 'no-meaningful-words') {
+              return (
+                <div key={idx} className="text-center py-8 bg-yellow-500/10 rounded-2xl border-2 border-yellow-500/30">
+                  <div className="text-4xl mb-3">💡</div>
+                  <p className="text-yellow-400 font-semibold mb-2">Only common words detected</p>
+                  <p className="text-gray-400 text-sm">Words like "{result.filteredWords.join('", "')}" are too common to translate.</p>
+                  <p className="text-gray-500 text-sm mt-1">Try adding more specific words to your search.</p>
                 </div>
-              )}
-              {result.type === 'word' && (
-                <div className="flex items-center gap-2 text-sm text-gray-400">
-                  <span className="bg-blue-500/10 text-blue-400 px-3 py-1 rounded-full font-semibold">
-                    Word Match
-                  </span>
-                  <span>"{result.input}"</span>
-                </div>
-              )}
-              
-              <div className="grid gap-3 md:grid-cols-2">
-                {result.matches.map((entry: typeof dictionaryData[0], matchIdx: number) => (
+              );
+            }
+            
+            return (
+              <div key={idx} className="space-y-3">
+                {result.type === 'phrase' && (
+                  <div className="flex items-center gap-2 text-sm text-gray-400">
+                    <span className="bg-green-500/10 text-green-400 px-3 py-1 rounded-full font-semibold">
+                      ✓ Full Phrase Match
+                    </span>
+                    <span>"{result.input}"</span>
+                  </div>
+                )}
+                {result.type === 'word' && (
+                  <div className="flex items-center gap-2 text-sm text-gray-400 flex-wrap">
+                    <span className="bg-blue-500/10 text-blue-400 px-3 py-1 rounded-full font-semibold">
+                      Word Match
+                    </span>
+                    <span>"{result.input}"</span>
+                    {result.synonymsUsed && result.synonymsUsed.length > 0 && (
+                      <span className="bg-purple-500/10 text-purple-400 px-3 py-1 rounded-full text-xs">
+                        Also searched: {result.synonymsUsed.join(', ')}
+                      </span>
+                    )}
+                  </div>
+                )}
+                
+                <div className="grid gap-3 md:grid-cols-2">
+                  {result.matches.map((entry: typeof dictionaryData[0], matchIdx: number) => (
                   <div
                     key={`${entry.word}-${entry.category}-${matchIdx}`}
                     className="bg-gradient-to-br from-gray-800 to-gray-800/50 rounded-2xl border-2 border-gray-700 hover:border-blue-500 p-6 transition-all"
@@ -170,10 +288,11 @@ export default function Translator() {
                       </div>
                     </div>
                   </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       ) : inputText.trim() ? (
         <div className="text-center py-12 bg-gray-800/50 rounded-2xl border-2 border-gray-700">
@@ -195,7 +314,7 @@ export default function Translator() {
           Try These Examples:
         </h3>
         <div className="flex flex-wrap gap-2">
-          {['Hello', 'Thank you', 'Good', 'Father', 'Water', 'How are you', 'One', 'Red', 'Peace'].map((example) => (
+          {['Hello', 'Thank you', 'Good morning', 'Shut the door', 'Father', 'Water', 'How are you', 'I love you', 'Open the door', 'Turn off the light'].map((example) => (
             <button
               key={example}
               onClick={() => {
