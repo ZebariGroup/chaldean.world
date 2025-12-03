@@ -612,7 +612,7 @@ export default function Practice() {
         setSpeedGameActive(false);
         addPoints(speedScore * 5);
       }
-    }, [speedTimeLeft, speedGameActive, speedScore, addPoints]);
+    }, [speedTimeLeft, speedGameActive, speedScore, addPoints, gameMode]);
 
     if (!speedGameActive && speedTimeLeft === 0) {
       return (
