@@ -177,8 +177,8 @@ export default function Practice() {
   // Mode selection
   if (!gameMode) {
     return (
-      <div className="w-full h-full max-w-4xl mx-auto px-4 py-4 md:py-6 flex items-center justify-center">
-        <div className="w-full max-w-2xl">
+      <div className="w-full max-w-4xl mx-auto px-4 py-4 md:py-6">
+        <div className="w-full max-w-2xl mx-auto">
           <div className="text-center mb-8">
             <h1 className="text-3xl md:text-4xl font-bold mb-3">Practice Games</h1>
             <p className="text-gray-400">Choose a game mode to practice</p>
@@ -239,7 +239,7 @@ export default function Practice() {
   if (gameMode === 'quiz') {
     if (currentQuizIndex >= quizWords.length) {
       return (
-        <div className="w-full h-full max-w-4xl mx-auto px-4 py-4 md:py-6 flex items-center justify-center">
+        <div className="w-full max-w-4xl mx-auto px-4 py-4 md:py-6 flex items-center justify-center min-h-[calc(100vh-200px)]">
           <div className="w-full max-w-md text-center bg-gradient-to-br from-gray-800 to-gray-800/50 rounded-3xl p-8 border-2 border-purple-500/30">
             <div className="text-6xl mb-6">🎉</div>
             <h2 className="text-3xl font-bold mb-4">Quiz Complete!</h2>
@@ -439,7 +439,7 @@ export default function Practice() {
   if (gameMode === 'listening') {
     if (currentQuizIndex >= quizWords.length) {
       return (
-        <div className="w-full h-full max-w-4xl mx-auto px-4 py-4 md:py-6 flex items-center justify-center">
+        <div className="w-full max-w-4xl mx-auto px-4 py-4 md:py-6 flex items-center justify-center min-h-[calc(100vh-200px)]">
           <div className="w-full max-w-md text-center bg-gradient-to-br from-gray-800 to-gray-800/50 rounded-3xl p-8 border-2 border-green-500/30">
             <div className="text-6xl mb-6">🎉</div>
             <h2 className="text-3xl font-bold mb-4">Listening Complete!</h2>
@@ -491,8 +491,8 @@ export default function Practice() {
     };
 
     return (
-      <div className="w-full h-full max-w-4xl mx-auto px-4 py-4 md:py-6 flex items-center justify-center">
-        <div className="w-full max-w-2xl">
+      <div className="w-full max-w-4xl mx-auto px-4 py-4 md:py-6">
+        <div className="w-full max-w-2xl mx-auto">
           <div className="mb-6">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl font-bold">🎧 Listening Quiz</h2>
@@ -569,7 +569,7 @@ export default function Practice() {
   if (gameMode === 'flashcard') {
     if (flashcardsComplete) {
       return (
-        <div className="w-full h-full max-w-4xl mx-auto px-4 py-4 md:py-6 flex items-center justify-center">
+        <div className="w-full max-w-4xl mx-auto px-4 py-4 md:py-6 flex items-center justify-center min-h-[calc(100vh-200px)]">
           <div className="w-full max-w-md text-center bg-gradient-to-br from-gray-800 to-gray-800/50 rounded-3xl p-8 border-2 border-orange-500/30">
             <div className="text-6xl mb-6">🎉</div>
             <h2 className="text-3xl font-bold mb-4">Review Complete!</h2>
@@ -608,8 +608,8 @@ export default function Practice() {
     };
 
     return (
-      <div className="w-full h-full max-w-4xl mx-auto px-4 py-4 md:py-6 flex items-center justify-center">
-        <div className="w-full max-w-2xl">
+      <div className="w-full max-w-4xl mx-auto px-4 py-4 md:py-6">
+        <div className="w-full max-w-2xl mx-auto">
           <div className="mb-6">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl font-bold">🃏 Flashcards</h2>
@@ -696,7 +696,7 @@ export default function Practice() {
 
     if (!speedGameActive && speedTimeLeft === 0) {
       return (
-        <div className="w-full h-full max-w-4xl mx-auto px-4 py-4 md:py-6 flex items-center justify-center">
+        <div className="w-full max-w-4xl mx-auto px-4 py-4 md:py-6 flex items-center justify-center min-h-[calc(100vh-200px)]">
           <div className="w-full max-w-md text-center bg-gradient-to-br from-gray-800 to-gray-800/50 rounded-3xl p-8 border-2 border-red-500/30">
             <div className="text-6xl mb-6">⏰</div>
             <h2 className="text-3xl font-bold mb-4">Time's Up!</h2>
@@ -742,8 +742,8 @@ export default function Practice() {
     };
 
     return (
-      <div className="w-full h-full max-w-4xl mx-auto px-4 py-4 md:py-6 flex items-center justify-center">
-        <div className="w-full max-w-2xl">
+      <div className="w-full max-w-4xl mx-auto px-4 py-4 md:py-6">
+        <div className="w-full max-w-2xl mx-auto">
           <div className="mb-6">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl font-bold">⚡ Speed Round</h2>
