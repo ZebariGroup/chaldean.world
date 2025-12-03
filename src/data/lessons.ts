@@ -1561,5 +1561,86 @@ export const lessonsData: Lesson[] = [
         correctAnswer: "Barōza"
       }
     ]
+  },
+  {
+    id: 41,
+    title: "Counting 6-10",
+    description: "Learn numbers six through ten.",
+    level: "Beginner",
+    xpReward: 100,
+    icon: "🔢",
+    vocabulary: [
+      { word: "Ishta", translation: "Six", phonetic: "Ish-ta", script: "ܐܫܬܐ" },
+      { word: "Shwa", translation: "Seven", phonetic: "Shwa", script: "ܫܒܥܐ" },
+      { word: "Tmanya", translation: "Eight", phonetic: "Tman-ya", script: "ܬܡܢܝܐ" },
+      { word: "Tisha", translation: "Nine", phonetic: "Ti-sha", script: "ܬܫܥܐ" },
+      { word: "Asar", translation: "Ten", phonetic: "A-sar", script: "ܥܣܪܐ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "What is 'Six' in Chaldean?",
+        options: ["Ishta", "Shwa", "Tmanya", "Tisha"],
+        correctAnswer: "Ishta"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "Which number is 'Asar'?",
+        options: ["7", "8", "9", "10"],
+        correctAnswer: "10"
+      },
+      {
+        id: 3,
+        type: 'multiple-choice',
+        question: "What does 'Tmanya' mean?",
+        options: ["Six", "Seven", "Eight", "Nine"],
+        correctAnswer: "Eight"
+      },
+      {
+        id: 4,
+        type: 'multiple-choice',
+        question: "Select the correct order: 6, 7, 8",
+        options: ["Ishta, Shwa, Tmanya", "Shwa, Ishta, Tmanya", "Ishta, Tmanya, Shwa"],
+        correctAnswer: "Ishta, Shwa, Tmanya"
+      }
+    ]
+  },
+  {
+    id: 42,
+    title: "Counting 11-20",
+    description: "Learn numbers eleven through twenty.",
+    level: "Beginner",
+    xpReward: 100,
+    icon: "🔢",
+    vocabulary: [
+      { word: "Khadassar", translation: "Eleven", phonetic: "Kha-das-sar", script: "ܚܕܥܣܪ" },
+      { word: "Treissar", translation: "Twelve", phonetic: "Treis-sar", script: "ܬܪܥܣܪ" },
+      { word: "Esrin", translation: "Twenty", phonetic: "Es-rin", script: "ܥܣܪܝܢ" }
+    ],
+    content: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "What is 'Eleven' in Chaldean?",
+        options: ["Khadassar", "Treissar", "Asar", "Esrin"],
+        correctAnswer: "Khadassar"
+      },
+      {
+        id: 2,
+        type: 'multiple-choice',
+        question: "Which number is 'Esrin'?",
+        options: ["10", "11", "12", "20"],
+        correctAnswer: "20"
+      },
+      {
+        id: 3,
+        type: 'multiple-choice',
+        question: "What does 'Treissar' mean?",
+        options: ["Two", "Ten", "Twelve", "Twenty"],
+        correctAnswer: "Twelve"
+      }
+    ]
   }
 ];
