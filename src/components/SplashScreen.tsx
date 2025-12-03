@@ -78,11 +78,14 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
       <div className="relative z-10 text-center px-4">
         {/* Assyrian Star Logo with pulse animation */}
         <div className="mb-8 animate-pulse-slow">
-          <img 
-            src="/assyrian-star.png" 
-            alt="Assyrian Star" 
-            className="w-32 h-32 md:w-40 md:h-40 mx-auto drop-shadow-2xl animate-spin-slow"
-          />
+          <div className="w-32 h-32 md:w-40 md:h-40 mx-auto bg-gradient-to-br from-gray-900/50 to-gray-800/50 rounded-full p-4 backdrop-blur-sm">
+            <img 
+              src="/assyrian-star.png" 
+              alt="Assyrian Star" 
+              className="w-full h-full animate-spin-slow"
+              style={{ filter: 'drop-shadow(0 0 20px rgba(147, 51, 234, 0.8))' }}
+            />
+          </div>
         </div>
 
         {/* App Title */}
