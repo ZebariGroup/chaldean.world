@@ -29,7 +29,7 @@ export default function Home() {
       {/* Hero Section - More compact on mobile */}
       <div className="text-center max-w-3xl mx-auto mb-6 md:mb-8">
         <div className="inline-block mb-3 p-3 md:p-4">
-          <img src="/assyrian-star.png" alt="Assyrian Star" className="w-16 h-16 md:w-24 md:h-24 mx-auto" style={{ filter: 'drop-shadow(0 0 12px rgba(59, 130, 246, 0.6))' }} />
+          <img src="/assyrian-star.svg" alt="Assyrian Star" className="w-16 h-16 md:w-24 md:h-24 mx-auto" style={{ filter: 'drop-shadow(0 0 12px rgba(59, 130, 246, 0.6))' }} />
         </div>
         <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-3 md:mb-6">
           Welcome to <span className="bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text">Chaldean World</span>

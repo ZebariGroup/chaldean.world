@@ -80,7 +80,7 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
         <div className="mb-8 animate-pulse-slow">
           <div className="w-32 h-32 md:w-40 md:h-40 mx-auto p-4">
             <img 
-              src="/assyrian-star.png" 
+              src="/assyrian-star.svg" 
               alt="Assyrian Star" 
               className="w-full h-full animate-spin-slow"
               style={{ filter: 'drop-shadow(0 0 20px rgba(147, 51, 234, 0.8))' }}

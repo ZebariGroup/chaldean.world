@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="starGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#60a5fa;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#818cf8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#a855f7;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Assyrian Star (8-pointed star) -->
+  <g transform="translate(100, 100)">
+    <!-- Center circle -->
+    <circle cx="0" cy="0" r="15" fill="url(#starGrad)" opacity="0.8"/>
+    
+    <!-- 8 points -->
+    <g>
+      <!-- Point 1 (top) -->
+      <path d="M 0,-60 L -8,-20 L 8,-20 Z" fill="url(#starGrad)"/>
+      
+      <!-- Point 2 (top-right) -->
+      <path d="M 42.4,-42.4 L 14.1,-14.1 L 20,-6 L 6,-20 L 14.1,-14.1 Z" fill="url(#starGrad)"/>
+      
+      <!-- Point 3 (right) -->
+      <path d="M 60,0 L 20,-8 L 20,8 Z" fill="url(#starGrad)"/>
+      
+      <!-- Point 4 (bottom-right) -->
+      <path d="M 42.4,42.4 L 14.1,14.1 L 20,6 L 6,20 L 14.1,14.1 Z" fill="url(#starGrad)"/>
+      
+      <!-- Point 5 (bottom) -->
+      <path d="M 0,60 L -8,20 L 8,20 Z" fill="url(#starGrad)"/>
+      
+      <!-- Point 6 (bottom-left) -->
+      <path d="M -42.4,42.4 L -14.1,14.1 L -20,6 L -6,20 L -14.1,14.1 Z" fill="url(#starGrad)"/>
+      
+      <!-- Point 7 (left) -->
+      <path d="M -60,0 L -20,-8 L -20,8 Z" fill="url(#starGrad)"/>
+      
+      <!-- Point 8 (top-left) -->
+      <path d="M -42.4,-42.4 L -14.1,-14.1 L -20,-6 L -6,-20 L -14.1,-14.1 Z" fill="url(#starGrad)"/>
+    </g>
+    
+    <!-- Inner ring -->
+    <circle cx="0" cy="0" r="25" fill="none" stroke="url(#starGrad)" stroke-width="2" opacity="0.6"/>
+  </g>
+</svg>
+
