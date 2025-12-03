@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { lessonsData } from '../data/lessons';
+import { dictionaryData } from '../data/dictionary';
 import { useProgress } from '../context/ProgressContext';
 
 type LessonPhase = 'intro' | 'learning' | 'quiz' | 'completed';
@@ -32,7 +33,11 @@ export default function LessonRunner() {
   useEffect(() => {
     if (phase === 'learning') {
       lesson.vocabulary.forEach(word => {
-        addWordToReview(`${word.word}-vocab`);
+        // Find the word in dictionary to get its category for proper ID format
+        const dictEntry = dictionaryData.find(d => d.word === word.word);
+        if (dictEntry) {
+          addWordToReview(`${word.word}-${dictEntry.category}`);
+        }
       });
     }
   }, [phase, lesson, addWordToReview]);

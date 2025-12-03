@@ -431,3 +431,6 @@ While all requested features are complete, here are potential future improvement
 
 The app now provides a comprehensive, engaging, and scientifically-backed language learning experience with modern features that rival commercial language learning apps like Duolingo, while being fully free and open-source.
 
+
+
+

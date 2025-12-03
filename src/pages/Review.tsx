@@ -21,27 +21,38 @@ export default function Review() {
     if (reviewMode === 'srs') {
       const wordIds = getWordsToReview();
       return wordIds.map(id => {
-        const word = dictionaryData.find(w => `${w.word}-${w.category}` === id);
-        return word;
-      }).filter(Boolean) as typeof dictionaryData;
+        // Try matching with category format first (new format)
+        let word = dictionaryData.find(w => `${w.word}-${w.category}` === id);
+        // If not found, try matching just the word (for backward compatibility with old "word-vocab" format)
+        if (!word) {
+          const wordOnly = id.replace(/-vocab$/, '').replace(/-\w+$/, '');
+          word = dictionaryData.find(w => w.word === wordOnly);
+        }
+        return word ? { word, originalId: id } : null;
+      }).filter(Boolean) as Array<{ word: typeof dictionaryData[0], originalId: string }>;
     } else if (reviewMode === 'incorrect') {
       // Get unique words from incorrect answers
       const uniqueWords = new Set(incorrectAnswers.map(a => a.question));
       return Array.from(uniqueWords).map(q => {
         // Try to find the word in dictionary by matching question text
-        return dictionaryData.find(w => 
+        const word = dictionaryData.find(w => 
           q.includes(w.word) || q.includes(w.translation)
         );
-      }).filter(Boolean) as typeof dictionaryData;
+        return word ? { word, originalId: `${word.word}-${word.category}` } : null;
+      }).filter(Boolean) as Array<{ word: typeof dictionaryData[0], originalId: string }>;
     }
     return [];
   }, [reviewMode, getWordsToReview, incorrectAnswers]);
 
-  const currentWord = wordsToReview[currentIndex];
+  const currentWordEntry = wordsToReview[currentIndex];
+  const currentWord = currentWordEntry?.word;
 
   const handleQuality = (quality: number) => {
-    if (currentWord && reviewMode === 'srs') {
-      updateWordReview(`${currentWord.word}-${currentWord.category}`, quality);
+    if (currentWordEntry && reviewMode === 'srs' && currentWord) {
+      // Always use the correct format: word-category
+      // This ensures consistency going forward
+      const correctId = `${currentWord.word}-${currentWord.category}`;
+      updateWordReview(correctId, quality);
     }
 
     if (currentIndex < wordsToReview.length - 1) {

@@ -23,3 +23,6 @@ const png512Base64 = `iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42m
 console.log('Icons will use SVG format for better compatibility');
 
 
+
+
+
