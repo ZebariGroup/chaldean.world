@@ -1,6 +1,7 @@
 import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Layout from './components/Layout';
+import SplashScreen from './components/SplashScreen';
 import Home from './pages/Home';
 import Lessons from './pages/Lessons';
 import LessonRunner from './pages/LessonRunner';
@@ -25,6 +26,25 @@ function ScrollToTop() {
 }
 
 function App() {
+  const [showSplash, setShowSplash] = useState(true);
+
+  // Check if user has seen splash before (for returning users)
+  useEffect(() => {
+    const hasSeenSplash = sessionStorage.getItem('hasSeenSplash');
+    if (hasSeenSplash) {
+      setShowSplash(false);
+    }
+  }, []);
+
+  const handleSplashComplete = () => {
+    sessionStorage.setItem('hasSeenSplash', 'true');
+    setShowSplash(false);
+  };
+
+  if (showSplash) {
+    return <SplashScreen onComplete={handleSplashComplete} />;
+  }
+
   return (
     <ProgressProvider>
       <HashRouter>
