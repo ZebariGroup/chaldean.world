@@ -12,7 +12,7 @@ interface Card {
   script?: string; // Optional script for word cards
 }
 
-type GameMode = 'match' | 'quiz' | null;
+type GameMode = 'match' | 'quiz' | 'listening' | 'flashcard' | 'speed' | null;
 
 export default function Practice() {
   const { addPoints, preferences } = useProgress();
@@ -29,6 +29,19 @@ export default function Practice() {
   const [quizScore, setQuizScore] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [showQuizResult, setShowQuizResult] = useState(false);
+  
+  // Flashcard state
+  const [flashcardWords, setFlashcardWords] = useState<typeof dictionaryData>([]);
+  const [currentFlashcardIndex, setCurrentFlashcardIndex] = useState(0);
+  const [showFlashcardAnswer, setShowFlashcardAnswer] = useState(false);
+  const [flashcardsComplete, setFlashcardsComplete] = useState(false);
+  
+  // Speed round state
+  const [speedWords, setSpeedWords] = useState<typeof dictionaryData>([]);
+  const [speedIndex, setSpeedIndex] = useState(0);
+  const [speedScore, setSpeedScore] = useState(0);
+  const [speedTimeLeft, setSpeedTimeLeft] = useState(60);
+  const [speedGameActive, setSpeedGameActive] = useState(false);
 
   const initializeMatchGame = () => {
     const shuffledDictionary = [...dictionaryData].sort(() => 0.5 - Math.random());
@@ -71,6 +84,36 @@ export default function Practice() {
     setSelectedAnswer(null);
     setShowQuizResult(false);
     setGameMode('quiz');
+  };
+
+  const initializeListeningGame = () => {
+    const shuffled = [...dictionaryData].sort(() => 0.5 - Math.random()).slice(0, 10);
+    setQuizWords(shuffled);
+    setCurrentQuizIndex(0);
+    setQuizScore(0);
+    setSelectedAnswer(null);
+    setShowQuizResult(false);
+    setGameMode('listening');
+  };
+
+  const initializeFlashcardGame = () => {
+    const shuffled = [...dictionaryData].sort(() => 0.5 - Math.random()).slice(0, 20);
+    setFlashcardWords(shuffled);
+    setCurrentFlashcardIndex(0);
+    setShowFlashcardAnswer(false);
+    setFlashcardsComplete(false);
+    setGameMode('flashcard');
+  };
+
+  const initializeSpeedGame = () => {
+    const shuffled = [...dictionaryData].sort(() => 0.5 - Math.random());
+    setSpeedWords(shuffled);
+    setSpeedIndex(0);
+    setSpeedScore(0);
+    setSpeedTimeLeft(60);
+    setSpeedGameActive(true);
+    setSelectedAnswer(null);
+    setGameMode('speed');
   };
 
   const speakWord = (text: string) => {
@@ -141,23 +184,50 @@ export default function Practice() {
             <p className="text-gray-400">Choose a game mode to practice</p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             <button
               onClick={initializeMatchGame}
-              className="p-8 rounded-2xl border-2 bg-gradient-to-br from-blue-900/30 to-gray-800 border-blue-500/50 hover:border-blue-500 active:scale-95 transition-all"
+              className="p-6 rounded-2xl border-2 bg-gradient-to-br from-blue-900/30 to-gray-800 border-blue-500/50 hover:border-blue-500 active:scale-95 transition-all"
             >
-              <div className="text-5xl mb-4">🎯</div>
+              <div className="text-5xl mb-3">🎯</div>
               <h2 className="text-xl font-bold mb-2">Match Pairs</h2>
-              <p className="text-gray-400 text-sm">Memory game - match words with translations</p>
+              <p className="text-gray-400 text-sm">Memory game - match words</p>
             </button>
 
             <button
               onClick={initializeQuizGame}
-              className="p-8 rounded-2xl border-2 bg-gradient-to-br from-purple-900/30 to-gray-800 border-purple-500/50 hover:border-purple-500 active:scale-95 transition-all"
+              className="p-6 rounded-2xl border-2 bg-gradient-to-br from-purple-900/30 to-gray-800 border-purple-500/50 hover:border-purple-500 active:scale-95 transition-all"
             >
-              <div className="text-5xl mb-4">❓</div>
+              <div className="text-5xl mb-3">❓</div>
               <h2 className="text-xl font-bold mb-2">Quick Quiz</h2>
-              <p className="text-gray-400 text-sm">Multiple choice quiz - test your knowledge</p>
+              <p className="text-gray-400 text-sm">Multiple choice quiz</p>
+            </button>
+
+            <button
+              onClick={initializeListeningGame}
+              className="p-6 rounded-2xl border-2 bg-gradient-to-br from-green-900/30 to-gray-800 border-green-500/50 hover:border-green-500 active:scale-95 transition-all"
+            >
+              <div className="text-5xl mb-3">🎧</div>
+              <h2 className="text-xl font-bold mb-2">Listening Quiz</h2>
+              <p className="text-gray-400 text-sm">Listen and choose</p>
+            </button>
+
+            <button
+              onClick={initializeFlashcardGame}
+              className="p-6 rounded-2xl border-2 bg-gradient-to-br from-orange-900/30 to-gray-800 border-orange-500/50 hover:border-orange-500 active:scale-95 transition-all"
+            >
+              <div className="text-5xl mb-3">🃏</div>
+              <h2 className="text-xl font-bold mb-2">Flashcards</h2>
+              <p className="text-gray-400 text-sm">Review vocabulary cards</p>
+            </button>
+
+            <button
+              onClick={initializeSpeedGame}
+              className="p-6 rounded-2xl border-2 bg-gradient-to-br from-red-900/30 to-gray-800 border-red-500/50 hover:border-red-500 active:scale-95 transition-all"
+            >
+              <div className="text-5xl mb-3">⚡</div>
+              <h2 className="text-xl font-bold mb-2">Speed Round</h2>
+              <p className="text-gray-400 text-sm">60 seconds challenge</p>
             </button>
           </div>
         </div>
@@ -364,4 +434,355 @@ export default function Practice() {
       )}
     </div>
   );
+  
+  // Listening Quiz Mode
+  if (gameMode === 'listening') {
+    if (currentQuizIndex >= quizWords.length) {
+      return (
+        <div className="w-full h-full max-w-4xl mx-auto px-4 py-4 md:py-6 flex items-center justify-center">
+          <div className="w-full max-w-md text-center bg-gradient-to-br from-gray-800 to-gray-800/50 rounded-3xl p-8 border-2 border-green-500/30">
+            <div className="text-6xl mb-6">🎉</div>
+            <h2 className="text-3xl font-bold mb-4">Listening Complete!</h2>
+            <p className="text-gray-300 mb-2">Your Score</p>
+            <p className="text-5xl font-bold text-green-400 mb-8">{quizScore} / {quizWords.length}</p>
+            
+            <div className="space-y-3">
+              <button
+                onClick={initializeListeningGame}
+                className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold py-4 px-8 rounded-2xl transition-all active:scale-95"
+              >
+                Play Again
+              </button>
+              <button
+                onClick={() => setGameMode(null)}
+                className="w-full bg-gray-700 hover:bg-gray-600 text-white font-bold py-4 px-8 rounded-2xl transition-all active:scale-95"
+              >
+                Choose Mode
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    const currentWord = quizWords[currentQuizIndex];
+    const options = [
+      currentWord.translation,
+      ...dictionaryData
+        .filter(w => w.translation !== currentWord.translation)
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 3)
+        .map(w => w.translation)
+    ].sort(() => 0.5 - Math.random());
+
+    const handleListeningAnswer = (answer: string) => {
+      setSelectedAnswer(answer);
+      setShowQuizResult(true);
+      if (answer === currentWord.translation) {
+        setQuizScore(prev => prev + 1);
+        addPoints(10);
+      }
+    };
+
+    const nextListeningQuestion = () => {
+      setCurrentQuizIndex(prev => prev + 1);
+      setSelectedAnswer(null);
+      setShowQuizResult(false);
+    };
+
+    return (
+      <div className="w-full h-full max-w-4xl mx-auto px-4 py-4 md:py-6 flex items-center justify-center">
+        <div className="w-full max-w-2xl">
+          <div className="mb-6">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold">🎧 Listening Quiz</h2>
+              <div className="bg-gray-800 px-4 py-2 rounded-full border-2 border-gray-700">
+                <span className="text-gray-400 text-sm">Score: </span>
+                <span className="font-bold text-green-400">{quizScore}/{quizWords.length}</span>
+              </div>
+            </div>
+            
+            <div className="w-full bg-gray-700 h-2 rounded-full overflow-hidden">
+              <div 
+                className="bg-gradient-to-r from-green-500 to-green-600 h-full transition-all duration-300"
+                style={{ width: `${((currentQuizIndex + 1) / quizWords.length) * 100}%` }}
+              />
+            </div>
+          </div>
+
+          <div className="bg-gradient-to-br from-gray-800 to-gray-800/80 rounded-3xl border-2 border-gray-700 p-8 mb-6">
+            <div className="text-center mb-8">
+              <p className="text-sm text-green-400 font-semibold uppercase tracking-wider mb-6">
+                Listen and choose the correct translation
+              </p>
+              
+              <button
+                onClick={() => speakWord(currentWord.word)}
+                className="mx-auto bg-gradient-to-br from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white p-8 rounded-full transition-all active:scale-95 shadow-xl mb-4"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                </svg>
+              </button>
+              <p className="text-gray-400 text-sm">Tap to play audio</p>
+            </div>
+
+            <div className="grid grid-cols-1 gap-3">
+              {options.map((option, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => !showQuizResult && handleListeningAnswer(option)}
+                  disabled={showQuizResult}
+                  className={`
+                    p-4 rounded-xl border-2 transition-all font-semibold text-lg
+                    ${showQuizResult
+                      ? option === currentWord.translation
+                        ? 'bg-green-600/20 border-green-500 text-white'
+                        : option === selectedAnswer
+                          ? 'bg-red-600/20 border-red-500 text-white'
+                          : 'bg-gray-700/50 border-gray-600 text-gray-400'
+                      : 'bg-gray-700 border-gray-600 hover:border-green-500 hover:bg-green-600/10 active:scale-95'
+                    }
+                  `}
+                >
+                  {option}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {showQuizResult && (
+            <button
+              onClick={nextListeningQuestion}
+              className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold py-4 px-8 rounded-2xl transition-all active:scale-95"
+            >
+              {currentQuizIndex < quizWords.length - 1 ? 'Next Question →' : 'See Results'}
+            </button>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // Flashcard Mode
+  if (gameMode === 'flashcard') {
+    if (flashcardsComplete) {
+      return (
+        <div className="w-full h-full max-w-4xl mx-auto px-4 py-4 md:py-6 flex items-center justify-center">
+          <div className="w-full max-w-md text-center bg-gradient-to-br from-gray-800 to-gray-800/50 rounded-3xl p-8 border-2 border-orange-500/30">
+            <div className="text-6xl mb-6">🎉</div>
+            <h2 className="text-3xl font-bold mb-4">Review Complete!</h2>
+            <p className="text-gray-300 mb-2">You reviewed</p>
+            <p className="text-5xl font-bold text-orange-400 mb-8">{flashcardWords.length} words</p>
+            
+            <div className="space-y-3">
+              <button
+                onClick={initializeFlashcardGame}
+                className="w-full bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white font-bold py-4 px-8 rounded-2xl transition-all active:scale-95"
+              >
+                New Set
+              </button>
+              <button
+                onClick={() => setGameMode(null)}
+                className="w-full bg-gray-700 hover:bg-gray-600 text-white font-bold py-4 px-8 rounded-2xl transition-all active:scale-95"
+              >
+                Choose Mode
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    const currentCard = flashcardWords[currentFlashcardIndex];
+
+    const nextCard = () => {
+      if (currentFlashcardIndex < flashcardWords.length - 1) {
+        setCurrentFlashcardIndex(prev => prev + 1);
+        setShowFlashcardAnswer(false);
+      } else {
+        setFlashcardsComplete(true);
+        addPoints(20);
+      }
+    };
+
+    return (
+      <div className="w-full h-full max-w-4xl mx-auto px-4 py-4 md:py-6 flex items-center justify-center">
+        <div className="w-full max-w-2xl">
+          <div className="mb-6">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold">🃏 Flashcards</h2>
+              <div className="bg-gray-800 px-4 py-2 rounded-full border-2 border-gray-700">
+                <span className="font-bold text-orange-400">{currentFlashcardIndex + 1}</span>
+                <span className="text-gray-400"> / {flashcardWords.length}</span>
+              </div>
+            </div>
+            
+            <div className="w-full bg-gray-700 h-2 rounded-full overflow-hidden">
+              <div 
+                className="bg-gradient-to-r from-orange-500 to-orange-600 h-full transition-all duration-300"
+                style={{ width: `${((currentFlashcardIndex + 1) / flashcardWords.length) * 100}%` }}
+              />
+            </div>
+          </div>
+
+          <div 
+            onClick={() => setShowFlashcardAnswer(!showFlashcardAnswer)}
+            className="bg-gradient-to-br from-gray-800 to-gray-800/80 rounded-3xl border-2 border-gray-700 p-12 mb-6 min-h-[400px] flex flex-col items-center justify-center cursor-pointer hover:border-orange-500 transition-all active:scale-98"
+          >
+            {!showFlashcardAnswer ? (
+              <div className="text-center">
+                <p className="text-sm text-orange-400 font-semibold uppercase tracking-wider mb-6">
+                  Chaldean Word
+                </p>
+                <div className="text-6xl md:text-7xl font-bold mb-4 font-serif">{currentCard.script}</div>
+                <div className="text-3xl md:text-4xl font-bold text-blue-400 mb-2">{currentCard.word}</div>
+                <div className="text-xl text-gray-400 italic">"{currentCard.phonetic}"</div>
+                
+                {preferences.audioEnabled && (
+                  <button
+                    onClick={(e) => { e.stopPropagation(); speakWord(currentCard.word); }}
+                    className="mt-8 text-orange-400 hover:text-orange-300 transition-colors"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                      <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                    </svg>
+                  </button>
+                )}
+                
+                <p className="text-gray-500 text-sm mt-8">Tap to reveal translation</p>
+              </div>
+            ) : (
+              <div className="text-center">
+                <p className="text-sm text-green-400 font-semibold uppercase tracking-wider mb-6">
+                  Translation
+                </p>
+                <div className="text-5xl md:text-6xl font-bold text-green-400 mb-4">{currentCard.translation}</div>
+                <div className="text-sm text-gray-400 uppercase tracking-wider bg-blue-500/10 px-3 py-1 rounded-full inline-block">
+                  {currentCard.category}
+                </div>
+                <p className="text-gray-500 text-sm mt-8">Tap for next card</p>
+              </div>
+            )}
+          </div>
+
+          <button
+            onClick={nextCard}
+            className="w-full bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white font-bold py-4 px-8 rounded-2xl transition-all active:scale-95"
+          >
+            {currentFlashcardIndex < flashcardWords.length - 1 ? 'Next Card →' : 'Finish Review'}
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Speed Round Mode
+  if (gameMode === 'speed') {
+    // Timer effect
+    useEffect(() => {
+      if (speedGameActive && speedTimeLeft > 0) {
+        const timer = setTimeout(() => {
+          setSpeedTimeLeft(prev => prev - 1);
+        }, 1000);
+        return () => clearTimeout(timer);
+      } else if (speedTimeLeft === 0 && speedGameActive) {
+        setSpeedGameActive(false);
+        addPoints(speedScore * 5);
+      }
+    }, [speedTimeLeft, speedGameActive, speedScore, addPoints]);
+
+    if (!speedGameActive && speedTimeLeft === 0) {
+      return (
+        <div className="w-full h-full max-w-4xl mx-auto px-4 py-4 md:py-6 flex items-center justify-center">
+          <div className="w-full max-w-md text-center bg-gradient-to-br from-gray-800 to-gray-800/50 rounded-3xl p-8 border-2 border-red-500/30">
+            <div className="text-6xl mb-6">⏰</div>
+            <h2 className="text-3xl font-bold mb-4">Time's Up!</h2>
+            <p className="text-gray-300 mb-2">Your Score</p>
+            <p className="text-6xl font-bold text-red-400 mb-4">{speedScore}</p>
+            <p className="text-gray-400 text-sm mb-8">Correct answers in 60 seconds</p>
+            
+            <div className="space-y-3">
+              <button
+                onClick={initializeSpeedGame}
+                className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold py-4 px-8 rounded-2xl transition-all active:scale-95"
+              >
+                Try Again
+              </button>
+              <button
+                onClick={() => setGameMode(null)}
+                className="w-full bg-gray-700 hover:bg-gray-600 text-white font-bold py-4 px-8 rounded-2xl transition-all active:scale-95"
+              >
+                Choose Mode
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    const currentWord = speedWords[speedIndex];
+    const options = [
+      currentWord.translation,
+      ...dictionaryData
+        .filter(w => w.translation !== currentWord.translation)
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 3)
+        .map(w => w.translation)
+    ].sort(() => 0.5 - Math.random());
+
+    const handleSpeedAnswer = (answer: string) => {
+      if (answer === currentWord.translation) {
+        setSpeedScore(prev => prev + 1);
+      }
+      // Move to next question immediately
+      setSpeedIndex(prev => (prev + 1) % speedWords.length);
+    };
+
+    return (
+      <div className="w-full h-full max-w-4xl mx-auto px-4 py-4 md:py-6 flex items-center justify-center">
+        <div className="w-full max-w-2xl">
+          <div className="mb-6">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold">⚡ Speed Round</h2>
+              <div className="flex gap-4">
+                <div className="bg-gray-800 px-4 py-2 rounded-full border-2 border-gray-700">
+                  <span className="text-gray-400 text-sm">Score: </span>
+                  <span className="font-bold text-red-400">{speedScore}</span>
+                </div>
+                <div className={`px-4 py-2 rounded-full border-2 ${speedTimeLeft <= 10 ? 'bg-red-600/20 border-red-500 animate-pulse' : 'bg-gray-800 border-gray-700'}`}>
+                  <span className="text-gray-400 text-sm">Time: </span>
+                  <span className={`font-bold ${speedTimeLeft <= 10 ? 'text-red-400' : 'text-white'}`}>{speedTimeLeft}s</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-gradient-to-br from-gray-800 to-gray-800/80 rounded-3xl border-2 border-gray-700 p-8">
+            <div className="text-center mb-8">
+              <p className="text-sm text-red-400 font-semibold uppercase tracking-wider mb-4">
+                Translate quickly!
+              </p>
+              <div className="text-5xl md:text-6xl font-bold mb-3 font-serif">{currentWord.script}</div>
+              <div className="text-3xl md:text-4xl font-bold text-blue-400">{currentWord.word}</div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              {options.map((option, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => handleSpeedAnswer(option)}
+                  className="p-4 rounded-xl border-2 bg-gray-700 border-gray-600 hover:border-red-500 hover:bg-red-600/10 active:scale-95 transition-all font-semibold"
+                >
+                  {option}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
