@@ -42,6 +42,7 @@ export default function Practice() {
   const [speedScore, setSpeedScore] = useState(0);
   const [speedTimeLeft, setSpeedTimeLeft] = useState(60);
   const [speedGameActive, setSpeedGameActive] = useState(false);
+  const [speedPointsAwarded, setSpeedPointsAwarded] = useState(false);
 
   const initializeMatchGame = () => {
     const shuffledDictionary = [...dictionaryData].sort(() => 0.5 - Math.random());
@@ -112,6 +113,7 @@ export default function Practice() {
     setSpeedScore(0);
     setSpeedTimeLeft(60);
     setSpeedGameActive(true);
+    setSpeedPointsAwarded(false);
     setSelectedAnswer(null);
     setGameMode('speed');
   };
@@ -173,6 +175,20 @@ export default function Practice() {
       addPoints(50);
     }
   }, [cards, addPoints, gameWon, gameMode]);
+
+  // Speed round timer effect
+  useEffect(() => {
+    if (gameMode === 'speed' && speedGameActive && speedTimeLeft > 0) {
+      const timer = setTimeout(() => {
+        setSpeedTimeLeft(prev => prev - 1);
+      }, 1000);
+      return () => clearTimeout(timer);
+    } else if (gameMode === 'speed' && speedTimeLeft === 0 && speedGameActive && !speedPointsAwarded) {
+      setSpeedGameActive(false);
+      setSpeedPointsAwarded(true);
+      addPoints(speedScore * 5);
+    }
+  }, [gameMode, speedTimeLeft, speedGameActive, speedScore, speedPointsAwarded, addPoints]);
 
   // Mode selection
   if (!gameMode) {
@@ -601,19 +617,6 @@ export default function Practice() {
 
   // Speed Round Mode
   if (gameMode === 'speed') {
-    // Timer effect
-    useEffect(() => {
-      if (speedGameActive && speedTimeLeft > 0) {
-        const timer = setTimeout(() => {
-          setSpeedTimeLeft(prev => prev - 1);
-        }, 1000);
-        return () => clearTimeout(timer);
-      } else if (speedTimeLeft === 0 && speedGameActive) {
-        setSpeedGameActive(false);
-        addPoints(speedScore * 5);
-      }
-    }, [speedTimeLeft, speedGameActive, speedScore, addPoints]);
-
     if (!speedGameActive && speedTimeLeft === 0) {
       return (
         <div className="w-full max-w-4xl mx-auto px-4 py-4 md:py-6 flex items-center justify-center min-h-[calc(100vh-200px)]">
