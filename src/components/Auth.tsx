@@ -55,7 +55,8 @@ export default function Auth() {
         if (error) {
           setError(error.message);
         } else {
-          setMessage('Check your email to confirm your account!');
+          setMessage('Account created successfully! Redirecting...');
+          // Redirect will happen automatically via useEffect when user is set
         }
       } else {
         const { error } = await signIn(email, password);
