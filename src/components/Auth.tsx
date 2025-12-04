@@ -9,7 +9,7 @@ export default function Auth() {
   const [isSignUp, setIsSignUp] = useState(mode === 'signup');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  // const [confirmPassword, setConfirmPassword] = useState(''); // Removed for simpler UX
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
@@ -37,10 +37,10 @@ export default function Auth() {
     setMessage(null);
 
     if (isSignUp) {
-      if (password !== confirmPassword) {
-        setError('Passwords do not match');
-        return;
-      }
+      // if (password !== confirmPassword) {
+      //   setError('Passwords do not match');
+      //   return;
+      // }
       if (password.length < 6) {
         setError('Password must be at least 6 characters');
         return;
@@ -124,7 +124,7 @@ export default function Auth() {
             />
           </div>
 
-          {isSignUp && (
+          {/* {isSignUp && (
             <div>
               <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-300 mb-2">
                 Confirm Password
@@ -139,7 +139,7 @@ export default function Auth() {
                 placeholder="••••••••"
               />
             </div>
-          )}
+          )} */}
 
           <button
             type="submit"
