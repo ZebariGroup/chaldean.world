@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import { useProgress } from '../context/ProgressContext';
-import { useAuth } from '../context/AuthContext';
 import { dictionaryData } from '../data/dictionary';
 import { useMemo } from 'react';
 
