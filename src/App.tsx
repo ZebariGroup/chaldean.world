@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import Layout from './components/Layout';
 import SplashScreen from './components/SplashScreen';
 import Auth from './components/Auth';
+import Welcome from './pages/Welcome';
 import Home from './pages/Home';
 import Lessons from './pages/Lessons';
 import LessonRunner from './pages/LessonRunner';
@@ -11,6 +12,7 @@ import Dictionary from './pages/Dictionary';
 import Translator from './pages/Translator';
 import Settings from './pages/Settings';
 import Review from './pages/Review';
+import ProtectedRoute from './components/ProtectedRoute';
 import { ProgressProvider } from './context/ProgressContext';
 import { AuthProvider } from './context/AuthContext';
 
@@ -33,8 +35,13 @@ function App() {
   // Check if user has seen splash before (for returning users)
   useEffect(() => {
     const hasSeenSplash = sessionStorage.getItem('hasSeenSplash');
-    if (hasSeenSplash) {
+    // Only show splash on first visit
+    const isFirstVisit = !localStorage.getItem('hasVisited');
+    
+    if (hasSeenSplash || !isFirstVisit) {
       setShowSplash(false);
+    } else {
+      localStorage.setItem('hasVisited', 'true');
     }
   }, []);
 
@@ -52,13 +59,16 @@ function App() {
       <HashRouter>
         <ScrollToTop />
         <Routes>
+          <Route path="/welcome" element={<Welcome />} />
           <Route path="/auth" element={<Auth />} />
           <Route
             path="/"
             element={
-              <ProgressProvider>
-                <Layout />
-              </ProgressProvider>
+              <ProtectedRoute>
+                <ProgressProvider>
+                  <Layout />
+                </ProgressProvider>
+              </ProtectedRoute>
             }
           >
             <Route index element={<Home />} />
@@ -70,7 +80,7 @@ function App() {
             <Route path="review" element={<Review />} />
             <Route path="settings" element={<Settings />} />
           </Route>
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="*" element={<Navigate to="/welcome" replace />} />
         </Routes>
       </HashRouter>
     </AuthProvider>
