@@ -47,19 +47,24 @@ EOF
 
 echo "Applying trigger..."
 echo ""
-echo "Note: You may need to enter your sudo password for database access."
-echo ""
 
-# Try without sudo first, then with sudo if needed
-if echo "$SQL" | psql "$DB_URL" 2>&1; then
-    SUCCESS=true
-else
-    echo "Trying with sudo..."
-    echo "$SQL" | sudo -u postgres psql -h localhost -p 54322 -U postgres -d postgres 2>&1
-    SUCCESS=$?
+# Find the database container
+DB_CONTAINER=$(docker ps --format "{{.Names}}" | grep "supabase_db" | head -1)
+
+if [ -z "$DB_CONTAINER" ]; then
+    echo "❌ Could not find Supabase database container."
+    echo "Is Supabase running? Run: ./START_SUPABASE.sh"
+    exit 1
 fi
 
-if [ $? -eq 0 ]; then
+echo "Found database container: $DB_CONTAINER"
+echo ""
+
+# Execute SQL via Docker
+echo "$SQL" | docker exec -i "$DB_CONTAINER" psql -U postgres -d postgres 2>&1
+SUCCESS=$?
+
+if [ $SUCCESS -eq 0 ]; then
     echo ""
     echo "✅ Trigger created successfully!"
     echo ""
