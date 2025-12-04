@@ -71,16 +71,16 @@ export default function Auth() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900 px-4">
-      <div className="max-w-md w-full bg-gray-800 rounded-lg shadow-xl p-8">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">Chaldean World</h1>
+    <div className="min-h-screen flex items-center justify-center bg-gray-900 px-4 py-8">
+      <div className="max-w-md w-full bg-gray-800 rounded-lg shadow-xl p-6 md:p-8 my-auto">
+        <div className="text-center mb-6 md:mb-8">
+          <h1 className="text-2xl md:text-3xl font-bold text-white mb-2">Chaldean World</h1>
           <p className="text-gray-400">
             {isSignUp ? 'Create your account' : 'Sign in to continue'}
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
           {error && (
             <div className="bg-red-900/50 border border-red-700 text-red-200 px-4 py-3 rounded">
               {error}
@@ -149,7 +149,7 @@ export default function Auth() {
           </button>
         </form>
 
-        <div className="mt-6 text-center">
+        <div className="mt-4 md:mt-6 text-center">
           <button
             onClick={() => {
               setIsSignUp(!isSignUp);
