@@ -65,9 +65,13 @@ Or use a Personal Access Token:
 
 **Option A: ngrok (Quickest)**
 ```bash
-# Install from https://ngrok.com/download
+# Use the helper script (ngrok is already installed)
+./EXPOSE_SUPABASE.sh
+
+# OR manually:
+export PATH="$HOME/.local/bin:$PATH"
 ngrok http 54321
-# Copy the HTTPS URL
+# Copy the HTTPS URL shown
 ```
 
 **Option B: Cloudflare Tunnel (Free, Permanent)**
