@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useProgress } from '../context/ProgressContext';
+import { useAuth } from '../context/AuthContext';
 import PWAInstallPrompt from './PWAInstallPrompt';
 import OfflineIndicator from './OfflineIndicator';
 import UpdateNotification from './UpdateNotification';
 
 export default function Layout() {
   const { points, level, getWordsToReview } = useProgress();
+  const { user, signOut } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const wordsToReview = getWordsToReview().length;
@@ -69,14 +71,27 @@ export default function Layout() {
 
             {/* Points Display */}
             <div className="flex items-center gap-3">
-              <div className="hidden md:flex bg-gradient-to-br from-blue-600/20 to-blue-500/10 px-3 py-1.5 rounded-full border border-blue-500/50 items-center gap-2 shadow-lg">
-                <span className="text-blue-400 text-sm font-bold">LVL</span>
-                <span className="font-bold text-blue-100 text-sm">{level}</span>
-              </div>
-              <div className="bg-gradient-to-br from-yellow-600/20 to-yellow-500/10 px-3 py-1.5 rounded-full border border-yellow-500/50 flex items-center gap-2 shadow-lg">
-                <span className="text-yellow-400 text-lg">★</span>
-                <span className="font-bold text-yellow-100 text-sm md:text-base">{points}</span>
-              </div>
+              {user && (
+                <>
+                  <div className="hidden md:flex bg-gradient-to-br from-blue-600/20 to-blue-500/10 px-3 py-1.5 rounded-full border border-blue-500/50 items-center gap-2 shadow-lg">
+                    <span className="text-blue-400 text-sm font-bold">LVL</span>
+                    <span className="font-bold text-blue-100 text-sm">{level}</span>
+                  </div>
+                  <div className="bg-gradient-to-br from-yellow-600/20 to-yellow-500/10 px-3 py-1.5 rounded-full border border-yellow-500/50 flex items-center gap-2 shadow-lg">
+                    <span className="text-yellow-400 text-lg">★</span>
+                    <span className="font-bold text-yellow-100 text-sm md:text-base">{points}</span>
+                  </div>
+                </>
+              )}
+              {user && (
+                <button
+                  onClick={() => signOut()}
+                  className="hidden md:block text-gray-300 hover:text-white px-3 py-1.5 rounded-md text-sm font-medium hover:bg-gray-700 transition-colors"
+                  title="Sign out"
+                >
+                  Sign Out
+                </button>
+              )}
 
               <div className="-mr-2 flex md:hidden">
                 <button

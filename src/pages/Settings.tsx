@@ -1,4 +1,5 @@
 import { useProgress } from '../context/ProgressContext';
+import { useAuth } from '../context/AuthContext';
 import { useState } from 'react';
 import { requestNotificationPermission } from '../utils/notifications';
 
@@ -18,6 +19,7 @@ export default function Settings() {
     totalStudyTime,
     badges,
   } = useProgress();
+  const { user, signOut } = useAuth();
   
   const [showExport, setShowExport] = useState(false);
   const [importData, setImportData] = useState('');
@@ -229,6 +231,25 @@ export default function Settings() {
           </div>
         </div>
       </div>
+
+      {/* Account */}
+      {user && (
+        <div className="mb-8 bg-gray-800 rounded-2xl border-2 border-gray-700 p-6">
+          <h2 className="text-xl font-bold mb-4">Account</h2>
+          <div className="space-y-4">
+            <div>
+              <p className="text-sm text-gray-400 mb-1">Signed in as</p>
+              <p className="font-medium">{user.email}</p>
+            </div>
+            <button
+              onClick={() => signOut()}
+              className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-xl transition-all"
+            >
+              Sign Out
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Data Management */}
       <div className="mb-8 bg-gray-800 rounded-2xl border-2 border-gray-700 p-6">

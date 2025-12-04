@@ -1,7 +1,8 @@
-import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { HashRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Layout from './components/Layout';
 import SplashScreen from './components/SplashScreen';
+import Auth from './components/Auth';
 import Home from './pages/Home';
 import Lessons from './pages/Lessons';
 import LessonRunner from './pages/LessonRunner';
@@ -11,6 +12,7 @@ import Translator from './pages/Translator';
 import Settings from './pages/Settings';
 import Review from './pages/Review';
 import { ProgressProvider } from './context/ProgressContext';
+import { AuthProvider, useAuth } from './context/AuthContext';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -46,11 +48,19 @@ function App() {
   }
 
   return (
-    <ProgressProvider>
+    <AuthProvider>
       <HashRouter>
         <ScrollToTop />
         <Routes>
-          <Route path="/" element={<Layout />}>
+          <Route path="/auth" element={<Auth />} />
+          <Route
+            path="/"
+            element={
+              <ProgressProvider>
+                <Layout />
+              </ProgressProvider>
+            }
+          >
             <Route index element={<Home />} />
             <Route path="lessons" element={<Lessons />} />
             <Route path="lessons/:lessonId" element={<LessonRunner />} />
@@ -60,9 +70,10 @@ function App() {
             <Route path="review" element={<Review />} />
             <Route path="settings" element={<Settings />} />
           </Route>
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </HashRouter>
-    </ProgressProvider>
+    </AuthProvider>
   )
 }
 
