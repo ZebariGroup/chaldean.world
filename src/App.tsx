@@ -12,7 +12,7 @@ import Translator from './pages/Translator';
 import Settings from './pages/Settings';
 import Review from './pages/Review';
 import { ProgressProvider } from './context/ProgressContext';
-import { AuthProvider, useAuth } from './context/AuthContext';
+import { AuthProvider } from './context/AuthContext';
 
 function ScrollToTop() {
   const { pathname } = useLocation();

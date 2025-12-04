@@ -5,7 +5,6 @@ import { dictionaryData } from '../data/dictionary';
 import { useMemo } from 'react';
 
 export default function Home() {
-  const { user } = useAuth();
   const { 
     currentStreak, 
     level,
