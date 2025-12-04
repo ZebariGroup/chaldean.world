@@ -84,7 +84,7 @@ function App() {
         </Routes>
       </HashRouter>
     </AuthProvider>
-  )
+  );
 }
 
 export default App;
