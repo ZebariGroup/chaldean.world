@@ -14,14 +14,14 @@ export default function Auth() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [emailSent, setEmailSent] = useState(false);
-  const { signIn, signUp, signInAsGuest, user } = useAuth();
+  const { signIn, signUp, signInAsGuest, user, isGuest } = useAuth();
 
-  // Redirect to home if already authenticated
+  // Redirect to home if already authenticated or in guest mode
   useEffect(() => {
-    if (user) {
+    if (user || isGuest) {
       navigate('/');
     }
-  }, [user, navigate]);
+  }, [user, isGuest, navigate]);
 
   // Update isSignUp when URL changes
   useEffect(() => {
