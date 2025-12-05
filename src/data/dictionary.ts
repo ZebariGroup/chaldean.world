@@ -1459,14 +1459,13 @@ export const dictionaryData: DictionaryEntry[] = [
 
 ];
 
-// Export a version with guaranteed, unique, and non-404 images.
-// We use Unsplash search with a deterministic signature per entry to avoid dead image IDs.
+// Export a version with guaranteed, unique images.
+// Using Picsum Photos (Lorem Picsum) for reliable placeholder images with deterministic seeds.
 export const dictionaryDataWithImages: DictionaryEntry[] = dictionaryData.map((entry, index) => {
-  const query = encodeURIComponent(`${entry.word} ${entry.translation} ${entry.category}`);
-  const sig = index + 1;
-  const uniqueUnsplash = `https://source.unsplash.com/800x800/?${query}&sig=${sig}`;
+  const seed = `${entry.word}-${entry.category}-${index}`.replace(/[^a-zA-Z0-9-]/g, '');
+  const picsumUrl = `https://picsum.photos/seed/${seed}/800/800`;
   return {
     ...entry,
-    image: uniqueUnsplash,
+    image: picsumUrl,
   };
 });
