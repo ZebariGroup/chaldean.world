@@ -13,7 +13,8 @@ export default function Auth() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
-  const { signIn, signUp, user } = useAuth();
+  const [emailSent, setEmailSent] = useState(false);
+  const { signIn, signUp, signInAsGuest, user } = useAuth();
 
   // Redirect to home if already authenticated
   useEffect(() => {
@@ -51,12 +52,19 @@ export default function Auth() {
 
     try {
       if (isSignUp) {
-        const { error } = await signUp(email, password);
+        const { error, data } = await signUp(email, password);
         if (error) {
           setError(error.message);
         } else {
-          setMessage('Account created successfully! Redirecting...');
-          // Redirect will happen automatically via useEffect when user is set
+          // Check if email confirmation is required
+          if (data?.user && !data?.session) {
+            // User created but needs email confirmation
+            setEmailSent(true);
+            setMessage(`Confirmation email sent to ${email}. Please check your inbox and click the confirmation link.`);
+          } else if (data?.session) {
+            // User is already confirmed (shouldn't happen with enable_confirmations=true, but handle it)
+            setMessage('Account created successfully! Redirecting...');
+          }
         }
       } else {
         const { error } = await signIn(email, password);
@@ -89,8 +97,44 @@ export default function Auth() {
           )}
 
           {message && (
-            <div className="bg-green-900/50 border border-green-700 text-green-200 px-4 py-3 rounded">
-              {message}
+            <div className={`${emailSent ? 'bg-blue-900/50 border-blue-700' : 'bg-green-900/50 border-green-700'} border text-${emailSent ? 'blue' : 'green'}-200 px-4 py-3 rounded`}>
+              <div className="flex items-start gap-2">
+                {emailSent && (
+                  <svg className="w-5 h-5 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                )}
+                <div>
+                  <p className="font-semibold mb-1">{emailSent ? 'Check Your Email' : 'Success'}</p>
+                  <p>{message}</p>
+                  {emailSent && (
+                    <p className="text-sm mt-2 opacity-90">
+                      Didn't receive the email? Check your spam folder or{' '}
+                      <button
+                        type="button"
+                        onClick={async () => {
+                          setLoading(true);
+                          try {
+                            const { error } = await signUp(email, password);
+                            if (error) {
+                              setError(error.message);
+                            } else {
+                              setMessage(`Confirmation email resent to ${email}.`);
+                            }
+                          } catch (err) {
+                            setError('Failed to resend email');
+                          } finally {
+                            setLoading(false);
+                          }
+                        }}
+                        className="underline hover:no-underline"
+                      >
+                        resend
+                      </button>
+                    </p>
+                  )}
+                </div>
+              </div>
             </div>
           )}
 
@@ -150,19 +194,39 @@ export default function Auth() {
           </button>
         </form>
 
-        <div className="mt-4 md:mt-6 text-center">
+        <div className="mt-4 md:mt-6 space-y-3">
+          <div className="text-center">
+            <button
+              onClick={() => {
+                setIsSignUp(!isSignUp);
+                setError(null);
+                setMessage(null);
+              }}
+              className="text-blue-400 hover:text-blue-300 text-sm"
+            >
+              {isSignUp
+                ? 'Already have an account? Sign in'
+                : "Don't have an account? Sign up"}
+            </button>
+          </div>
+          
+          <div className="relative flex items-center">
+            <div className="flex-grow border-t border-gray-600"></div>
+            <span className="flex-shrink mx-4 text-gray-400 text-sm">or</span>
+            <div className="flex-grow border-t border-gray-600"></div>
+          </div>
+          
           <button
             onClick={() => {
-              setIsSignUp(!isSignUp);
-              setError(null);
-              setMessage(null);
+              signInAsGuest();
             }}
-            className="text-blue-400 hover:text-blue-300 text-sm"
+            className="w-full bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-4 rounded-lg transition-colors border border-gray-600"
           >
-            {isSignUp
-              ? 'Already have an account? Sign in'
-              : "Don't have an account? Sign up"}
+            Continue as Guest
           </button>
+          <p className="text-xs text-gray-500 text-center">
+            Try the app without an account. Your progress will be saved locally.
+          </p>
         </div>
       </div>
     </div>

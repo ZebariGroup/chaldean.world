@@ -8,7 +8,7 @@ import UpdateNotification from './UpdateNotification';
 
 export default function Layout() {
   const { points, level, getWordsToReview } = useProgress();
-  const { user, signOut } = useAuth();
+  const { user, signOut, isGuest } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const wordsToReview = getWordsToReview().length;
@@ -71,7 +71,7 @@ export default function Layout() {
 
             {/* Points Display */}
             <div className="flex items-center gap-3">
-              {user && (
+              {(user || isGuest) && (
                 <>
                   <div className="hidden md:flex bg-gradient-to-br from-blue-600/20 to-blue-500/10 px-3 py-1.5 rounded-full border border-blue-500/50 items-center gap-2 shadow-lg">
                     <span className="text-blue-400 text-sm font-bold">LVL</span>
@@ -83,13 +83,18 @@ export default function Layout() {
                   </div>
                 </>
               )}
-              {user && (
+              {isGuest && (
+                <span className="hidden md:block text-xs text-gray-400 px-2 py-1 bg-gray-700/50 rounded">
+                  Guest
+                </span>
+              )}
+              {(user || isGuest) && (
                 <button
                   onClick={() => signOut()}
                   className="hidden md:block text-gray-300 hover:text-white px-3 py-1.5 rounded-md text-sm font-medium hover:bg-gray-700 transition-colors"
-                  title="Sign out"
+                  title={isGuest ? "Exit guest mode" : "Sign out"}
                 >
-                  Sign Out
+                  {isGuest ? "Exit Guest" : "Sign Out"}
                 </button>
               )}
 

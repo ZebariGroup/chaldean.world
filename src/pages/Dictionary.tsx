@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
-import { dictionaryData } from '../data/dictionary';
+import { dictionaryDataWithImages } from '../data/dictionary';
 import { useProgress } from '../context/ProgressContext';
 
 export default function Dictionary() {
@@ -20,7 +20,7 @@ export default function Dictionary() {
   }, [searchTerm]);
 
   const filteredWords = useMemo(() => {
-    let words = dictionaryData;
+    let words = dictionaryDataWithImages;
     
     // Filter by favorites if enabled
     if (showFavoritesOnly) {

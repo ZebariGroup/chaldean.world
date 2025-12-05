@@ -19,7 +19,7 @@ export default function Settings() {
     totalStudyTime,
     badges,
   } = useProgress();
-  const { user, signOut } = useAuth();
+  const { user, signOut, isGuest } = useAuth();
   
   const [showExport, setShowExport] = useState(false);
   const [importData, setImportData] = useState('');
@@ -233,23 +233,47 @@ export default function Settings() {
       </div>
 
       {/* Account */}
-      {user && (
-        <div className="mb-8 bg-gray-800 rounded-2xl border-2 border-gray-700 p-6">
-          <h2 className="text-xl font-bold mb-4">Account</h2>
-          <div className="space-y-4">
-            <div>
-              <p className="text-sm text-gray-400 mb-1">Signed in as</p>
-              <p className="font-medium">{user.email}</p>
-            </div>
-            <button
-              onClick={() => signOut()}
-              className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-xl transition-all"
-            >
-              Sign Out
-            </button>
-          </div>
+      <div className="mb-8 bg-gray-800 rounded-2xl border-2 border-gray-700 p-6">
+        <h2 className="text-xl font-bold mb-4">Account</h2>
+        <div className="space-y-4">
+          {isGuest ? (
+            <>
+              <div className="bg-yellow-900/30 border border-yellow-700 rounded-lg p-4">
+                <p className="text-sm text-yellow-200 mb-2">👤 Guest Mode</p>
+                <p className="text-xs text-gray-400">
+                  You're using the app as a guest. Your progress is saved locally on this device.
+                  Create an account to sync your progress across devices.
+                </p>
+              </div>
+              <a
+                href="/#/auth?mode=signup"
+                className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl transition-all text-center"
+              >
+                Create Account to Save Progress
+              </a>
+              <button
+                onClick={() => signOut()}
+                className="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-4 rounded-xl transition-all"
+              >
+                Exit Guest Mode
+              </button>
+            </>
+          ) : user ? (
+            <>
+              <div>
+                <p className="text-sm text-gray-400 mb-1">Signed in as</p>
+                <p className="font-medium">{user.email}</p>
+              </div>
+              <button
+                onClick={() => signOut()}
+                className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-xl transition-all"
+              >
+                Sign Out
+              </button>
+            </>
+          ) : null}
         </div>
-      )}
+      </div>
 
       {/* Data Management */}
       <div className="mb-8 bg-gray-800 rounded-2xl border-2 border-gray-700 p-6">

@@ -122,7 +122,7 @@ const defaultState: ProgressState = {
 const ProgressContext = createContext<ProgressContextType | undefined>(undefined);
 
 export function ProgressProvider({ children }: { children: ReactNode }) {
-  const { user } = useAuth();
+  const { user, isGuest } = useAuth();
   const [state, setState] = useState<ProgressState>(defaultState);
   const [loading, setLoading] = useState(true);
 
@@ -131,15 +131,30 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     const loadProgress = async () => {
       setLoading(true);
       try {
-        if (user) {
+        if (user && !isGuest) {
           // Load from Supabase
-          const { data: progressData, error: progressError } = await supabase
+          let { data: progressData, error: progressError } = await supabase
             .from('user_progress')
             .select('*')
             .eq('id', user.id)
             .single();
 
-          if (progressError && progressError.code !== 'PGRST116') {
+          // If no progress record exists, create one (lazy initialization)
+          if (progressError && progressError.code === 'PGRST116') {
+            console.log('Creating user_progress for new user...');
+            const { data: newProgress, error: insertError } = await supabase
+              .from('user_progress')
+              .insert({ id: user.id })
+              .select()
+              .single();
+            
+            if (insertError) {
+              console.error('Error creating user_progress:', insertError);
+            } else {
+              progressData = newProgress;
+              progressError = null;
+            }
+          } else if (progressError) {
             console.error('Error loading progress:', progressError);
           }
 
@@ -224,11 +239,11 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     };
 
     loadProgress();
-  }, [user]);
+  }, [user, isGuest]);
 
   // Save to Supabase or localStorage
   const saveProgress = useCallback(async (newState: ProgressState) => {
-    if (user) {
+    if (user && !isGuest) {
       try {
         // Update user_progress
         await supabase

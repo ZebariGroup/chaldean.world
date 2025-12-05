@@ -1,6 +1,15 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 export default function Welcome() {
+  const navigate = useNavigate();
+  const { signInAsGuest } = useAuth();
+
+  const handleGuestMode = () => {
+    signInAsGuest();
+    navigate('/');
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 text-white flex flex-col">
       {/* Hero Section */}
@@ -87,6 +96,24 @@ export default function Welcome() {
             >
               I already have an account
             </Link>
+          </div>
+          
+          {/* Guest Mode Option */}
+          <div className="mb-12">
+            <div className="relative flex items-center max-w-md mx-auto mb-4">
+              <div className="flex-grow border-t border-gray-700"></div>
+              <span className="flex-shrink mx-4 text-gray-500 text-sm">or</span>
+              <div className="flex-grow border-t border-gray-700"></div>
+            </div>
+            <button
+              onClick={handleGuestMode}
+              className="block w-full max-w-md mx-auto bg-gray-800/60 hover:bg-gray-800/80 border border-gray-700 text-gray-200 font-semibold py-3 px-6 rounded-xl text-base transition-all active:scale-95 backdrop-blur-sm"
+            >
+              Continue as Guest
+            </button>
+            <p className="text-xs text-gray-500 text-center mt-2 max-w-md mx-auto">
+              Try the app without creating an account. Your progress will be saved locally on this device.
+            </p>
           </div>
 
           {/* Additional Info */}
