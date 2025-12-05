@@ -157,7 +157,7 @@ export default function Dictionary() {
       </div>
 
       {filteredWords.length > 0 ? (
-        <div className="flex flex-col gap-3 md:grid md:gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className={`flex flex-col gap-3 ${viewMode === 'grid' ? 'md:grid md:gap-4 md:grid-cols-2 lg:grid-cols-3' : 'md:flex md:flex-col md:gap-3'}`}>
           {filteredWords.map((entry) => (
             <div 
               key={`${entry.word}-${entry.category}-${entry.translation}`} 
