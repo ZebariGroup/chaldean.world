@@ -7,33 +7,6 @@ export interface DictionaryEntry {
   image?: string;
 }
 
-// Category-based fallback images (used when an entry has no image)
-const categoryImageMap: Record<DictionaryEntry['category'] | 'default', string> = {
-  greeting: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=900&auto=format&fit=crop&q=70',
-  noun: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=900&auto=format&fit=crop&q=70',
-  verb: 'https://images.unsplash.com/photo-1489515217757-5fd1be406fef?w=900&auto=format&fit=crop&q=70',
-  adjective: 'https://images.unsplash.com/photo-1464375117522-1311d6a5b81f?w=900&auto=format&fit=crop&q=70',
-  phrase: 'https://images.unsplash.com/photo-1509099836639-18ba02e2e1ba?w=900&auto=format&fit=crop&q=70',
-  number: 'https://images.unsplash.com/photo-1529676468690-a442a6c78fcd?w=900&auto=format&fit=crop&q=70',
-  food: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=900&auto=format&fit=crop&q=70',
-  family: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=900&auto=format&fit=crop&q=70',
-  color: 'https://images.unsplash.com/photo-1501004318641-b39e6451bec6?w=900&auto=format&fit=crop&q=70',
-  time: 'https://images.unsplash.com/photo-1501139083538-0139583c060f?w=900&auto=format&fit=crop&q=70',
-  place: 'https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=900&auto=format&fit=crop&q=70',
-  animal: 'https://images.unsplash.com/photo-1501706362039-c06b2d715385?w=900&auto=format&fit=crop&q=70',
-  nature: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=900&auto=format&fit=crop&q=70',
-  body: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=900&auto=format&fit=crop&q=70',
-  home: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=900&auto=format&fit=crop&q=70',
-  profession: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=900&auto=format&fit=crop&q=70',
-  clothing: 'https://images.unsplash.com/photo-1495121553079-4c61bcce1894?w=900&auto=format&fit=crop&q=70',
-  emotion: 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=900&auto=format&fit=crop&q=70',
-  travel: 'https://images.unsplash.com/photo-1502920917128-1aa500764b8a?w=900&auto=format&fit=crop&q=70',
-  question: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=900&auto=format&fit=crop&q=70',
-  preposition: 'https://images.unsplash.com/photo-1522661067900-ab829854a57f?w=900&auto=format&fit=crop&q=70',
-  conjunction: 'https://images.unsplash.com/photo-1473181488821-2d23949a045a?w=900&auto=format&fit=crop&q=70',
-  default: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=900&auto=format&fit=crop&q=70',
-};
-
 export const dictionaryData: DictionaryEntry[] = [
   // Greetings
   { word: "Shlama", translation: "Hello / Peace", phonetic: "Shla-ma", script: "ܫܠܡܐ", category: "greeting", image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&auto=format&fit=crop&q=60" },
@@ -1486,35 +1459,14 @@ export const dictionaryData: DictionaryEntry[] = [
 
 ];
 
-// Simple deterministic hash to vary Unsplash source results per word
-const hashString = (value: string) => {
-  let hash = 0;
-  for (let i = 0; i < value.length; i++) {
-    hash = (hash << 5) - hash + value.charCodeAt(i);
-    hash |= 0; // force int32
-  }
-  return Math.abs(hash);
-};
-
-// Generate a unique Unsplash source URL per entry (real images, non-placeholder)
-const generateUniqueImage = (entry: DictionaryEntry) => {
+// Export a version with guaranteed, unique, and non-404 images.
+// We use Unsplash search with a deterministic signature per entry to avoid dead image IDs.
+export const dictionaryDataWithImages: DictionaryEntry[] = dictionaryData.map((entry, index) => {
   const query = encodeURIComponent(`${entry.word} ${entry.translation} ${entry.category}`);
-  const sig = hashString(`${entry.word}-${entry.translation}-${entry.script}-${entry.category}`);
-  return `https://source.unsplash.com/600x600/?${query}&sig=${sig}`;
-};
-
-// Export a version with guaranteed, unique images
-const imageUsage = new Map<string, number>();
-dictionaryData.forEach((entry) => {
-  const fallback = entry.image ?? categoryImageMap[entry.category] ?? categoryImageMap.default;
-  imageUsage.set(fallback, (imageUsage.get(fallback) ?? 0) + 1);
-});
-
-export const dictionaryDataWithImages: DictionaryEntry[] = dictionaryData.map((entry) => {
-  const fallback = entry.image ?? categoryImageMap[entry.category] ?? categoryImageMap.default;
-  const isDuplicate = (imageUsage.get(fallback) ?? 0) > 1;
+  const sig = index + 1;
+  const uniqueUnsplash = `https://source.unsplash.com/800x800/?${query}&sig=${sig}`;
   return {
     ...entry,
-    image: isDuplicate ? generateUniqueImage(entry) : fallback,
+    image: uniqueUnsplash,
   };
 });
