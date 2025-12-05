@@ -1459,13 +1459,22 @@ export const dictionaryData: DictionaryEntry[] = [
 
 ];
 
-// Export a version with guaranteed, unique images.
-// Using Picsum Photos (Lorem Picsum) for reliable placeholder images with deterministic seeds.
-export const dictionaryDataWithImages: DictionaryEntry[] = dictionaryData.map((entry, index) => {
-  const seed = `${entry.word}-${entry.category}-${index}`.replace(/[^a-zA-Z0-9-]/g, '');
-  const picsumUrl = `https://picsum.photos/seed/${seed}/800/800`;
+// Export a version with contextually relevant images.
+// For entries with existing curated images, keep them.
+// For missing images, use placeholder with the English translation as visual aid for learning.
+export const dictionaryDataWithImages: DictionaryEntry[] = dictionaryData.map((entry) => {
+  if (entry.image) {
+    return entry; // Keep curated images
+  }
+  
+  // For missing images: create a text-based placeholder showing the English meaning
+  // This helps learners associate the word with its meaning
+  const primaryTranslation = entry.translation.split(/[(/]/)[0].trim();
+  const displayText = encodeURIComponent(primaryTranslation);
+  const placeholderUrl = `https://placehold.co/800x800/2563eb/white?text=${displayText}&font=roboto`;
+  
   return {
     ...entry,
-    image: picsumUrl,
+    image: placeholderUrl,
   };
 });
