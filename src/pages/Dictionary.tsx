@@ -48,23 +48,34 @@ export default function Dictionary() {
         const wordLower = entry.word.toLowerCase();
         const translationLower = entry.translation.toLowerCase();
         const phoneticLower = entry.phonetic.toLowerCase();
+        const categoryLower = entry.category.toLowerCase();
         const script = entry.script;
 
+        // Exact matches - highest priority
         if (wordLower === searchLower) score += 100;
         if (translationLower === searchLower) score += 100;
         if (phoneticLower === searchLower) score += 100;
         if (script === debouncedSearchTerm) score += 100;
 
+        // Starts with - second priority
         if (wordLower.startsWith(searchLower)) score += 50;
         if (translationLower.startsWith(searchLower)) score += 50;
         if (phoneticLower.startsWith(searchLower)) score += 50;
         if (script.startsWith(debouncedSearchTerm)) score += 50;
 
+        // Word boundary matches - third priority
         if (searchRegex.test(wordLower)) score += 30;
         if (searchRegex.test(translationLower)) score += 30;
         if (searchRegex.test(phoneticLower)) score += 30;
         
+        // Contains matches - fourth priority
+        if (wordLower.includes(searchLower)) score += 20;
+        if (translationLower.includes(searchLower)) score += 20;
+        if (phoneticLower.includes(searchLower)) score += 20;
         if (script.includes(debouncedSearchTerm) && !script.startsWith(debouncedSearchTerm)) score += 10;
+        
+        // Category match - bonus points
+        if (categoryLower === searchLower || categoryLower.includes(searchLower)) score += 15;
 
         return { entry, score };
       })

@@ -17,13 +17,11 @@ export const dictionaryData: DictionaryEntry[] = [
   // Question Words
   { word: "Aykha", translation: "Where", phonetic: "Ay-kha", script: "ܐܝܟܐ", category: "question" },
   { word: "Mana", translation: "What", phonetic: "Ma-na", script: "ܡܢܐ", category: "question" },
-  { word: "Mana", translation: "Who", phonetic: "Ma-na", script: "ܡܢܐ", category: "question" },
   { word: "Aymat", translation: "When", phonetic: "Ay-mat", script: "ܐܝܡܬ", category: "question" },
   { word: "Lamana", translation: "Why", phonetic: "La-ma-na", script: "ܠܡܢܐ", category: "question" },
   { word: "Aykana", translation: "How", phonetic: "Ay-ka-na", script: "ܐܝܟܢܐ", category: "question" },
   { word: "Kama", translation: "How many/How much", phonetic: "Ka-ma", script: "ܟܡܐ", category: "question" },
   { word: "Ayna", translation: "Which", phonetic: "Ay-na", script: "ܐܝܢܐ", category: "question" },
-
   // Prepositions
   { word: "B-", translation: "In/At/With", phonetic: "B-", script: "ܒ", category: "preposition" },
   { word: "Min", translation: "From", phonetic: "Min", script: "ܡܢ", category: "preposition" },
@@ -67,8 +65,6 @@ export const dictionaryData: DictionaryEntry[] = [
 
   { word: "Shapirta", translation: "Beautiful (fem)", phonetic: "Sha-pir-ta", script: "ܫܦܝܪܬܐ", category: "adjective" },
 
-  { word: "Raba", translation: "Big", phonetic: "Ra-ba", script: "ܪܒܐ", category: "adjective" },
-
   { word: "Zora", translation: "Small", phonetic: "Zo-ra", script: "ܙܥܘܪܐ", category: "adjective" },
 
   { word: "Yarikha", translation: "Long", phonetic: "Ya-ri-kha", script: "ܝܪܝܟ݂ܐ", category: "adjective" },
@@ -79,9 +75,9 @@ export const dictionaryData: DictionaryEntry[] = [
 
   { word: "Atiqa", translation: "Old", phonetic: "A-ti-qa", script: "ܥܬܝܩܐ", category: "adjective" },
 
-  { word: "Khidiya", translation: "Happy", phonetic: "Khi-di-ya", script: "ܚܕܝܐ", category: "adjective" },
+  { word: "Khidiya", translation: "Happy", phonetic: "Khi-di-ya", script: "ܚܕܝܐ", category: "emotion" },
 
-  { word: "Kriwa", translation: "Sad", phonetic: "Kri-wa", script: "ܟܪܝܒܐ", category: "adjective" },
+  { word: "Kriwa", translation: "Sad", phonetic: "Kri-wa", script: "ܟܪܝܒܐ", category: "emotion" },
 
   { word: "Chilya", translation: "Tired", phonetic: "Chil-ya", script: "ܟܗܝܐ", category: "adjective" },
 
@@ -105,82 +101,43 @@ export const dictionaryData: DictionaryEntry[] = [
 
 
   // Colors
-  { word: "Smoqa", translation: "Red", phonetic: "Smo-qa", script: "ܣܡܘܩܐ", category: "adjective" },
-
-  { word: "Khawra", translation: "Blue", phonetic: "Khaw-ra", script: "ܟܘܪܐ", category: "adjective" },
-
-  { word: "Yaruka", translation: "Green", phonetic: "Ya-ru-ka", script: "ܝܪܘܩܐ", category: "adjective" },
-
-  { word: "Spera", translation: "Yellow", phonetic: "Spe-ra", script: "ܣܦܝܪܐ", category: "adjective" },
-
-  { word: "Ukma", translation: "Black", phonetic: "Uk-ma", script: "ܐܘܟܡܐ", category: "adjective" },
-
-  { word: "Khwara", translation: "White", phonetic: "Khwa-ra", script: "ܚܘܪܐ", category: "adjective" },
-
-  { word: "Portuqala", translation: "Orange", phonetic: "Por-tu-qa-la", script: "ܦܘܪܬܩܠܐ", category: "adjective" },
-
-  { word: "Banafsha", translation: "Purple", phonetic: "Ba-naf-sha", script: "ܒܢܦܫܐ", category: "adjective" },
-
-  { word: "Warda", translation: "Pink", phonetic: "War-da", script: "ܘܪܕܐ", category: "adjective" },
-
-  { word: "Qahwaya", translation: "Brown", phonetic: "Qah-wa-ya", script: "ܩܗܘܝܐ", category: "adjective" },
-
-  { word: "Rasasa", translation: "Grey", phonetic: "Ra-sa-sa", script: "ܪܨܨܐ", category: "adjective" },
-
-  { word: "Dahba", translation: "Gold", phonetic: "Dah-ba", script: "ܕܗܒܐ", category: "adjective" },
-
-  { word: "Sipa", translation: "Silver", phonetic: "Si-pa", script: "ܣܐܡܐ", category: "adjective" },
-
-  { word: "Bahra", translation: "Light (Color)", phonetic: "Bah-ra", script: "ܒܗܪܐ", category: "adjective" },
-
-  { word: "Khekha", translation: "Dark (Color)", phonetic: "Khe-kha", script: "ܚܘܟ݂ܐ", category: "adjective" },
+  { word: "Smoqa", translation: "Red", phonetic: "Smo-qa", script: "ܣܡܘܩܐ", category: "color" },
+  { word: "Khawra", translation: "Blue", phonetic: "Khaw-ra", script: "ܟܘܪܐ", category: "color" },
+  { word: "Yaruka", translation: "Green", phonetic: "Ya-ru-ka", script: "ܝܪܘܩܐ", category: "color" },
+  { word: "Spera", translation: "Yellow", phonetic: "Spe-ra", script: "ܣܦܝܪܐ", category: "color" },
+  { word: "Ukma", translation: "Black", phonetic: "Uk-ma", script: "ܐܘܟܡܐ", category: "color" },
+  { word: "Khwara", translation: "White", phonetic: "Khwa-ra", script: "ܚܘܪܐ", category: "color" },
+  { word: "Portuqala", translation: "Orange", phonetic: "Por-tu-qa-la", script: "ܦܘܪܬܩܠܐ", category: "color" },
+  { word: "Banafsha", translation: "Purple", phonetic: "Ba-naf-sha", script: "ܒܢܦܫܐ", category: "color" },
+  { word: "Warda", translation: "Pink", phonetic: "War-da", script: "ܘܪܕܐ", category: "color" },
+  { word: "Qahwaya", translation: "Brown", phonetic: "Qah-wa-ya", script: "ܩܗܘܝܐ", category: "color" },
+  { word: "Rasasa", translation: "Grey", phonetic: "Ra-sa-sa", script: "ܪܨܨܐ", category: "color" },
+  { word: "Dahba", translation: "Gold", phonetic: "Dah-ba", script: "ܕܗܒܐ", category: "color" },
+  { word: "Sipa", translation: "Silver", phonetic: "Si-pa", script: "ܣܐܡܐ", category: "color" },
+  { word: "Bahra", translation: "Light (Color)", phonetic: "Bah-ra", script: "ܒܗܪܐ", category: "color" },
+  { word: "Khekha", translation: "Dark (Color)", phonetic: "Khe-kha", script: "ܚܘܟ݂ܐ", category: "color" },
 
 
   // Family
-  { word: "Baba", translation: "Father", phonetic: "Ba-ba", script: "ܒܒܐ", category: "adjective" },
-
-  { word: "Abba", translation: "Father (Formal)", phonetic: "Ab-ba", script: "ܐܒܐ", category: "adjective" },
-
-  { word: "Yima", translation: "Mother", phonetic: "Yi-ma", script: "ܝܡܐ", category: "adjective" },
-
-  { word: "Imma", translation: "Mother (Formal)", phonetic: "Im-ma", script: "ܐܡܐ", category: "adjective" },
-
-  { word: "Akhona", translation: "Brother", phonetic: "A-kho-na", script: "ܐܚܘܢܐ", category: "adjective" },
-
-  { word: "Akh", translation: "Brother", phonetic: "Akh", script: "ܐܚܐ", category: "adjective" },
-
-  { word: "Khatha", translation: "Sister", phonetic: "Kha-tha", script: "ܚܬܐ", category: "adjective" },
-
-  { word: "Sawa", translation: "Grandfather", phonetic: "Sa-wa", script: "ܣܒܐ", category: "adjective" },
-
-  { word: "Sawtha", translation: "Grandmother", phonetic: "Saw-tha", script: "ܣܒܬܐ", category: "adjective" },
-
-  { word: "Amma", translation: "Uncle (Paternal)", phonetic: "Am-ma", script: "ܥܡܐ", category: "adjective" },
-
-  { word: "Khala", translation: "Uncle (Maternal)", phonetic: "Kha-la", script: "ܚܠܐ", category: "adjective" },
-
-  { word: "Bra", translation: "Son", phonetic: "Bra", script: "ܒܪܐ", category: "adjective" },
-
-  { word: "Brata", translation: "Daughter", phonetic: "Bra-ta", script: "ܒܪܬܐ", category: "adjective" },
-
-  { word: "Gawra", translation: "Husband", phonetic: "Gaw-ra", script: "ܓܒܪܐ", category: "adjective" },
-
-  { word: "Bakhta", translation: "Wife", phonetic: "Bakh-ta", script: "ܒܟ݂ܬܐ", category: "adjective" },
-
-  { word: "Nashwatha", translation: "Relatives/Family", phonetic: "Nash-wa-tha", script: "ܢܫܘܬܐ", category: "adjective" },
-
-  { word: "Yala", translation: "Child/Boy", phonetic: "Ya-la", script: "ܝܠܐ", category: "adjective" },
-
-  { word: "Brata", translation: "Girl", phonetic: "Bra-ta", script: "ܒܪܬܐ", category: "adjective" },
-
-  { word: "Gawra", translation: "Man", phonetic: "Gaw-ra", script: "ܓܒܪܐ", category: "adjective" },
-
-  { word: "Bakhta", translation: "Woman", phonetic: "Bakh-ta", script: "ܒܟ݂ܬܐ", category: "adjective" },
-
-  { word: "Nasha", translation: "Person", phonetic: "Na-sha", script: "ܢܫܐ", category: "adjective" },
-
-  { word: "Nashe", translation: "People", phonetic: "Na-she", script: "ܢܫܐ", category: "adjective" },
-
+  { word: "Baba", translation: "Father", phonetic: "Ba-ba", script: "ܒܒܐ", category: "family" },
+  { word: "Abba", translation: "Father (Formal)", phonetic: "Ab-ba", script: "ܐܒܐ", category: "family" },
+  { word: "Yima", translation: "Mother", phonetic: "Yi-ma", script: "ܝܡܐ", category: "family" },
+  { word: "Imma", translation: "Mother (Formal)", phonetic: "Im-ma", script: "ܐܡܐ", category: "family" },
+  { word: "Akhona", translation: "Brother", phonetic: "A-kho-na", script: "ܐܚܘܢܐ", category: "family" },
+  { word: "Akh", translation: "Brother", phonetic: "Akh", script: "ܐܚܐ", category: "family" },
+  { word: "Khatha", translation: "Sister", phonetic: "Kha-tha", script: "ܚܬܐ", category: "family" },
+  { word: "Sawa", translation: "Grandfather", phonetic: "Sa-wa", script: "ܣܒܐ", category: "family" },
+  { word: "Sawtha", translation: "Grandmother", phonetic: "Saw-tha", script: "ܣܒܬܐ", category: "family" },
+  { word: "Amma", translation: "Uncle (Paternal)", phonetic: "Am-ma", script: "ܥܡܐ", category: "family" },
+  { word: "Khala", translation: "Uncle (Maternal)", phonetic: "Kha-la", script: "ܚܠܐ", category: "family" },
+  { word: "Bra", translation: "Son", phonetic: "Bra", script: "ܒܪܐ", category: "family" },
+  { word: "Brata", translation: "Daughter", phonetic: "Bra-ta", script: "ܒܪܬܐ", category: "family" },
+  { word: "Gawra", translation: "Husband", phonetic: "Gaw-ra", script: "ܓܒܪܐ", category: "family" },
+  { word: "Bakhta", translation: "Wife", phonetic: "Bakh-ta", script: "ܒܟ݂ܬܐ", category: "family" },
+  { word: "Nashwatha", translation: "Relatives/Family", phonetic: "Nash-wa-tha", script: "ܢܫܘܬܐ", category: "family" },
+  { word: "Yala", translation: "Child/Boy", phonetic: "Ya-la", script: "ܝܠܐ", category: "noun" },
+  { word: "Nasha", translation: "Person", phonetic: "Na-sha", script: "ܢܫܐ", category: "noun" },
+  { word: "Nashe", translation: "People", phonetic: "Na-she", script: "ܢܫܐ", category: "noun" },
 
   // Food & Drink
   { word: "Mya", translation: "Water", phonetic: "M-ya", script: "ܡܝܐ", category: "food" },
@@ -209,111 +166,65 @@ export const dictionaryData: DictionaryEntry[] = [
   { word: "Inwe", translation: "Grapes", phonetic: "In-we", script: "ܥܢܒܐ", category: "food" },
 
   // Nouns & Objects
-  { word: "Alaha", translation: "God", phonetic: "A-la-ha", script: "ܐܠܗܐ", category: "adjective" },
-
-  { word: "Bayta", translation: "House", phonetic: "Bay-ta", script: "ܒܝܬܐ", category: "adjective" },
-
-  { word: "Sayara", translation: "Car", phonetic: "Sa-ya-ra", script: "ܣܝܪܐ", category: "adjective" },
-
-  { word: "Ktawa", translation: "Book", phonetic: "Kta-wa", script: "ܟܬܒܐ", category: "adjective" },
-
-  { word: "Qalama", translation: "Pen", phonetic: "Qa-la-ma", script: "ܩܠܡܐ", category: "adjective" },
-
-  { word: "Pata", translation: "Table/Face", phonetic: "Pa-ta", script: "ܦܬܐ", category: "adjective" },
-
-  { word: "Kursa", translation: "Chair", phonetic: "Kur-sa", script: "ܟܘܪܣܝܐ", category: "adjective" },
-
-  { word: "Itha", translation: "Hand", phonetic: "I-tha", script: "ܐܝܕܐ", category: "adjective" },
-
-  { word: "Reesha", translation: "Head", phonetic: "Ree-sha", script: "ܪܝܫܐ", category: "adjective" },
-
-  { word: "Libba", translation: "Heart", phonetic: "Lib-ba", script: "ܠܒܐ", category: "adjective" },
+  { word: "Alaha", translation: "God", phonetic: "A-la-ha", script: "ܐܠܗܐ", category: "noun" },
+  { word: "Bayta", translation: "House", phonetic: "Bay-ta", script: "ܒܝܬܐ", category: "noun" },
+  { word: "Sayara", translation: "Car", phonetic: "Sa-ya-ra", script: "ܣܝܪܐ", category: "noun" },
+  { word: "Ktawa", translation: "Book", phonetic: "Kta-wa", script: "ܟܬܒܐ", category: "noun" },
+  { word: "Qalama", translation: "Pen", phonetic: "Qa-la-ma", script: "ܩܠܡܐ", category: "noun" },
+  { word: "Pata", translation: "Table/Face", phonetic: "Pa-ta", script: "ܦܬܐ", category: "noun" },
+  { word: "Kursa", translation: "Chair", phonetic: "Kur-sa", script: "ܟܘܪܣܝܐ", category: "noun" },
+  { word: "Itha", translation: "Hand", phonetic: "I-tha", script: "ܐܝܕܐ", category: "body" },
+  { word: "Reesha", translation: "Head", phonetic: "Ree-sha", script: "ܪܝܫܐ", category: "body" },
+  { word: "Libba", translation: "Heart", phonetic: "Lib-ba", script: "ܠܒܐ", category: "body" },
 
 
   // Verbs (Infinitive/Root roughly)
-  { word: "Akhal", translation: "To Eat", phonetic: "A-khal", script: "ܐܟܠ", category: "adjective" },
-
-  { word: "Shtay", translation: "To Drink", phonetic: "Sh-tay", script: "ܫܬܐ", category: "adjective" },
-
-  { word: "Dmikh", translation: "To Sleep", phonetic: "D-mikh", script: "ܕܡܟ", category: "adjective" },
-
-  { word: "Yithib", translation: "To Sit", phonetic: "Yi-thib", script: "ܝܬܒ", category: "adjective" },
-
-  { word: "Qim", translation: "To Rise/Stand", phonetic: "Qim", script: "ܩܡ", category: "adjective" },
-
-  { word: "Khazi", translation: "To See", phonetic: "Kha-zi", script: "ܚܙܐ", category: "adjective" },
-
-  { word: "Sheme", translation: "To Hear", phonetic: "She-me", script: "ܫܡܥ", category: "adjective" },
-
-  { word: "Azil", translation: "To Go", phonetic: "A-zil", script: "ܐܙܠ", category: "adjective" },
-
-  { word: "Athi", translation: "To Come", phonetic: "A-thi", script: "ܐܬܐ", category: "adjective" },
-
-  { word: "Ktiv", translation: "To Write", phonetic: "K-tiv", script: "ܟܬܒ", category: "adjective" },
-
-  { word: "Qari", translation: "To Read", phonetic: "Qa-ri", script: "ܩܪܐ", category: "adjective" },
-
-  { word: "Pthakh", translation: "To Open", phonetic: "Pthakh", script: "ܦܬܚ", category: "adjective" },
-
-  { word: "Dwiq", translation: "To Close/Hold", phonetic: "Dwiq", script: "ܕܒܩ", category: "adjective" },
-
-  { word: "Shqil", translation: "To Take/Buy", phonetic: "Shqil", script: "ܫܩܠ", category: "adjective" },
-
-  { word: "Hiw", translation: "To Give", phonetic: "Hiw", script: "ܝܗܒ", category: "adjective" },
-
-  { word: "Ba'ay", translation: "To Want/Love", phonetic: "Ba-ay", script: "ܒܥܐ", category: "adjective" },
-
-  { word: "Yadi", translation: "To Know", phonetic: "Ya-di", script: "ܝܕܥ", category: "adjective" },
-
-  { word: "Pol", translation: "To Work", phonetic: "Pol", script: "ܦܠܚ", category: "adjective" },
-
-  { word: "Mtal", translation: "To Play", phonetic: "Mtal", script: "ܡܛܠ", category: "adjective" },
-
-  { word: "Mahki", translation: "To Speak", phonetic: "Mah-ki", script: "ܡܚܟܐ", category: "adjective" },
-
-  { word: "Rkhosh", translation: "To Walk", phonetic: "Rkhosh", script: "ܪܚܫ", category: "adjective" },
-
-  { word: "Rhit", translation: "To Run", phonetic: "Rhit", script: "ܪܗܛ", category: "adjective" },
-
-  { word: "Gkhikh", translation: "To Laugh", phonetic: "Gkhikh", script: "ܓܚܟ", category: "adjective" },
-
-  { word: "Bkhe", translation: "To Cry", phonetic: "Bkhe", script: "ܒܟܐ", category: "adjective" },
+  { word: "Akhal", translation: "To Eat", phonetic: "A-khal", script: "ܐܟܠ", category: "verb" },
+  { word: "Shtay", translation: "To Drink", phonetic: "Sh-tay", script: "ܫܬܐ", category: "verb" },
+  { word: "Dmikh", translation: "To Sleep", phonetic: "D-mikh", script: "ܕܡܟ", category: "verb" },
+  { word: "Yithib", translation: "To Sit", phonetic: "Yi-thib", script: "ܝܬܒ", category: "verb" },
+  { word: "Qim", translation: "To Rise/Stand", phonetic: "Qim", script: "ܩܡ", category: "verb" },
+  { word: "Khazi", translation: "To See", phonetic: "Kha-zi", script: "ܚܙܐ", category: "verb" },
+  { word: "Sheme", translation: "To Hear", phonetic: "She-me", script: "ܫܡܥ", category: "verb" },
+  { word: "Azil", translation: "To Go", phonetic: "A-zil", script: "ܐܙܠ", category: "verb" },
+  { word: "Athi", translation: "To Come", phonetic: "A-thi", script: "ܐܬܐ", category: "verb" },
+  { word: "Ktiv", translation: "To Write", phonetic: "K-tiv", script: "ܟܬܒ", category: "verb" },
+  { word: "Qari", translation: "To Read", phonetic: "Qa-ri", script: "ܩܪܐ", category: "verb" },
+  { word: "Pthakh", translation: "To Open", phonetic: "Pthakh", script: "ܦܬܚ", category: "verb" },
+  { word: "Dwiq", translation: "To Close/Hold", phonetic: "Dwiq", script: "ܕܒܩ", category: "verb" },
+  { word: "Shqil", translation: "To Take/Buy", phonetic: "Shqil", script: "ܫܩܠ", category: "verb" },
+  { word: "Hiw", translation: "To Give", phonetic: "Hiw", script: "ܝܗܒ", category: "verb" },
+  { word: "Ba'ay", translation: "To Want/Love", phonetic: "Ba-ay", script: "ܒܥܐ", category: "verb" },
+  { word: "Yadi", translation: "To Know", phonetic: "Ya-di", script: "ܝܕܥ", category: "verb" },
+  { word: "Pol", translation: "To Work", phonetic: "Pol", script: "ܦܠܚ", category: "verb" },
+  { word: "Mtal", translation: "To Play", phonetic: "Mtal", script: "ܡܛܠ", category: "verb" },
+  { word: "Mahki", translation: "To Speak", phonetic: "Mah-ki", script: "ܡܚܟܐ", category: "verb" },
+  { word: "Rkhosh", translation: "To Walk", phonetic: "Rkhosh", script: "ܪܚܫ", category: "verb" },
+  { word: "Rhit", translation: "To Run", phonetic: "Rhit", script: "ܪܗܛ", category: "verb" },
+  { word: "Gkhikh", translation: "To Laugh", phonetic: "Gkhikh", script: "ܓܚܟ", category: "verb" },
+  { word: "Bkhe", translation: "To Cry", phonetic: "Bkhe", script: "ܒܟܐ", category: "verb" },
 
 
   // Numbers
-  { word: "Kha", translation: "One", phonetic: "Kha", script: "ܚܕ", category: "adjective" },
-
-  { word: "Tre", translation: "Two", phonetic: "Tre", script: "ܬܪܝܢ", category: "adjective" },
-
-  { word: "Tlatha", translation: "Three", phonetic: "Tla-tha", script: "ܬܠܬܐ", category: "adjective" },
-
-  { word: "Arba", translation: "Four", phonetic: "Ar-ba", script: "ܐܪܒܥܐ", category: "adjective" },
-
-  { word: "Khamsha", translation: "Five", phonetic: "Kham-sha", script: "ܚܡܫܐ", category: "adjective" },
-
-  { word: "Ishta", translation: "Six", phonetic: "Ish-ta", script: "ܐܫܬܐ", category: "adjective" },
-
-  { word: "Shwa", translation: "Seven", phonetic: "Shwa", script: "ܫܒܥܐ", category: "adjective" },
-
-  { word: "Tmanya", translation: "Eight", phonetic: "Tman-ya", script: "ܬܡܢܝܐ", category: "adjective" },
-
-  { word: "Tisha", translation: "Nine", phonetic: "Ti-sha", script: "ܬܫܥܐ", category: "adjective" },
-
-  { word: "Asar", translation: "Ten", phonetic: "A-sar", script: "ܥܣܪܐ", category: "adjective" },
+  { word: "Kha", translation: "One", phonetic: "Kha", script: "ܚܕ", category: "number" },
+  { word: "Tre", translation: "Two", phonetic: "Tre", script: "ܬܪܝܢ", category: "number" },
+  { word: "Tlatha", translation: "Three", phonetic: "Tla-tha", script: "ܬܠܬܐ", category: "number" },
+  { word: "Arba", translation: "Four", phonetic: "Ar-ba", script: "ܐܪܒܥܐ", category: "number" },
+  { word: "Khamsha", translation: "Five", phonetic: "Kham-sha", script: "ܚܡܫܐ", category: "number" },
+  { word: "Ishta", translation: "Six", phonetic: "Ish-ta", script: "ܐܫܬܐ", category: "number" },
+  { word: "Shwa", translation: "Seven", phonetic: "Shwa", script: "ܫܒܥܐ", category: "number" },
+  { word: "Tmanya", translation: "Eight", phonetic: "Tman-ya", script: "ܬܡܢܝܐ", category: "number" },
+  { word: "Tisha", translation: "Nine", phonetic: "Ti-sha", script: "ܬܫܥܐ", category: "number" },
+  { word: "Asar", translation: "Ten", phonetic: "A-sar", script: "ܥܣܪܐ", category: "number" },
 
 
   // Time
-  { word: "Yoma", translation: "Day", phonetic: "Yo-ma", script: "ܝܘܡܐ", category: "adjective" },
-
-  { word: "Lelya", translation: "Night", phonetic: "Lel-ya", script: "ܠܠܝܐ", category: "adjective" },
-
-  { word: "Idyo", translation: "Today", phonetic: "Id-yo", script: "ܐܕܝܘ", category: "adjective" },
-
-  { word: "Timmal", translation: "Yesterday", phonetic: "Tim-mal", script: "ܬܡܠ", category: "adjective" },
-
-  { word: "Qam", translation: "Tomorrow", phonetic: "Qam", script: "ܩܐܡ", category: "adjective" },
-
-  { word: "Shabta", translation: "Saturday / Week", phonetic: "Shab-ta", script: "ܫܒܬܐ", category: "adjective" },
+  { word: "Yoma", translation: "Day", phonetic: "Yo-ma", script: "ܝܘܡܐ", category: "time" },
+  { word: "Lelya", translation: "Night", phonetic: "Lel-ya", script: "ܠܠܝܐ", category: "time" },
+  { word: "Idyo", translation: "Today", phonetic: "Id-yo", script: "ܐܕܝܘ", category: "time" },
+  { word: "Timmal", translation: "Yesterday", phonetic: "Tim-mal", script: "ܬܡܠ", category: "time" },
+  { word: "Qam", translation: "Tomorrow", phonetic: "Qam", script: "ܩܐܡ", category: "time" },
+  { word: "Shabta", translation: "Saturday / Week", phonetic: "Shab-ta", script: "ܫܒܬܐ", category: "time" },
 
 
   // Animals
@@ -326,29 +237,27 @@ export const dictionaryData: DictionaryEntry[] = [
   { word: "Arva", translation: "Sheep", phonetic: "Ar-va", script: "ܐܪܒܐ", category: "animal" },
 
   // Nature
-  { word: "Shimsha", translation: "Sun", phonetic: "Shim-sha", script: "ܫܡܫܐ", category: "adjective" },
+  { word: "Shimsha", translation: "Sun", phonetic: "Shim-sha", script: "ܫܡܫܐ", category: "nature" },
 
-  { word: "Sahra", translation: "Moon", phonetic: "Sah-ra", script: "ܣܗܪܐ", category: "adjective" },
+  { word: "Sahra", translation: "Moon", phonetic: "Sah-ra", script: "ܣܗܪܐ", category: "nature" },
 
-  { word: "Kokhva", translation: "Star", phonetic: "Kokh-va", script: "ܟܘܟܒܐ", category: "adjective" },
+  { word: "Kokhva", translation: "Star", phonetic: "Kokh-va", script: "ܟܘܟܒܐ", category: "nature" },
 
-  { word: "Matra", translation: "Rain", phonetic: "Mat-ra", script: "ܡܛܪܐ", category: "adjective" },
+  { word: "Matra", translation: "Rain", phonetic: "Mat-ra", script: "ܡܛܪܐ", category: "nature" },
 
-  { word: "Talga", translation: "Snow", phonetic: "Tal-ga", script: "ܬܠܓܐ", category: "adjective" },
+  { word: "Talga", translation: "Snow", phonetic: "Tal-ga", script: "ܬܠܓܐ", category: "nature" },
 
-  { word: "Nura", translation: "Fire", phonetic: "Nu-ra", script: "ܢܘܪܐ", category: "adjective" },
+  { word: "Nura", translation: "Fire", phonetic: "Nu-ra", script: "ܢܘܪܐ", category: "nature" },
 
-  { word: "Opra", translation: "Earth/Dust", phonetic: "Op-ra", script: "ܥܦܪܐ", category: "adjective" },
+  { word: "Opra", translation: "Earth/Dust", phonetic: "Op-ra", script: "ܥܦܪܐ", category: "nature" },
 
   { word: "Ilana", translation: "Tree", phonetic: "I-la-na", script: "ܐܝܠܢܐ", category: "nature" },
-  { word: "Warda", translation: "Flower", phonetic: "War-da", script: "ܘܪܕܐ", category: "nature" },
   { word: "Nahra", translation: "River", phonetic: "Nah-ra", script: "ܢܗܪܐ", category: "nature" },
   { word: "Yama", translation: "Sea/Lake", phonetic: "Ya-ma", script: "ܝܡܐ", category: "nature" },
   { word: "Tura", translation: "Mountain", phonetic: "Tu-ra", script: "ܛܘܪܐ", category: "nature" },
   { word: "Genta", translation: "Garden", phonetic: "Gen-ta", script: "ܓܢܬܐ", category: "nature" },
-  { word: "Aywa", translation: "Cloud", phonetic: "Ay-wa", script: "ܥܝܒܐ", category: "adjective" },
-
-  { word: "Powkha", translation: "Wind/Air", phonetic: "Pow-kha", script: "ܦܘܚܐ", category: "adjective" },
+  { word: "Aywa", translation: "Cloud", phonetic: "Ay-wa", script: "ܥܝܒܐ", category: "nature" },
+  { word: "Powkha", translation: "Wind/Air", phonetic: "Pow-kha", script: "ܦܘܚܐ", category: "nature" },
 
   { word: "Qarira", translation: "Cold", phonetic: "Qa-ri-ra", script: "ܩܪܝܪܐ", category: "adjective" },
 
@@ -356,81 +265,75 @@ export const dictionaryData: DictionaryEntry[] = [
 
 
   // Body
-  { word: "Ena", translation: "Eye", phonetic: "E-na", script: "ܥܝܢܐ", category: "adjective" },
+  { word: "Ena", translation: "Eye", phonetic: "E-na", script: "ܥܝܢܐ", category: "body" },
 
-  { word: "Nakhira", translation: "Nose", phonetic: "Na-khi-ra", script: "ܢܚܝܪܐ", category: "adjective" },
+  { word: "Nakhira", translation: "Nose", phonetic: "Na-khi-ra", script: "ܢܚܝܪܐ", category: "body" },
 
-  { word: "Puma", translation: "Mouth", phonetic: "Pu-ma", script: "ܦܘܡܐ", category: "adjective" },
+  { word: "Puma", translation: "Mouth", phonetic: "Pu-ma", script: "ܦܘܡܐ", category: "body" },
 
-  { word: "Odna", translation: "Ear", phonetic: "Od-na", script: "ܐܕܢܐ", category: "adjective" },
+  { word: "Odna", translation: "Ear", phonetic: "Od-na", script: "ܐܕܢܐ", category: "body" },
 
-  { word: "Regla", translation: "Foot/Leg", phonetic: "Reg-la", script: "ܪܓܠܐ", category: "adjective" },
+  { word: "Regla", translation: "Foot/Leg", phonetic: "Reg-la", script: "ܪܓܠܐ", category: "body" },
 
-  { word: "Lishana", translation: "Tongue/Language", phonetic: "Li-sha-na", script: "ܠܫܢܐ", category: "adjective" },
+  { word: "Lishana", translation: "Tongue/Language", phonetic: "Li-sha-na", script: "ܠܫܢܐ", category: "body" },
 
-  { word: "Shina", translation: "Tooth", phonetic: "Shi-na", script: "ܫܢܐ", category: "adjective" },
+  { word: "Shina", translation: "Tooth", phonetic: "Shi-na", script: "ܫܢܐ", category: "body" },
 
-  { word: "Sa'ra", translation: "Hair", phonetic: "Sa-ra", script: "ܣܥܪܐ", category: "adjective" },
+  { word: "Sa'ra", translation: "Hair", phonetic: "Sa-ra", script: "ܣܥܪܐ", category: "body" },
 
-  { word: "Pata", translation: "Face", phonetic: "Pa-ta", script: "ܦܬܐ", category: "adjective" },
+  { word: "Khade", translation: "Chest", phonetic: "Kha-de", script: "ܚܕܝܐ", category: "body" },
 
-  { word: "Khade", translation: "Chest", phonetic: "Kha-de", script: "ܚܕܝܐ", category: "adjective" },
+  { word: "Kasa", translation: "Stomach/Belly", phonetic: "Ka-sa", script: "ܟܪܣܐ", category: "body" },
 
-  { word: "Kasa", translation: "Stomach/Belly", phonetic: "Ka-sa", script: "ܟܪܣܐ", category: "adjective" },
+  { word: "Khasa", translation: "Back", phonetic: "Kha-sa", script: "ܚܨܐ", category: "body" },
 
-  { word: "Khasa", translation: "Back", phonetic: "Kha-sa", script: "ܚܨܐ", category: "adjective" },
+  { word: "Dra'a", translation: "Arm", phonetic: "Dra-a", script: "ܕܪܥܐ", category: "body" },
 
-  { word: "Dra'a", translation: "Arm", phonetic: "Dra-a", script: "ܕܪܥܐ", category: "adjective" },
-
-  { word: "Siv'a", translation: "Finger", phonetic: "Siv-a", script: "ܨܒܥܐ", category: "adjective" },
+  { word: "Siv'a", translation: "Finger", phonetic: "Siv-a", script: "ܨܒܥܐ", category: "body" },
 
   { word: "Burka", translation: "Knee", phonetic: "Bur-ka", script: "ܒܘܪܟܐ", category: "adjective" },
 
 
   // Home
-  { word: "Tarra", translation: "Door", phonetic: "Tar-ra", script: "ܬܪܥܐ", category: "adjective" },
+  { word: "Tarra", translation: "Door", phonetic: "Tar-ra", script: "ܬܪܥܐ", category: "noun" },
 
-  { word: "Kawtha", translation: "Window", phonetic: "Kaw-tha", script: "ܟܘܬܐ", category: "adjective" },
+  { word: "Kawtha", translation: "Window", phonetic: "Kaw-tha", script: "ܟܘܬܐ", category: "nature" },
 
-  { word: "Igara", translation: "Roof", phonetic: "I-ga-ra", script: "ܐܓܪܐ", category: "adjective" },
+  { word: "Igara", translation: "Roof", phonetic: "I-ga-ra", script: "ܐܓܪܐ", category: "noun" },
 
   { word: "Shwitha", translation: "Bed", phonetic: "Shwi-tha", script: "ܫܘܝܬܐ", category: "adjective" },
 
-  { word: "Matbakh", translation: "Kitchen", phonetic: "Mat-bakh", script: "ܡܛܒܟ݂", category: "adjective" },
+  { word: "Matbakh", translation: "Kitchen", phonetic: "Mat-bakh", script: "ܡܛܒܟ݂", category: "noun" },
 
-  { word: "Khamama", translation: "Bathroom", phonetic: "Kha-ma-ma", script: "ܚܡܐܡܐ", category: "adjective" },
+  { word: "Khamama", translation: "Bathroom", phonetic: "Kha-ma-ma", script: "ܚܡܐܡܐ", category: "noun" },
 
-  { word: "Oda", translation: "Room/Bedroom", phonetic: "O-da", script: "ܐܘܕܐ", category: "adjective" },
+  { word: "Oda", translation: "Room/Bedroom", phonetic: "O-da", script: "ܐܘܕܐ", category: "noun" },
 
-  { word: "Igara", translation: "Wall", phonetic: "I-ga-ra", script: "ܐܓܪܐ", category: "adjective" },
+  { word: "Ar'a", translation: "Floor/Ground", phonetic: "Ar-a", script: "ܐܪܥܐ", category: "noun" },
 
-  { word: "Ar'a", translation: "Floor/Ground", phonetic: "Ar-a", script: "ܐܪܥܐ", category: "adjective" },
+  { word: "Qleeda", translation: "Key", phonetic: "Qlee-da", script: "ܩܠܝܕܐ", category: "home" },
 
-  { word: "Qleeda", translation: "Key", phonetic: "Qlee-da", script: "ܩܠܝܕܐ", category: "adjective" },
+  { word: "Sahna", translation: "Plate", phonetic: "Sah-na", script: "ܨܚܢܐ", category: "home" },
 
-  { word: "Bahra", translation: "Light", phonetic: "Bah-ra", script: "ܒܗܪܐ", category: "adjective" },
+  { word: "Kchamcha", translation: "Spoon", phonetic: "Kcham-cha", script: "ܟܡܟܐ", category: "home" },
 
-  { word: "Sahna", translation: "Plate", phonetic: "Sah-na", script: "ܨܚܢܐ", category: "adjective" },
+  { word: "Changala", translation: "Fork", phonetic: "Chan-ga-la", script: "ܟܢܓܠܐ", category: "home" },
 
-  { word: "Kchamcha", translation: "Spoon", phonetic: "Kcham-cha", script: "ܟܡܟܐ", category: "adjective" },
+  { word: "Sakina", translation: "Knife", phonetic: "Sa-ki-na", script: "ܣܟܝܢܐ", category: "home" },
 
-  { word: "Changala", translation: "Fork", phonetic: "Chan-ga-la", script: "ܟܢܓܠܐ", category: "adjective" },
+  { word: "Stikana", translation: "Cup (Tea)", phonetic: "Sti-ka-na", script: "ܐܣܬܟܢܐ", category: "home" },
 
-  { word: "Sakina", translation: "Knife", phonetic: "Sa-ki-na", script: "ܣܟܝܢܐ", category: "adjective" },
-
-  { word: "Stikana", translation: "Cup (Tea)", phonetic: "Sti-ka-na", script: "ܐܣܬܟܢܐ", category: "adjective" },
-
-  { word: "Glasa", translation: "Glass", phonetic: "Gla-sa", script: "ܓܠܣܐ", category: "adjective" },
+  { word: "Glasa", translation: "Glass", phonetic: "Gla-sa", script: "ܓܠܣܐ", category: "home" },
 
 
   // Clothing
-  { word: "Sudra", translation: "Shirt", phonetic: "Sud-ra", script: "ܨܘܕܪܐ", category: "adjective" },
+  { word: "Sudra", translation: "Shirt", phonetic: "Sud-ra", script: "ܨܘܕܪܐ", category: "clothing" },
 
-  { word: "Sharwala", translation: "Pants", phonetic: "Shar-wa-la", script: "ܫܪܘܠܐ", category: "adjective" },
+  { word: "Sharwala", translation: "Pants", phonetic: "Shar-wa-la", script: "ܫܪܘܠܐ", category: "clothing" },
 
-  { word: "Soltha", translation: "Shoe", phonetic: "Sol-tha", script: "ܣܘܠܬܐ", category: "adjective" },
+  { word: "Soltha", translation: "Shoe", phonetic: "Sol-tha", script: "ܣܘܠܬܐ", category: "clothing" },
 
-  { word: "Kusitha", translation: "Hat/Cap", phonetic: "Ku-si-tha", script: "ܟܘܣܝܬܐ", category: "adjective" },
+  { word: "Kusitha", translation: "Hat/Cap", phonetic: "Ku-si-tha", script: "ܟܘܣܝܬܐ", category: "clothing" },
 
 
   // Places
@@ -441,7 +344,7 @@ export const dictionaryData: DictionaryEntry[] = [
   { word: "Medina", translation: "City", phonetic: "Me-di-na", script: "ܡܕܝܢܬܐ", category: "place" },
   { word: "Bayta d-Asye", translation: "Hospital", phonetic: "Bay-ta d-As-ye", script: "ܒܝܬ ܐܣܝܐ", category: "place" },
   { word: "Dukana", translation: "Store/Shop", phonetic: "Du-ka-na", script: "ܕܘܟܢܐ", category: "place" },
-  { word: "Be-Sawa", translation: "Grandfather's House", phonetic: "Be-Sa-wa", script: "ܒܝܬ ܣܒܐ", category: "adjective" },
+  { word: "Be-Sawa", translation: "Grandfather's House", phonetic: "Be-Sa-wa", script: "ܒܝܬ ܣܒܐ", category: "place" },
 
   { word: "Khakla", translation: "Field/Farm", phonetic: "Khak-la", script: "ܚܩܠܐ", category: "place" },
   { word: "Parqa", translation: "Park", phonetic: "Par-qa", script: "ܦܪܩܐ", category: "place" },
@@ -462,83 +365,65 @@ export const dictionaryData: DictionaryEntry[] = [
   { word: "Falaha", translation: "Farmer", phonetic: "Fa-la-ha", script: "ܦܠܚܐ", category: "profession" },
 
   // Emotions
-  { word: "Khidiya", translation: "Happy (masc)", phonetic: "Khi-di-ya", script: "ܚܕܝܐ", category: "adjective" },
+  { word: "Khiditha", translation: "Happy (fem)", phonetic: "Khi-di-tha", script: "ܚܕܝܬܐ", category: "emotion" },
 
-  { word: "Khiditha", translation: "Happy (fem)", phonetic: "Khi-di-tha", script: "ܚܕܝܬܐ", category: "adjective" },
+  { word: "Krivta", translation: "Sad (fem)", phonetic: "Kriv-ta", script: "ܟܪܝܒܬܐ", category: "emotion" },
 
-  { word: "Kriwa", translation: "Sad (masc)", phonetic: "Kri-wa", script: "ܟܪܝܒܐ", category: "adjective" },
+  { word: "Karpana", translation: "Angry", phonetic: "Kar-pa-na", script: "ܟܪܦܢܐ", category: "emotion" },
 
-  { word: "Krivta", translation: "Sad (fem)", phonetic: "Kriv-ta", script: "ܟܪܝܒܬܐ", category: "adjective" },
-
-  { word: "Karpana", translation: "Angry", phonetic: "Kar-pa-na", script: "ܟܪܦܢܐ", category: "adjective" },
-
-  { word: "Zdi'a", translation: "Scared", phonetic: "Zdi-a", script: "ܙܕܝܥܐ", category: "adjective" },
+  { word: "Zdi'a", translation: "Scared", phonetic: "Zdi-a", script: "ܙܕܝܥܐ", category: "emotion" },
 
 
   // Travel
   { word: "Orkha", translation: "Road/Way", phonetic: "Or-kha", script: "ܐܘܪܚܐ", category: "travel" },
   { word: "Tayara", translation: "Airplane", phonetic: "Ta-ya-ra", script: "ܛܝܪܐ", category: "travel" },
   { word: "Bosta", translation: "Bus", phonetic: "Bos-ta", script: "ܒܐܨ", category: "travel" },
-  { word: "Pasport", translation: "Passport", phonetic: "Pas-port", script: "ܦܣܦܘܪܬ", category: "adjective" },
+  { word: "Pasport", translation: "Passport", phonetic: "Pas-port", script: "ܦܣܦܘܪܬ", category: "travel" },
 
-  { word: "Tiket", translation: "Ticket", phonetic: "Ti-ket", script: "ܬܝܟܬ", category: "adjective" },
+  { word: "Tiket", translation: "Ticket", phonetic: "Ti-ket", script: "ܬܝܟܬ", category: "travel" },
 
-  { word: "Mata", translation: "Luggage/Things", phonetic: "Ma-ta", script: "ܡܐܬܐ", category: "adjective" },
+  { word: "Mata", translation: "Luggage/Things", phonetic: "Ma-ta", script: "ܡܐܬܐ", category: "travel" },
 
 
   // More Time
-  { word: "Sa'at", translation: "Hour/Clock", phonetic: "Sa-at", script: "ܣܥܬ", category: "adjective" },
+  { word: "Sa'at", translation: "Hour/Clock", phonetic: "Sa-at", script: "ܣܥܬ", category: "time" },
 
-  { word: "Daqiqa", translation: "Minute", phonetic: "Da-qi-qa", script: "ܕܩܝܩܐ", category: "adjective" },
+  { word: "Daqiqa", translation: "Minute", phonetic: "Da-qi-qa", script: "ܕܩܝܩܐ", category: "time" },
 
-  { word: "Shita", translation: "Year", phonetic: "Shi-ta", script: "ܫܢܬܐ", category: "adjective" },
+  { word: "Shita", translation: "Year", phonetic: "Shi-ta", script: "ܫܢܬܐ", category: "time" },
 
-  { word: "Yargha", translation: "Month", phonetic: "Yar-gha", script: "ܝܪܚܐ", category: "adjective" },
+  { word: "Yargha", translation: "Month", phonetic: "Yar-gha", script: "ܝܪܚܐ", category: "time" },
 
-  { word: "Hasa", translation: "Now", phonetic: "Ha-sa", script: "ܗܣܐ", category: "adjective" },
+  { word: "Hasa", translation: "Now", phonetic: "Ha-sa", script: "ܗܣܐ", category: "time" },
 
-  { word: "Bathar", translation: "Later/After", phonetic: "Ba-thar", script: "ܒܬܪ", category: "adjective" },
+  { word: "Qam", translation: "Before", phonetic: "Qam", script: "ܩܡ", category: "time" },
 
-  { word: "Qam", translation: "Before", phonetic: "Qam", script: "ܩܡ", category: "adjective" },
+  { word: "Sipra", translation: "Morning", phonetic: "Sip-ra", script: "ܨܦܪܐ", category: "time" },
 
-  { word: "Sipra", translation: "Morning", phonetic: "Sip-ra", script: "ܨܦܪܐ", category: "adjective" },
-
-  { word: "Ramsha", translation: "Evening", phonetic: "Ram-sha", script: "ܪܡܫܐ", category: "adjective" },
+  { word: "Ramsha", translation: "Evening", phonetic: "Ram-sha", script: "ܪܡܫܐ", category: "time" },
 
 
   // More Numbers
-  { word: "Khadassar", translation: "Eleven", phonetic: "Kha-das-sar", script: "ܚܕܥܣܪ", category: "adjective" },
+  { word: "Khadassar", translation: "Eleven", phonetic: "Kha-das-sar", script: "ܚܕܥܣܪ", category: "number" },
 
-  { word: "Treissar", translation: "Twelve", phonetic: "Treis-sar", script: "ܬܪܥܣܪ", category: "adjective" },
+  { word: "Treissar", translation: "Twelve", phonetic: "Treis-sar", script: "ܬܪܥܣܪ", category: "number" },
 
-  { word: "Esrin", translation: "Twenty", phonetic: "Es-rin", script: "ܥܣܪܝܢ", category: "adjective" },
+  { word: "Esrin", translation: "Twenty", phonetic: "Es-rin", script: "ܥܣܪܝܢ", category: "number" },
 
-  { word: "Tlaa", translation: "Thirty", phonetic: "Tla-a", script: "ܬܠܬܝܢ", category: "adjective" },
+  { word: "Tlaa", translation: "Thirty", phonetic: "Tla-a", script: "ܬܠܬܝܢ", category: "number" },
 
-  { word: "Arba", translation: "Forty", phonetic: "Ar-ba", script: "ܐܪܒܥܝܢ", category: "adjective" },
+  { word: "Arba", translation: "Forty", phonetic: "Ar-ba", script: "ܐܪܒܥܝܢ", category: "number" },
 
-  { word: "Khamshi", translation: "Fifty", phonetic: "Kham-shi", script: "ܚܡܫܝܢ", category: "adjective" },
+  { word: "Khamshi", translation: "Fifty", phonetic: "Kham-shi", script: "ܚܡܫܝܢ", category: "number" },
 
-  { word: "Imma", translation: "One Hundred", phonetic: "Im-ma", script: "ܐܡܐ", category: "adjective" },
+  { word: "Alpa", translation: "One Thousand", phonetic: "Al-pa", script: "ܐܠܦܐ", category: "number" },
 
-  { word: "Alpa", translation: "One Thousand", phonetic: "Al-pa", script: "ܐܠܦܐ", category: "adjective" },
-
-
-  { word: "Portuqala", translation: "Orange", phonetic: "Por-tu-qa-la", script: "ܦܘܪܬܩܠܐ", category: "adjective" },
-
-  { word: "Banafsha", translation: "Purple", phonetic: "Ba-naf-sha", script: "ܒܢܦܫܐ", category: "adjective" },
-
-  { word: "Warda", translation: "Pink", phonetic: "War-da", script: "ܘܪܕܐ", category: "adjective" },
-
-  { word: "Qahwaya", translation: "Brown", phonetic: "Qah-wa-ya", script: "ܩܗܘܝܐ", category: "adjective" },
-
-  { word: "Rasasa", translation: "Grey", phonetic: "Ra-sa-sa", script: "ܪܨܨܐ", category: "adjective" },
 
 
   // More Phrases
-  { word: "Bshina b-atayokh", translation: "Welcome (to male)", phonetic: "B-shi-na b-a-ta-yokh", script: "ܒܫܝܢܐ ܒܐܬܝܘܟ݂", category: "adjective" },
+  { word: "Bshina b-atayokh", translation: "Welcome (to male)", phonetic: "B-shi-na b-a-ta-yokh", script: "ܒܫܝܢܐ ܒܐܬܝܘܟ݂", category: "phrase" },
 
-  { word: "Bshina b-atayakh", translation: "Welcome (to female)", phonetic: "B-shi-na b-a-ta-yakh", script: "ܒܫܝܢܐ ܒܐܬܝܟ݂", category: "adjective" },
+  { word: "Bshina b-atayakh", translation: "Welcome (to female)", phonetic: "B-shi-na b-a-ta-yakh", script: "ܒܫܝܢܐ ܒܐܬܝܟ݂", category: "phrase" },
 
   { word: "Brikh sipra", translation: "Good morning", phonetic: "Brikh sip-ra", script: "ܒܪܝܟ݂ ܨܦܪܐ", category: "adjective" },
 
@@ -546,25 +431,15 @@ export const dictionaryData: DictionaryEntry[] = [
 
   { word: "Ghanokh b-shina", translation: "Good night", phonetic: "Gha-nokh b-shi-na", script: "ܓܢܘܟ݂ ܒܫܝܢܐ", category: "adjective" },
 
-  { word: "Mahbila", translation: "Excuse me", phonetic: "Mah-bi-la", script: "ܡܚܒܠܐ", category: "adjective" },
+  { word: "Mahbila", translation: "Excuse me", phonetic: "Mah-bi-la", script: "ܡܚܒܠܐ", category: "phrase" },
 
   { word: "La yadin", translation: "I don't know", phonetic: "La ya-din", script: "ܠܐ ܝܕܥܢ", category: "adjective" },
-
-  { word: "Shlama lokh", translation: "Goodbye (to male)", phonetic: "Shla-ma lokh", script: "ܫܠܡܐ ܠܘܟ", category: "adjective" },
-
-  { word: "Shlama lakh", translation: "Goodbye (to female)", phonetic: "Shla-ma lakh", script: "ܫܠܡܐ ܠܟ", category: "adjective" },
-
-  { word: "Brikh", translation: "Blessed", phonetic: "Brikh", script: "ܒܪܝܟ", category: "adjective" },
-
-  { word: "Shlama d'Alaha", translation: "Peace of God", phonetic: "Shla-ma d-A-la-ha", script: "ܫܠܡܐ ܕܐܠܗܐ", category: "adjective" },
 
   { word: "Brikh sipra", translation: "Good morning", phonetic: "Brikh sip-ra", script: "ܒܪܝܟ ܨܦܪܐ", category: "adjective" },
 
   { word: "Brikh ramsha", translation: "Good evening", phonetic: "Brikh ram-sha", script: "ܒܪܝܟ ܪܡܫܐ", category: "adjective" },
 
   { word: "Ghanokh b-shina", translation: "Good night", phonetic: "Gha-nokh b-shi-na", script: "ܓܢܘܟ ܒܫܝܢܐ", category: "adjective" },
-
-  { word: "Mahbila", translation: "Excuse me", phonetic: "Mah-bi-la", script: "ܡܚܒܠܐ", category: "adjective" },
 
   { word: "Brikh d'Ati", translation: "God bless you", phonetic: "Brikh d-A-ti", script: "ܒܪܝܟ ܕܐܬܝ", category: "adjective" },
 
@@ -576,57 +451,25 @@ export const dictionaryData: DictionaryEntry[] = [
 
   { word: "Shlama d'Alaha b'Atakh", translation: "Peace of God be with you (to female)", phonetic: "Shla-ma d-A-la-ha b-A-takh", script: "ܫܠܡܐ ܕܐܠܗܐ ܒܐܬܟ", category: "adjective" },
 
-  { word: "Brikh d'Atokh", translation: "Blessed be you (to male)", phonetic: "Brikh d-A-tokh", script: "ܒܪܝܟ ܕܐܬܘܟ", category: "adjective" },
-
-  { word: "Brikh d'Atakh", translation: "Blessed be you (to female)", phonetic: "Brikh d-A-takh", script: "ܒܪܝܟ ܕܐܬܟ", category: "adjective" },
-
 
   // More Verbs
-  { word: "Sakh", translation: "To Wash", phonetic: "Sakh", script: "ܣܚ", category: "adjective" },
+  { word: "Sakh", translation: "To Wash", phonetic: "Sakh", script: "ܣܚ", category: "verb" },
 
-  { word: "Nashakh", translation: "To Clean", phonetic: "Na-shakh", script: "ܢܫܚ", category: "adjective" },
+  { word: "Nashakh", translation: "To Clean", phonetic: "Na-shakh", script: "ܢܫܚ", category: "verb" },
 
-  { word: "Qatil", translation: "To Kill", phonetic: "Qa-til", script: "ܩܛܠ", category: "adjective" },
+  { word: "Qatil", translation: "To Kill", phonetic: "Qa-til", script: "ܩܛܠ", category: "verb" },
 
-  { word: "Qayim", translation: "To Stand/Stay", phonetic: "Qa-yim", script: "ܩܐܡ", category: "adjective" },
+  { word: "Qayim", translation: "To Stand/Stay", phonetic: "Qa-yim", script: "ܩܐܡ", category: "verb" },
 
-  { word: "Shakil", translation: "To Carry/Lift", phonetic: "Sha-kil", script: "ܫܩܠ", category: "adjective" },
+  { word: "Shakil", translation: "To Carry/Lift", phonetic: "Sha-kil", script: "ܫܩܠ", category: "verb" },
 
-  { word: "Rakhim", translation: "To Throw/Put", phonetic: "Ra-khim", script: "ܪܟܡ", category: "adjective" },
-
-  { word: "Shakil", translation: "To Take", phonetic: "Sha-kil", script: "ܫܩܠ", category: "adjective" },
-
-  { word: "Rakhim", translation: "To Place", phonetic: "Ra-khim", script: "ܪܟܡ", category: "adjective" },
-
-  { word: "Shakil", translation: "To Buy", phonetic: "Sha-kil", script: "ܫܩܠ", category: "adjective" },
-
-  { word: "Rakhim", translation: "To Sell", phonetic: "Ra-khim", script: "ܪܟܡ", category: "adjective" },
-
-  { word: "Shakil", translation: "To Bring", phonetic: "Sha-kil", script: "ܫܩܠ", category: "adjective" },
-
-  { word: "Rakhim", translation: "To Send", phonetic: "Ra-khim", script: "ܪܟܡ", category: "adjective" },
-
-  { word: "Shakil", translation: "To Find", phonetic: "Sha-kil", script: "ܫܩܠ", category: "adjective" },
-
-  { word: "Rakhim", translation: "To Lose", phonetic: "Ra-khim", script: "ܪܟܡ", category: "adjective" },
-
-  { word: "Shakil", translation: "To Look", phonetic: "Sha-kil", script: "ܫܩܠ", category: "adjective" },
-
-  { word: "Rakhim", translation: "To Show", phonetic: "Ra-khim", script: "ܪܟܡ", category: "adjective" },
-
-  { word: "Shakil", translation: "To Ask", phonetic: "Sha-kil", script: "ܫܩܠ", category: "adjective" },
-
-  { word: "Rakhim", translation: "To Answer", phonetic: "Ra-khim", script: "ܪܟܡ", category: "adjective" },
-
-  { word: "Shakil", translation: "To Call", phonetic: "Sha-kil", script: "ܫܩܠ", category: "adjective" },
-
-  { word: "Rakhim", translation: "To Name", phonetic: "Ra-khim", script: "ܪܟܡ", category: "adjective" },
+  { word: "Rakhim", translation: "To Throw/Put", phonetic: "Ra-khim", script: "ܪܟܡ", category: "verb" },
 
 
   // Days of the Week
   { word: "Khamiša", translation: "Thursday", phonetic: "Kha-mi-ša", script: "ܚܡܝܫܐ", category: "adjective" },
 
-  { word: "Iroha", translation: "Sunday", phonetic: "I-ro-ha", script: "ܝܪܘܚܐ", category: "adjective" },
+  { word: "Iroha", translation: "Sunday", phonetic: "I-ro-ha", script: "ܝܪܘܚܐ", category: "nature" },
 
   { word: "Trinbšaba", translation: "Monday", phonetic: "Trin-b-ša-ba", script: "ܬܪܝܢܒܫܒܐ", category: "adjective" },
 
@@ -682,7 +525,7 @@ export const dictionaryData: DictionaryEntry[] = [
 
   { word: "Kummatra", translation: "Pear", phonetic: "Kum-mat-ra", script: "ܟܘܡܬܪܐ", category: "adjective" },
 
-  { word: "Talyana", translation: "Watermelon", phonetic: "Tal-ya-na", script: "ܛܠܝܢܐ", category: "adjective" },
+  { word: "Talyana", translation: "Watermelon", phonetic: "Tal-ya-na", script: "ܛܠܝܢܐ", category: "nature" },
 
   { word: "Bṭikha", translation: "Melon", phonetic: "Bṭi-kha", script: "ܒܛܝܟܐ", category: "adjective" },
 
@@ -756,101 +599,97 @@ export const dictionaryData: DictionaryEntry[] = [
 
   { word: "Simlā", translation: "Ladder", phonetic: "Sim-lā", script: "ܣܝܡܠܐ", category: "adjective" },
 
-  { word: "Gāra", translation: "Roof", phonetic: "Gā-ra", script: "ܓܪܐ", category: "adjective" },
+  { word: "Gāra", translation: "Roof", phonetic: "Gā-ra", script: "ܓܪܐ", category: "noun" },
 
   { word: "Daraga", translation: "Stairs", phonetic: "Da-ra-ga", script: "ܕܪܓܐ", category: "adjective" },
 
 
   // More Verbs
-  { word: "Ḥli", translation: "To Wash", phonetic: "Ḥli", script: "ܚܠܝ", category: "adjective" },
+  { word: "Ḥli", translation: "To Wash", phonetic: "Ḥli", script: "ܚܠܝ", category: "verb" },
 
-  { word: "Tbi", translation: "To Cook", phonetic: "Tbi", script: "ܛܒܝ", category: "adjective" },
+  { word: "Tbi", translation: "To Cook", phonetic: "Tbi", script: "ܛܒܝ", category: "verb" },
 
-  { word: "Qli", translation: "To Fry", phonetic: "Qli", script: "ܩܠܝ", category: "adjective" },
+  { word: "Qli", translation: "To Fry", phonetic: "Qli", script: "ܩܠܝ", category: "verb" },
 
-  { word: "Blē", translation: "To Mix/Stir", phonetic: "Blē", script: "ܒܠܝ", category: "adjective" },
+  { word: "Blē", translation: "To Mix/Stir", phonetic: "Blē", script: "ܒܠܝ", category: "verb" },
 
-  { word: "Paš", translation: "To Stay/Remain", phonetic: "Paš", script: "ܦܫ", category: "adjective" },
+  { word: "Paš", translation: "To Stay/Remain", phonetic: "Paš", script: "ܦܫ", category: "verb" },
 
-  { word: "Npil", translation: "To Fall", phonetic: "Npil", script: "ܢܦܠ", category: "adjective" },
+  { word: "Npil", translation: "To Fall", phonetic: "Npil", script: "ܢܦܠ", category: "verb" },
 
-  { word: "Nḥit", translation: "To Descend/Go down", phonetic: "Nḥit", script: "ܢܚܬ", category: "adjective" },
+  { word: "Nḥit", translation: "To Descend/Go down", phonetic: "Nḥit", script: "ܢܚܬ", category: "verb" },
 
-  { word: "Sliq", translation: "To Ascend/Go up", phonetic: "Sliq", script: "ܣܠܩ", category: "adjective" },
+  { word: "Sliq", translation: "To Ascend/Go up", phonetic: "Sliq", script: "ܣܠܩ", category: "verb" },
 
-  { word: "Pniā", translation: "To Turn", phonetic: "Pni-ā", script: "ܦܢܝܐ", category: "adjective" },
+  { word: "Pniā", translation: "To Turn", phonetic: "Pni-ā", script: "ܦܢܝܐ", category: "verb" },
 
-  { word: "Gdil", translation: "To Grow", phonetic: "Gdil", script: "ܓܕܠ", category: "adjective" },
+  { word: "Gdil", translation: "To Grow", phonetic: "Gdil", script: "ܓܕܠ", category: "verb" },
 
-  { word: "Qtil", translation: "To Kill", phonetic: "Qtil", script: "ܩܛܠ", category: "adjective" },
+  { word: "Qtil", translation: "To Kill", phonetic: "Qtil", script: "ܩܛܠ", category: "verb" },
 
-  { word: "Ḥyi", translation: "To Live", phonetic: "Ḥyi", script: "ܚܝܝ", category: "adjective" },
+  { word: "Ḥyi", translation: "To Live", phonetic: "Ḥyi", script: "ܚܝܝ", category: "verb" },
 
-  { word: "Myi", translation: "To Die", phonetic: "Myi", script: "ܡܝܬ", category: "adjective" },
+  { word: "Myi", translation: "To Die", phonetic: "Myi", script: "ܡܝܬ", category: "verb" },
 
-  { word: "Tli", translation: "To Hang", phonetic: "Tli", script: "ܬܠܝ", category: "adjective" },
+  { word: "Tli", translation: "To Hang", phonetic: "Tli", script: "ܬܠܝ", category: "verb" },
 
-  { word: "Bni", translation: "To Build", phonetic: "Bni", script: "ܒܢܝ", category: "adjective" },
+  { word: "Bni", translation: "To Build", phonetic: "Bni", script: "ܒܢܝ", category: "verb" },
 
-  { word: "Ḥrib", translation: "To Destroy", phonetic: "Ḥrib", script: "ܚܪܒ", category: "adjective" },
+  { word: "Ḥrib", translation: "To Destroy", phonetic: "Ḥrib", script: "ܚܪܒ", category: "verb" },
 
-  { word: "Pli", translation: "To Work/Plow", phonetic: "Pli", script: "ܦܠܚ", category: "adjective" },
+  { word: "Pli", translation: "To Work/Plow", phonetic: "Pli", script: "ܦܠܚ", category: "verb" },
 
-  { word: "Zri", translation: "To Plant/Sow", phonetic: "Zri", script: "ܙܪܥ", category: "adjective" },
+  { word: "Zri", translation: "To Plant/Sow", phonetic: "Zri", script: "ܙܪܥ", category: "verb" },
 
-  { word: "Ḥṣid", translation: "To Harvest", phonetic: "Ḥṣid", script: "ܚܨܕ", category: "adjective" },
+  { word: "Ḥṣid", translation: "To Harvest", phonetic: "Ḥṣid", script: "ܚܨܕ", category: "verb" },
 
-  { word: "Nši", translation: "To Forget", phonetic: "Nši", script: "ܢܫܝ", category: "adjective" },
+  { word: "Nši", translation: "To Forget", phonetic: "Nši", script: "ܢܫܝ", category: "verb" },
 
-  { word: "Dkhir", translation: "To Remember", phonetic: "Dkhir", script: "ܕܟܪ", category: "adjective" },
+  { word: "Dkhir", translation: "To Remember", phonetic: "Dkhir", script: "ܕܟܪ", category: "verb" },
 
-  { word: "Ḥšib", translation: "To Think", phonetic: "Ḥšib", script: "ܚܫܒ", category: "adjective" },
+  { word: "Ḥšib", translation: "To Think", phonetic: "Ḥšib", script: "ܚܫܒ", category: "verb" },
 
-  { word: "Mlil", translation: "To Speak/Talk", phonetic: "Mlil", script: "ܡܠܠ", category: "adjective" },
+  { word: "Mlil", translation: "To Speak/Talk", phonetic: "Mlil", script: "ܡܠܠ", category: "verb" },
 
-  { word: "Šqi", translation: "To Be Silent", phonetic: "Šqi", script: "ܫܩܝ", category: "adjective" },
+  { word: "Šqi", translation: "To Be Silent", phonetic: "Šqi", script: "ܫܩܝ", category: "verb" },
 
-  { word: "Q'ā", translation: "To Cry/Shout", phonetic: "Q'ā", script: "ܩܥܐ", category: "adjective" },
+  { word: "Q'ā", translation: "To Cry/Shout", phonetic: "Q'ā", script: "ܩܥܐ", category: "verb" },
 
-  { word: "Zmēr", translation: "To Sing", phonetic: "Zmēr", script: "ܙܡܪ", category: "adjective" },
+  { word: "Zmēr", translation: "To Sing", phonetic: "Zmēr", script: "ܙܡܪ", category: "verb" },
 
-  { word: "Rqiḏ", translation: "To Dance", phonetic: "Rqi-ḏ", script: "ܪܩܕ", category: "adjective" },
+  { word: "Rqiḏ", translation: "To Dance", phonetic: "Rqi-ḏ", script: "ܪܩܕ", category: "verb" },
 
-  { word: "Ylib", translation: "To Study/Learn", phonetic: "Ylib", script: "ܝܠܦ", category: "adjective" },
+  { word: "Ylib", translation: "To Study/Learn", phonetic: "Ylib", script: "ܝܠܦ", category: "verb" },
 
-  { word: "Qlē", translation: "To Teach", phonetic: "Qlē", script: "ܩܠܐ", category: "adjective" },
+  { word: "Qlē", translation: "To Teach", phonetic: "Qlē", script: "ܩܠܐ", category: "verb" },
 
-  { word: "Sbi", translation: "To Satisfy/Be full", phonetic: "Sbi", script: "ܣܒܥ", category: "adjective" },
+  { word: "Sbi", translation: "To Satisfy/Be full", phonetic: "Sbi", script: "ܣܒܥ", category: "verb" },
 
-  { word: "Kpin", translation: "To Be hungry", phonetic: "Kpin", script: "ܟܦܢ", category: "adjective" },
+  { word: "Kpin", translation: "To Be hungry", phonetic: "Kpin", script: "ܟܦܢ", category: "verb" },
 
-  { word: "Ṣhi", translation: "To Be thirsty", phonetic: "Ṣhi", script: "ܨܗܝ", category: "adjective" },
+  { word: "Ṣhi", translation: "To Be thirsty", phonetic: "Ṣhi", script: "ܨܗܝ", category: "verb" },
 
-  { word: "Lbiš", translation: "To Wear/Dress", phonetic: "Lbiš", script: "ܠܒܫ", category: "adjective" },
+  { word: "Lbiš", translation: "To Wear/Dress", phonetic: "Lbiš", script: "ܠܒܫ", category: "verb" },
 
-  { word: "Šliḥ", translation: "To Undress", phonetic: "Šliḥ", script: "ܫܠܚ", category: "adjective" },
+  { word: "Šliḥ", translation: "To Undress", phonetic: "Šliḥ", script: "ܫܠܚ", category: "verb" },
 
-  { word: "Rkiv", translation: "To Ride", phonetic: "Rkiv", script: "ܪܟܒ", category: "adjective" },
+  { word: "Rkiv", translation: "To Ride", phonetic: "Rkiv", script: "ܪܟܒ", category: "verb" },
 
-  { word: "Nḥit", translation: "To Get down/Descend", phonetic: "Nḥit", script: "ܢܚܬ", category: "adjective" },
+  { word: "Pqiḏ", translation: "To Order/Command", phonetic: "Pqi-ḏ", script: "ܦܩܕ", category: "verb" },
 
-  { word: "Pqiḏ", translation: "To Order/Command", phonetic: "Pqi-ḏ", script: "ܦܩܕ", category: "adjective" },
+  { word: "Šmi", translation: "To Obey", phonetic: "Šmi", script: "ܫܡܥ", category: "verb" },
 
-  { word: "Šmi", translation: "To Obey", phonetic: "Šmi", script: "ܫܡܥ", category: "adjective" },
+  { word: "Sni", translation: "To Hate", phonetic: "Sni", script: "ܣܢܐ", category: "verb" },
 
-  { word: "Sni", translation: "To Hate", phonetic: "Sni", script: "ܣܢܐ", category: "adjective" },
+  { word: "Ḥib", translation: "To Love", phonetic: "Ḥib", script: "ܚܒ", category: "verb" },
 
-  { word: "Ḥib", translation: "To Love", phonetic: "Ḥib", script: "ܚܒ", category: "adjective" },
+  { word: "Nši", translation: "To Kiss", phonetic: "Nši", script: "ܢܫܩ", category: "verb" },
 
-  { word: "Nši", translation: "To Kiss", phonetic: "Nši", script: "ܢܫܩ", category: "adjective" },
-
-  { word: "Ḥbiq", translation: "To Hug/Embrace", phonetic: "Ḥbiq", script: "ܚܒܩ", category: "adjective" },
+  { word: "Ḥbiq", translation: "To Hug/Embrace", phonetic: "Ḥbiq", script: "ܚܒܩ", category: "verb" },
 
 
   // More Animals
   { word: "Para", translation: "Cow", phonetic: "Pa-ra", script: "ܦܪܐ", category: "adjective" },
-
-  { word: "Ṭarpa", translation: "Goat", phonetic: "Ṭar-pa", script: "ܛܪܦܐ", category: "adjective" },
 
   { word: "Khanzira", translation: "Pig", phonetic: "Khan-zi-ra", script: "ܚܢܙܝܪܐ", category: "adjective" },
 
@@ -900,23 +739,19 @@ export const dictionaryData: DictionaryEntry[] = [
 
 
   // More Nature Words
-  { word: "Šmaya", translation: "Sky/Heaven", phonetic: "Šma-ya", script: "ܫܡܝܐ", category: "adjective" },
+  { word: "Šmaya", translation: "Sky/Heaven", phonetic: "Šma-ya", script: "ܫܡܝܐ", category: "nature" },
 
-  { word: "Ar'a", translation: "Earth/Ground", phonetic: "Ar-'a", script: "ܐܪܥܐ", category: "adjective" },
-
-  { word: "Shuna", translation: "Stone/Rock", phonetic: "Shu-na", script: "ܫܘܢܐ", category: "adjective" },
-
-  { word: "Khala", translation: "Sand", phonetic: "Kha-la", script: "ܚܠܐ", category: "adjective" },
+  { word: "Shuna", translation: "Stone/Rock", phonetic: "Shu-na", script: "ܫܘܢܐ", category: "nature" },
 
   { word: "Ṭīna", translation: "Mud/Clay", phonetic: "Ṭī-na", script: "ܛܝܢܐ", category: "adjective" },
 
-  { word: "Mayā", translation: "Water (plural)", phonetic: "Ma-yā", script: "ܡܝܐ", category: "adjective" },
+  { word: "Mayā", translation: "Water (plural)", phonetic: "Ma-yā", script: "ܡܝܐ", category: "nature" },
 
-  { word: "Rāma", translation: "Thunder", phonetic: "Rā-ma", script: "ܪܥܡܐ", category: "adjective" },
+  { word: "Rāma", translation: "Thunder", phonetic: "Rā-ma", script: "ܪܥܡܐ", category: "nature" },
 
-  { word: "Barqa", translation: "Lightning", phonetic: "Bar-qa", script: "ܒܪܩܐ", category: "adjective" },
+  { word: "Barqa", translation: "Lightning", phonetic: "Bar-qa", script: "ܒܪܩܐ", category: "nature" },
 
-  { word: "Qešta", translation: "Rainbow", phonetic: "Qeš-ta", script: "ܩܫܬܐ", category: "adjective" },
+  { word: "Qešta", translation: "Rainbow", phonetic: "Qeš-ta", script: "ܩܫܬܐ", category: "nature" },
 
   { word: "Brē", translation: "Desert", phonetic: "Brē", script: "ܒܪܐ", category: "adjective" },
 
@@ -938,9 +773,9 @@ export const dictionaryData: DictionaryEntry[] = [
 
 
   // More Body Parts
-  { word: "Gaba", translation: "Shoulder", phonetic: "Ga-ba", script: "ܓܒܐ", category: "adjective" },
+  { word: "Gaba", translation: "Shoulder", phonetic: "Ga-ba", script: "ܓܒܐ", category: "body" },
 
-  { word: "Khada", translation: "Breast/Chest", phonetic: "Kha-da", script: "ܚܕܐ", category: "adjective" },
+  { word: "Khada", translation: "Breast/Chest", phonetic: "Kha-da", script: "ܚܕܐ", category: "body" },
 
   { word: "Ṣilā", translation: "Rib", phonetic: "Ṣi-lā", script: "ܨܠܥܐ", category: "adjective" },
 
@@ -950,13 +785,13 @@ export const dictionaryData: DictionaryEntry[] = [
 
   { word: "Pakhda", translation: "Thigh", phonetic: "Pakh-da", script: "ܦܟܕܐ", category: "adjective" },
 
-  { word: "Šāqa", translation: "Leg", phonetic: "Šā-qa", script: "ܫܩܐ", category: "adjective" },
+  { word: "Šāqa", translation: "Leg", phonetic: "Šā-qa", script: "ܫܩܐ", category: "body" },
 
   { word: "Aqla", translation: "Ankle", phonetic: "Aq-la", script: "ܥܩܠܐ", category: "adjective" },
 
-  { word: "Ṣiv'a", translation: "Toe", phonetic: "Ṣiv-'a", script: "ܨܒܥܐ", category: "adjective" },
+  { word: "Ṣiv'a", translation: "Toe", phonetic: "Ṣiv-'a", script: "ܨܒܥܐ", category: "body" },
 
-  { word: "Ṭipra", translation: "Nail/Fingernail", phonetic: "Ṭip-ra", script: "ܛܦܪܐ", category: "adjective" },
+  { word: "Ṭipra", translation: "Nail/Fingernail", phonetic: "Ṭip-ra", script: "ܛܦܪܐ", category: "body" },
 
   { word: "Karsa", translation: "Bone", phonetic: "Kar-sa", script: "ܟܪܣܐ", category: "adjective" },
 
@@ -978,15 +813,15 @@ export const dictionaryData: DictionaryEntry[] = [
 
   { word: "Šaptha", translation: "Lip", phonetic: "Šap-tha", script: "ܫܦܬܐ", category: "adjective" },
 
-  { word: "Gavīna", translation: "Eyebrow", phonetic: "Ga-vī-na", script: "ܓܒܝܢܐ", category: "adjective" },
+  { word: "Gavīna", translation: "Eyebrow", phonetic: "Ga-vī-na", script: "ܓܒܝܢܐ", category: "body" },
 
-  { word: "Šep'a", translation: "Eyelash", phonetic: "Šep-'a", script: "ܫܦܥܐ", category: "adjective" },
+  { word: "Šep'a", translation: "Eyelash", phonetic: "Šep-'a", script: "ܫܦܥܐ", category: "body" },
 
-  { word: "Daqna", translation: "Beard", phonetic: "Daq-na", script: "ܕܩܢܐ", category: "adjective" },
+  { word: "Daqna", translation: "Beard", phonetic: "Daq-na", script: "ܕܩܢܐ", category: "body" },
 
   { word: "Sbarta", translation: "Mustache", phonetic: "Sbar-ta", script: "ܣܒܪܬܐ", category: "adjective" },
 
-  { word: "Qādla", translation: "Neck", phonetic: "Qād-la", script: "ܩܕܠܐ", category: "adjective" },
+  { word: "Qādla", translation: "Neck", phonetic: "Qād-la", script: "ܩܕܠܐ", category: "body" },
 
   { word: "Gargartha", translation: "Throat", phonetic: "Gar-gar-tha", script: "ܓܪܓܪܬܐ", category: "adjective" },
 
@@ -1060,8 +895,6 @@ export const dictionaryData: DictionaryEntry[] = [
 
   { word: "Hānōn", translation: "Those", phonetic: "Hā-nōn", script: "ܗܢܘܢ", category: "adjective" },
 
-  { word: "Raba", translation: "Many/Much", phonetic: "Ra-ba", script: "ܪܒܐ", category: "adjective" },
-
   { word: "Zō'a", translation: "Few/Little", phonetic: "Zō-'a", script: "ܙܥܘܪܐ", category: "adjective" },
 
   { word: "Šapirā", translation: "Beautiful/Good", phonetic: "Ša-pi-rā", script: "ܫܦܝܪܐ", category: "adjective" },
@@ -1112,8 +945,6 @@ export const dictionaryData: DictionaryEntry[] = [
 
   { word: "Kheena", translation: "Slowly", phonetic: "Khee-na", script: "ܟܝܢܐ", category: "adjective" },
 
-  { word: "Qalula", translation: "Quickly", phonetic: "Qa-lu-la", script: "ܩܠܘܠܐ", category: "adjective" },
-
   { word: "Šapir", translation: "Well/Good", phonetic: "Ša-pir", script: "ܫܦܝܪ", category: "adjective" },
 
   { word: "Amin", translation: "Amen/Truly", phonetic: "A-min", script: "ܐܡܝܢ", category: "adjective" },
@@ -1122,7 +953,7 @@ export const dictionaryData: DictionaryEntry[] = [
 
 
   // More Common Greetings & Phrases
-  { word: "Safa", translation: "Morning", phonetic: "Sa-fa", script: "ܨܦܪܐ", category: "adjective" },
+  { word: "Safa", translation: "Morning", phonetic: "Sa-fa", script: "ܨܦܪܐ", category: "time" },
 
   { word: "Tsafra Taba", translation: "Good morning", phonetic: "Tsaf-ra Ta-ba", script: "ܨܦܪܐ ܛܒܐ", category: "adjective" },
 
@@ -1134,13 +965,13 @@ export const dictionaryData: DictionaryEntry[] = [
 
   { word: "Khaya Taba", translation: "Long life / Good health", phonetic: "Kha-ya Ta-ba", script: "ܚܝܐ ܛܒܐ", category: "adjective" },
 
-  { word: "Mabrukha", translation: "Congratulations", phonetic: "Mab-ru-kha", script: "ܡܒܪܘܟܐ", category: "adjective" },
+  { word: "Mabrukha", translation: "Congratulations", phonetic: "Mab-ru-kha", script: "ܡܒܪܘܟܐ", category: "phrase" },
 
   { word: "Eda Breekha", translation: "Merry Christmas", phonetic: "E-da Bree-kha", script: "ܥܐܕܐ ܒܪܝܟܐ", category: "adjective" },
 
-  { word: "Shatta Breekha", translation: "Happy New Year", phonetic: "Shat-ta Bree-kha", script: "ܫܢܬܐ ܒܪܝܟܬܐ", category: "adjective" },
+  { word: "Shatta Breekha", translation: "Happy New Year", phonetic: "Shat-ta Bree-kha", script: "ܫܢܬܐ ܒܪܝܟܬܐ", category: "time" },
 
-  { word: "Shata d'Khaye", translation: "Year of life (birthday wish)", phonetic: "Sha-ta d-Kha-ye", script: "ܫܢܬܐ ܕܚܝܐ", category: "adjective" },
+  { word: "Shata d'Khaye", translation: "Year of life (birthday wish)", phonetic: "Sha-ta d-Kha-ye", script: "ܫܢܬܐ ܕܚܝܐ", category: "time" },
 
   { word: "Khat Bokh", translation: "I love you (to male)", phonetic: "Khat Bo-kh", script: "ܟܬ ܒܘܟ", category: "adjective" },
 
@@ -1154,8 +985,6 @@ export const dictionaryData: DictionaryEntry[] = [
 
 
   // More Verbs & Actions
-  { word: "Azil", translation: "Go / Going", phonetic: "A-zil", script: "ܐܙܠ", category: "adjective" },
-
   { word: "Ate", translation: "Come / Coming", phonetic: "A-te", script: "ܐܬܐ", category: "adjective" },
 
   { word: "Yatib", translation: "Sit / Sitting", phonetic: "Ya-tib", script: "ܝܬܒ", category: "adjective" },
@@ -1170,11 +999,7 @@ export const dictionaryData: DictionaryEntry[] = [
 
   { word: "Sakir", translation: "Close / Closing", phonetic: "Sa-kir", script: "ܣܟܪ", category: "adjective" },
 
-  { word: "Yadi", translation: "Know / Knowing", phonetic: "Ya-di", script: "ܝܕܥ", category: "adjective" },
-
   { word: "Shami", translation: "Hear / Listening", phonetic: "Sha-mi", script: "ܫܡܥ", category: "adjective" },
-
-  { word: "Khazi", translation: "See / Seeing", phonetic: "Kha-zi", script: "ܚܙܐ", category: "adjective" },
 
   { word: "Amir", translation: "Say / Saying", phonetic: "A-mir", script: "ܐܡܪ", category: "adjective" },
 
@@ -1182,15 +1007,13 @@ export const dictionaryData: DictionaryEntry[] = [
 
   { word: "Khatib", translation: "Write / Writing", phonetic: "Kha-tib", script: "ܟܬܒ", category: "adjective" },
 
-  { word: "Qari", translation: "Read / Reading", phonetic: "Qa-ri", script: "ܩܪܐ", category: "adjective" },
-
   { word: "Yalip", translation: "Learn / Learning", phonetic: "Ya-lip", script: "ܝܠܦ", category: "adjective" },
 
   { word: "Malip", translation: "Teach / Teaching", phonetic: "Ma-lip", script: "ܡܠܦ", category: "adjective" },
 
   { word: "Shayil", translation: "Ask / Asking", phonetic: "Sha-yil", script: "ܫܐܠ", category: "adjective" },
 
-  { word: "Mkhapir", translation: "Search / Searching", phonetic: "Mkha-pir", script: "ܡܚܦܪ", category: "adjective" },
+  { word: "Mkhapir", translation: "Search / Searching", phonetic: "Mkha-pir", script: "ܡܚܦܪ", category: "nature" },
 
   { word: "Yatwa", translation: "Gave / Give", phonetic: "Yat-wa", script: "ܝܗܒ", category: "adjective" },
 
@@ -1210,7 +1033,7 @@ export const dictionaryData: DictionaryEntry[] = [
 
   { word: "Mbarikh", translation: "Bless / Blessing", phonetic: "Mba-rikh", script: "ܡܒܪܟ", category: "adjective" },
 
-  { word: "Mshadir", translation: "Help / Helping", phonetic: "Msha-dir", script: "ܡܫܕܪ", category: "adjective" },
+  { word: "Mshadir", translation: "Help / Helping", phonetic: "Msha-dir", script: "ܡܫܕܪ", category: "phrase" },
 
   { word: "Mqayim", translation: "Stay / Staying", phonetic: "Mqa-yim", script: "ܡܩܝܡ", category: "adjective" },
 
@@ -1222,31 +1045,29 @@ export const dictionaryData: DictionaryEntry[] = [
 
   { word: "Nakhit", translation: "Fall / Falling", phonetic: "Na-khit", script: "ܢܚܬ", category: "adjective" },
 
-  { word: "Sliq", translation: "Climb / Go up", phonetic: "Sliq", script: "ܣܠܩ", category: "adjective" },
-
 
   // Household & Daily Life
-  { word: "Tara", translation: "Door", phonetic: "Ta-ra", script: "ܬܪܥܐ", category: "adjective" },
+  { word: "Tara", translation: "Door", phonetic: "Ta-ra", script: "ܬܪܥܐ", category: "noun" },
 
-  { word: "Kawta", translation: "Window", phonetic: "Kaw-ta", script: "ܟܘܬܐ", category: "adjective" },
+  { word: "Kawta", translation: "Window", phonetic: "Kaw-ta", script: "ܟܘܬܐ", category: "nature" },
 
-  { word: "Shqapa", translation: "Ceiling", phonetic: "Shqa-pa", script: "ܫܩܦܐ", category: "adjective" },
+  { word: "Shqapa", translation: "Ceiling", phonetic: "Shqa-pa", script: "ܫܩܦܐ", category: "noun" },
 
-  { word: "Araa", translation: "Floor/Ground", phonetic: "Ar-aa", script: "ܐܪܥܐ", category: "adjective" },
+  { word: "Araa", translation: "Floor/Ground", phonetic: "Ar-aa", script: "ܐܪܥܐ", category: "noun" },
 
-  { word: "Gayra", translation: "Wall", phonetic: "Gay-ra", script: "ܓܕܪܐ", category: "adjective" },
+  { word: "Gayra", translation: "Wall", phonetic: "Gay-ra", script: "ܓܕܪܐ", category: "noun" },
 
   { word: "Nuhra", translation: "Light/Lamp", phonetic: "Nuh-ra", script: "ܢܘܗܪܐ", category: "adjective" },
 
-  { word: "Madkhna", translation: "Kitchen", phonetic: "Mad-khna", script: "ܡܕܟܢܐ", category: "adjective" },
+  { word: "Madkhna", translation: "Kitchen", phonetic: "Mad-khna", script: "ܡܕܟܢܐ", category: "noun" },
 
-  { word: "Khawshekha", translation: "Bathroom", phonetic: "Khaw-she-kha", script: "ܚܘܫܟܐ", category: "adjective" },
+  { word: "Khawshekha", translation: "Bathroom", phonetic: "Khaw-she-kha", script: "ܚܘܫܟܐ", category: "noun" },
 
-  { word: "Madrasha", translation: "Bedroom", phonetic: "Mad-ra-sha", script: "ܡܕܪܫܐ", category: "adjective" },
+  { word: "Madrasha", translation: "Bedroom", phonetic: "Mad-ra-sha", script: "ܡܕܪܫܐ", category: "noun" },
 
-  { word: "Gardina", translation: "Garden", phonetic: "Gar-di-na", script: "ܓܪܕܝܢܐ", category: "adjective" },
+  { word: "Gardina", translation: "Garden", phonetic: "Gar-di-na", script: "ܓܪܕܝܢܐ", category: "noun" },
 
-  { word: "Saqpa", translation: "Roof", phonetic: "Saq-pa", script: "ܣܩܦܐ", category: "adjective" },
+  { word: "Saqpa", translation: "Roof", phonetic: "Saq-pa", script: "ܣܩܦܐ", category: "noun" },
 
   { word: "Daraja", translation: "Stairs", phonetic: "Da-ra-ja", script: "ܕܪܓܐ", category: "adjective" },
 
@@ -1256,15 +1077,13 @@ export const dictionaryData: DictionaryEntry[] = [
 
   { word: "Shaqta", translation: "Drink", phonetic: "Shaq-ta", script: "ܫܩܝܬܐ", category: "adjective" },
 
-  { word: "Sayna", translation: "Plate", phonetic: "Say-na", script: "ܨܝܢܐ", category: "adjective" },
+  { word: "Sayna", translation: "Plate", phonetic: "Say-na", script: "ܨܝܢܐ", category: "home" },
 
-  { word: "Kasa", translation: "Cup/Glass", phonetic: "Ka-sa", script: "ܟܣܐ", category: "adjective" },
+  { word: "Kasa", translation: "Cup/Glass", phonetic: "Ka-sa", script: "ܟܣܐ", category: "home" },
 
-  { word: "Sakina", translation: "Knife", phonetic: "Sa-ki-na", script: "ܣܟܝܢܐ", category: "adjective" },
+  { word: "Purshana", translation: "Spoon", phonetic: "Pur-sha-na", script: "ܦܘܪܫܢܐ", category: "home" },
 
-  { word: "Purshana", translation: "Spoon", phonetic: "Pur-sha-na", script: "ܦܘܪܫܢܐ", category: "adjective" },
-
-  { word: "Qawra", translation: "Fork", phonetic: "Qaw-ra", script: "ܩܘܪܐ", category: "adjective" },
+  { word: "Qawra", translation: "Fork", phonetic: "Qaw-ra", script: "ܩܘܪܐ", category: "home" },
 
   { word: "Tarpisa", translation: "Table", phonetic: "Tar-pi-sa", script: "ܛܪܦܝܣܐ", category: "adjective" },
 
@@ -1280,8 +1099,6 @@ export const dictionaryData: DictionaryEntry[] = [
 
   { word: "Milkha", translation: "Salt", phonetic: "Mil-kha", script: "ܡܠܚܐ", category: "adjective" },
 
-  { word: "Khala", translation: "Vinegar", phonetic: "Kha-la", script: "ܚܠܐ", category: "adjective" },
-
   { word: "Dubsha", translation: "Honey", phonetic: "Dub-sha", script: "ܕܒܫܐ", category: "adjective" },
 
   { word: "Kheshla", translation: "Fruit", phonetic: "Khesh-la", script: "ܚܫܠܐ", category: "adjective" },
@@ -1294,21 +1111,17 @@ export const dictionaryData: DictionaryEntry[] = [
 
   { word: "Lele", translation: "Night", phonetic: "Le-le", script: "ܠܠܝܐ", category: "adjective" },
 
-  { word: "Shata", translation: "Year", phonetic: "Sha-ta", script: "ܫܢܬܐ", category: "adjective" },
+  { word: "Shata", translation: "Year", phonetic: "Sha-ta", script: "ܫܢܬܐ", category: "time" },
 
-  { word: "Yarha", translation: "Month", phonetic: "Yar-ha", script: "ܝܪܚܐ", category: "adjective" },
-
-  { word: "Shabta", translation: "Week", phonetic: "Shab-ta", script: "ܫܒܬܐ", category: "adjective" },
+  { word: "Yarha", translation: "Month", phonetic: "Yar-ha", script: "ܝܪܚܐ", category: "time" },
 
   { word: "Sha'ta", translation: "Hour", phonetic: "Sha'-ta", script: "ܫܥܬܐ", category: "adjective" },
 
-  { word: "Regha", translation: "Minute/Moment", phonetic: "Reg-ha", script: "ܪܓܥܐ", category: "adjective" },
+  { word: "Regha", translation: "Minute/Moment", phonetic: "Reg-ha", script: "ܪܓܥܐ", category: "time" },
 
-  { word: "Hashâ", translation: "Now", phonetic: "Ha-shâ", script: "ܗܫܐ", category: "adjective" },
+  { word: "Hashâ", translation: "Now", phonetic: "Ha-shâ", script: "ܗܫܐ", category: "time" },
 
-  { word: "Qadam", translation: "Before/Earlier", phonetic: "Qa-dam", script: "ܩܕܡ", category: "adjective" },
-
-  { word: "Bathar", translation: "After/Later", phonetic: "Ba-thar", script: "ܒܬܪ", category: "adjective" },
+  { word: "Qadam", translation: "Before/Earlier", phonetic: "Qa-dam", script: "ܩܕܡ", category: "time" },
 
   { word: "Yawma Akhrin", translation: "Tomorrow", phonetic: "Yaw-ma Akh-rin", script: "ܝܘܡܐ ܐܚܪܝܢ", category: "adjective" },
 
@@ -1322,97 +1135,75 @@ export const dictionaryData: DictionaryEntry[] = [
 
 
   // More Numbers
-  { word: "Tlathsar", translation: "Thirteen", phonetic: "Tlath-sar", script: "ܬܠܬܥܣܪ", category: "adjective" },
+  { word: "Tlathsar", translation: "Thirteen", phonetic: "Tlath-sar", script: "ܬܠܬܥܣܪ", category: "number" },
 
-  { word: "Arbassar", translation: "Fourteen", phonetic: "Arba-ssar", script: "ܐܪܒܥܣܪ", category: "adjective" },
+  { word: "Arbassar", translation: "Fourteen", phonetic: "Arba-ssar", script: "ܐܪܒܥܣܪ", category: "number" },
 
-  { word: "Khamshassar", translation: "Fifteen", phonetic: "Khamsha-ssar", script: "ܚܡܫܥܣܪ", category: "adjective" },
+  { word: "Khamshassar", translation: "Fifteen", phonetic: "Khamsha-ssar", script: "ܚܡܫܥܣܪ", category: "number" },
 
-  { word: "Eshtassar", translation: "Sixteen", phonetic: "Eshta-ssar", script: "ܫܬܥܣܪ", category: "adjective" },
+  { word: "Eshtassar", translation: "Sixteen", phonetic: "Eshta-ssar", script: "ܫܬܥܣܪ", category: "number" },
 
-  { word: "Shwassar", translation: "Seventeen", phonetic: "Shwa-ssar", script: "ܫܒܥܣܪ", category: "adjective" },
+  { word: "Shwassar", translation: "Seventeen", phonetic: "Shwa-ssar", script: "ܫܒܥܣܪ", category: "number" },
 
-  { word: "Tmanyassar", translation: "Eighteen", phonetic: "Tmanya-ssar", script: "ܬܡܢܝܥܣܪ", category: "adjective" },
+  { word: "Tmanyassar", translation: "Eighteen", phonetic: "Tmanya-ssar", script: "ܬܡܢܝܥܣܪ", category: "number" },
 
-  { word: "Tshassar", translation: "Nineteen", phonetic: "Tsha-ssar", script: "ܬܫܥܣܪ", category: "adjective" },
+  { word: "Tshassar", translation: "Nineteen", phonetic: "Tsha-ssar", script: "ܬܫܥܣܪ", category: "number" },
 
-  { word: "Tlatin", translation: "Thirty", phonetic: "Tla-tin", script: "ܬܠܬܝܢ", category: "adjective" },
+  { word: "Tlatin", translation: "Thirty", phonetic: "Tla-tin", script: "ܬܠܬܝܢ", category: "number" },
 
-  { word: "Arbin", translation: "Forty", phonetic: "Ar-bin", script: "ܐܪܒܥܝܢ", category: "adjective" },
+  { word: "Arbin", translation: "Forty", phonetic: "Ar-bin", script: "ܐܪܒܥܝܢ", category: "number" },
 
-  { word: "Khamshiـn", translation: "Fifty", phonetic: "Khamshi-n", script: "ܚܡܫܝܢ", category: "adjective" },
+  { word: "Khamshiـn", translation: "Fifty", phonetic: "Khamshi-n", script: "ܚܡܫܝܢ", category: "number" },
 
-  { word: "Eshtin", translation: "Sixty", phonetic: "Esh-tin", script: "ܫܬܝܢ", category: "adjective" },
+  { word: "Eshtin", translation: "Sixty", phonetic: "Esh-tin", script: "ܫܬܝܢ", category: "number" },
 
-  { word: "Shwin", translation: "Seventy", phonetic: "Shwin", script: "ܫܒܥܝܢ", category: "adjective" },
+  { word: "Shwin", translation: "Seventy", phonetic: "Shwin", script: "ܫܒܥܝܢ", category: "number" },
 
-  { word: "Tmanin", translation: "Eighty", phonetic: "Tma-nin", script: "ܬܡܢܝܢ", category: "adjective" },
+  { word: "Tmanin", translation: "Eighty", phonetic: "Tma-nin", script: "ܬܡܢܝܢ", category: "number" },
 
-  { word: "Tshin", translation: "Ninety", phonetic: "Tshin", script: "ܬܫܥܝܢ", category: "adjective" },
+  { word: "Tshin", translation: "Ninety", phonetic: "Tshin", script: "ܬܫܥܝܢ", category: "number" },
 
-  { word: "Ima", translation: "Hundred", phonetic: "I-ma", script: "ܡܐܐ", category: "adjective" },
-
-  { word: "Alpa", translation: "Thousand", phonetic: "Al-pa", script: "ܐܠܦܐ", category: "adjective" },
+  { word: "Ima", translation: "Hundred", phonetic: "I-ma", script: "ܡܐܐ", category: "number" },
 
 
   // Weather & Nature
-  { word: "Shamsha", translation: "Sun", phonetic: "Sham-sha", script: "ܫܡܫܐ", category: "adjective" },
+  { word: "Shamsha", translation: "Sun", phonetic: "Sham-sha", script: "ܫܡܫܐ", category: "nature" },
 
-  { word: "Sahra", translation: "Moon", phonetic: "Sah-ra", script: "ܣܗܪܐ", category: "adjective" },
+  { word: "Kawkwa", translation: "Star", phonetic: "Kaw-kwa", script: "ܟܘܟܒܐ", category: "nature" },
 
-  { word: "Kawkwa", translation: "Star", phonetic: "Kaw-kwa", script: "ܟܘܟܒܐ", category: "adjective" },
+  { word: "Shmaya", translation: "Sky/Heaven", phonetic: "Shma-ya", script: "ܫܡܝܐ", category: "nature" },
 
-  { word: "Shmaya", translation: "Sky/Heaven", phonetic: "Shma-ya", script: "ܫܡܝܐ", category: "adjective" },
+  { word: "Ara", translation: "Earth", phonetic: "A-ra", script: "ܐܪܥܐ", category: "nature" },
 
-  { word: "Ara", translation: "Earth", phonetic: "A-ra", script: "ܐܪܥܐ", category: "adjective" },
+  { word: "Mitra", translation: "Rain", phonetic: "Mit-ra", script: "ܡܛܪܐ", category: "nature" },
 
-  { word: "Mitra", translation: "Rain", phonetic: "Mit-ra", script: "ܡܛܪܐ", category: "adjective" },
+  { word: "Rukha", translation: "Wind", phonetic: "Ru-kha", script: "ܪܘܚܐ", category: "nature" },
 
-  { word: "Talga", translation: "Snow", phonetic: "Tal-ga", script: "ܬܠܓܐ", category: "adjective" },
+  { word: "Anana", translation: "Cloud", phonetic: "A-na-na", script: "ܥܢܢܐ", category: "nature" },
 
-  { word: "Rukha", translation: "Wind", phonetic: "Ru-kha", script: "ܪܘܚܐ", category: "adjective" },
-
-  { word: "Anana", translation: "Cloud", phonetic: "A-na-na", script: "ܥܢܢܐ", category: "adjective" },
-
-  { word: "Barqa", translation: "Lightning", phonetic: "Bar-qa", script: "ܒܪܩܐ", category: "adjective" },
-
-  { word: "Rama", translation: "Thunder", phonetic: "Ra-ma", script: "ܪܥܡܐ", category: "adjective" },
-
-  { word: "Shimsha", translation: "Warm/Heat", phonetic: "Shim-sha", script: "ܫܡܫܐ", category: "adjective" },
+  { word: "Rama", translation: "Thunder", phonetic: "Ra-ma", script: "ܪܥܡܐ", category: "nature" },
 
   { word: "Qarta", translation: "Cold", phonetic: "Qar-ta", script: "ܩܪܬܐ", category: "adjective" },
 
-  { word: "Ilana", translation: "Tree", phonetic: "I-la-na", script: "ܐܝܠܢܐ", category: "adjective" },
-
-  { word: "Habhaba", translation: "Flower", phonetic: "Hab-ha-ba", script: "ܗܒܗܒܐ", category: "adjective" },
+  { word: "Habhaba", translation: "Flower", phonetic: "Hab-ha-ba", script: "ܗܒܗܒܐ", category: "nature" },
 
   { word: "Yarqa", translation: "Leaf", phonetic: "Yar-qa", script: "ܛܪܦܐ", category: "adjective" },
 
   { word: "Shwila", translation: "Root", phonetic: "Shwi-la", script: "ܫܪܫܐ", category: "adjective" },
 
-  { word: "Darta", translation: "Garden", phonetic: "Dar-ta", script: "ܕܪܬܐ", category: "adjective" },
+  { word: "Darta", translation: "Garden", phonetic: "Dar-ta", script: "ܕܪܬܐ", category: "noun" },
 
-  { word: "Tura", translation: "Mountain", phonetic: "Tu-ra", script: "ܛܘܪܐ", category: "adjective" },
-
-  { word: "Nahra", translation: "River", phonetic: "Nah-ra", script: "ܢܗܪܐ", category: "adjective" },
-
-  { word: "Yama", translation: "Sea/Lake", phonetic: "Ya-ma", script: "ܝܡܐ", category: "adjective" },
-
-  { word: "Kippa", translation: "Stone/Rock", phonetic: "Kip-pa", script: "ܟܐܦܐ", category: "adjective" },
-
-  { word: "Khala", translation: "Sand", phonetic: "Kha-la", script: "ܚܠܐ", category: "adjective" },
+  { word: "Kippa", translation: "Stone/Rock", phonetic: "Kip-pa", script: "ܟܐܦܐ", category: "nature" },
 
 
   // Transportation & Travel
   { word: "Urha", translation: "Road/Way", phonetic: "Ur-ha", script: "ܐܘܪܚܐ", category: "adjective" },
 
-  { word: "Gishra", translation: "Bridge", phonetic: "Gish-ra", script: "ܓܫܪܐ", category: "adjective" },
+  { word: "Gishra", translation: "Bridge", phonetic: "Gish-ra", script: "ܓܫܪܐ", category: "noun" },
 
   { word: "Mdinta", translation: "City/Town", phonetic: "Mdin-ta", script: "ܡܕܝܢܬܐ", category: "adjective" },
 
   { word: "Qrita", translation: "Village", phonetic: "Qri-ta", script: "ܩܪܝܬܐ", category: "adjective" },
-
-  { word: "Shuqa", translation: "Market", phonetic: "Shu-qa", script: "ܫܘܩܐ", category: "adjective" },
 
   { word: "Makhsana", translation: "Store/Shop", phonetic: "Makh-sa-na", script: "ܡܟܣܢܐ", category: "adjective" },
 
@@ -1440,7 +1231,7 @@ export const dictionaryData: DictionaryEntry[] = [
   // More Emotions & States
   { word: "Khudta", translation: "Joy/Happiness", phonetic: "Khud-ta", script: "ܚܕܘܬܐ", category: "adjective" },
 
-  { word: "Kriuta", translation: "Sadness/Sorrow", phonetic: "Kriu-ta", script: "ܟܪܝܘܬܐ", category: "adjective" },
+  { word: "Kriuta", translation: "Sadness/Sorrow", phonetic: "Kriu-ta", script: "ܟܪܝܘܬܐ", category: "emotion" },
 
   { word: "Dekhla", translation: "Fear", phonetic: "Dekh-la", script: "ܕܚܠܐ", category: "adjective" },
 
