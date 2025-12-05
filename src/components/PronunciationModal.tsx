@@ -4,6 +4,8 @@ import { useAuth } from '../context/AuthContext';
 import { supabase } from '../lib/supabase';
 import { buildWordKey, encodeWordKeyForPath } from '../utils/wordKey';
 
+type ModerationStatus = 'pending' | 'approved' | 'rejected';
+
 interface PronunciationRow {
   id: string;
   audio_path: string;
@@ -11,15 +13,18 @@ interface PronunciationRow {
   duration_seconds: number | null;
   notes: string | null;
   user_id: string | null;
+  status: ModerationStatus;
 }
 
 interface PronunciationItem {
   id: string;
   url: string;
+  audioPath: string;
   notes: string | null;
   createdAt: string;
   durationSeconds: number | null;
   isOwner: boolean;
+  status: ModerationStatus;
 }
 
 interface Props {
@@ -40,14 +45,19 @@ export default function PronunciationModal({ entry, onClose }: Props) {
   const wordKey = useMemo(() => buildWordKey(entry), [entry]);
 
   const [pronunciations, setPronunciations] = useState<PronunciationItem[]>([]);
+  const [pendingPronunciations, setPendingPronunciations] = useState<PronunciationItem[]>([]);
   const [loadingList, setLoadingList] = useState(true);
+  const [loadingPending, setLoadingPending] = useState(false);
   const [recording, setRecording] = useState(false);
   const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [notes, setNotes] = useState('');
   const [durationSeconds, setDurationSeconds] = useState<number | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [moderatingId, setModeratingId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [uploadMessage, setUploadMessage] = useState<string | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<BlobPart[]>([]);
@@ -60,6 +70,7 @@ export default function PronunciationModal({ entry, onClose }: Props) {
       .from('word_pronunciations')
       .select('*')
       .eq('word_key', wordKey)
+      .eq('status', 'approved')
       .order('created_at', { ascending: false });
 
     if (fetchError) {
@@ -77,10 +88,12 @@ export default function PronunciationModal({ entry, onClose }: Props) {
       return {
         id: row.id,
         url: publicUrlData.publicUrl,
+        audioPath: row.audio_path,
         notes: row.notes,
         createdAt: row.created_at,
         durationSeconds: row.duration_seconds,
         isOwner: !!user && row.user_id === user.id,
+        status: row.status,
       };
     });
 
@@ -88,9 +101,72 @@ export default function PronunciationModal({ entry, onClose }: Props) {
     setLoadingList(false);
   }, [wordKey, user]);
 
+  const fetchPendingPronunciations = useCallback(async () => {
+    if (!isAdmin) {
+      setPendingPronunciations([]);
+      return;
+    }
+    setLoadingPending(true);
+    const { data, error: fetchError } = await supabase
+      .from('word_pronunciations')
+      .select('*')
+      .eq('word_key', wordKey)
+      .eq('status', 'pending')
+      .order('created_at', { ascending: false });
+
+    if (fetchError) {
+      console.error(fetchError);
+      setError('Failed to load pending pronunciations.');
+      setLoadingPending(false);
+      return;
+    }
+
+    const items = (data as PronunciationRow[]).map((row) => {
+      const { data: publicUrlData } = supabase.storage
+        .from('pronunciations')
+        .getPublicUrl(row.audio_path);
+
+      return {
+        id: row.id,
+        url: publicUrlData.publicUrl,
+        audioPath: row.audio_path,
+        notes: row.notes,
+        createdAt: row.created_at,
+        durationSeconds: row.duration_seconds,
+        isOwner: !!user && row.user_id === user.id,
+        status: row.status,
+      };
+    });
+
+    setPendingPronunciations(items);
+    setLoadingPending(false);
+  }, [isAdmin, wordKey, user]);
+
+  useEffect(() => {
+    const checkAdmin = async () => {
+      if (!user?.email) {
+        setIsAdmin(false);
+        return;
+      }
+      const { data } = await supabase
+        .from('admin_users')
+        .select('email')
+        .eq('email', user.email)
+        .maybeSingle();
+      setIsAdmin(!!data);
+    };
+    checkAdmin();
+  }, [user]);
+
   useEffect(() => {
     fetchPronunciations();
   }, [fetchPronunciations]);
+
+  useEffect(() => {
+    if (isAdmin) {
+      fetchPendingPronunciations();
+    }
+  }, [isAdmin, fetchPendingPronunciations]);
 
   useEffect(() => {
     return () => {
@@ -210,8 +286,38 @@ export default function PronunciationModal({ entry, onClose }: Props) {
 
     resetRecording();
     setNotes('');
+    setUploadMessage('Submitted for review. An admin will approve or reject it.');
     await fetchPronunciations();
+    if (isAdmin) {
+      await fetchPendingPronunciations();
+    }
     setUploading(false);
+  };
+
+  const moderatePronunciation = async (id: string, status: Exclude<ModerationStatus, 'pending'>) => {
+    if (!isAdmin) return;
+    setModeratingId(id);
+    await supabase
+      .from('word_pronunciations')
+      .update({
+        status,
+        reviewed_by: user?.id ?? null,
+        reviewed_at: new Date().toISOString(),
+      })
+      .eq('id', id);
+    await Promise.all([fetchPronunciations(), fetchPendingPronunciations()]);
+    setModeratingId(null);
+  };
+
+  const deletePronunciation = async (item: PronunciationItem) => {
+    if (!isAdmin) return;
+    setModeratingId(item.id);
+    await supabase.from('word_pronunciations').delete().eq('id', item.id);
+    if (item.audioPath) {
+      await supabase.storage.from('pronunciations').remove([item.audioPath]);
+    }
+    await Promise.all([fetchPronunciations(), fetchPendingPronunciations()]);
+    setModeratingId(null);
   };
 
   return (
@@ -294,6 +400,7 @@ export default function PronunciationModal({ entry, onClose }: Props) {
             </div>
 
             {error && <div className="text-sm text-red-400">{error}</div>}
+            {uploadMessage && <div className="text-sm text-green-400">{uploadMessage}</div>}
 
             <button
               onClick={uploadRecording}
@@ -312,7 +419,7 @@ export default function PronunciationModal({ entry, onClose }: Props) {
             <div className="flex items-center justify-between">
               <h3 className="font-semibold text-white">Available recordings</h3>
               <span className="rounded-full bg-gray-800 px-3 py-1 text-xs text-gray-300">
-                {loadingList ? 'Loading...' : `${pronunciations.length} posted`}
+                {loadingList ? 'Loading...' : `${pronunciations.length} approved`}
               </span>
             </div>
 
@@ -323,7 +430,7 @@ export default function PronunciationModal({ entry, onClose }: Props) {
                 </div>
               ) : pronunciations.length === 0 ? (
                 <div className="rounded-xl border border-dashed border-gray-800 bg-gray-800 p-4 text-sm text-gray-400">
-                  No community recordings yet. Be the first to add one.
+                  No approved recordings yet. New submissions will appear after admin approval.
                 </div>
               ) : (
                 pronunciations.map((p) => (
@@ -348,6 +455,65 @@ export default function PronunciationModal({ entry, onClose }: Props) {
                 ))
               )}
             </div>
+
+            {isAdmin && (
+              <div className="mt-6 rounded-2xl border border-gray-800 bg-gray-900/60 p-4">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="font-semibold text-white">Admin moderation</h3>
+                  <span className="rounded-full bg-gray-800 px-3 py-1 text-xs text-gray-300">
+                    {loadingPending ? 'Loading...' : `${pendingPronunciations.length} pending`}
+                  </span>
+                </div>
+                <div className="space-y-3 max-h-[360px] overflow-y-auto pr-1">
+                  {loadingPending ? (
+                    <div className="rounded-xl border border-gray-800 bg-gray-800 p-4 text-gray-400">
+                      Loading pending recordings...
+                    </div>
+                  ) : pendingPronunciations.length === 0 ? (
+                    <div className="rounded-xl border border-dashed border-gray-800 bg-gray-800 p-4 text-sm text-gray-400">
+                      Nothing pending right now.
+                    </div>
+                  ) : (
+                    pendingPronunciations.map((p) => (
+                      <div
+                        key={p.id}
+                        className="rounded-xl border border-gray-800 bg-gray-800 p-4 space-y-2"
+                      >
+                        <div className="flex items-center justify-between text-sm text-gray-400">
+                          <span>{new Date(p.createdAt).toLocaleString()}</span>
+                          <span>{formatDuration(p.durationSeconds)}</span>
+                        </div>
+                        <audio controls src={p.url} className="w-full" />
+                        {p.notes && <p className="text-sm text-gray-300">{p.notes}</p>}
+                        <div className="flex gap-2 pt-1">
+                          <button
+                            onClick={() => moderatePronunciation(p.id, 'approved')}
+                            disabled={!!moderatingId}
+                            className="flex-1 rounded-lg bg-green-600 px-3 py-2 text-sm text-white hover:bg-green-500 disabled:cursor-not-allowed disabled:bg-green-900/50"
+                          >
+                            {moderatingId === p.id ? 'Saving...' : 'Approve'}
+                          </button>
+                          <button
+                            onClick={() => moderatePronunciation(p.id, 'rejected')}
+                            disabled={!!moderatingId}
+                            className="flex-1 rounded-lg bg-yellow-600 px-3 py-2 text-sm text-white hover:bg-yellow-500 disabled:cursor-not-allowed disabled:bg-yellow-900/50"
+                          >
+                            {moderatingId === p.id ? 'Saving...' : 'Reject'}
+                          </button>
+                          <button
+                            onClick={() => deletePronunciation(p)}
+                            disabled={!!moderatingId}
+                            className="flex-1 rounded-lg bg-red-600 px-3 py-2 text-sm text-white hover:bg-red-500 disabled:cursor-not-allowed disabled:bg-red-900/50"
+                          >
+                            {moderatingId === p.id ? 'Deleting...' : 'Delete'}
+                          </button>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
