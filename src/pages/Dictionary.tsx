@@ -169,81 +169,164 @@ export default function Dictionary() {
       </div>
 
       {filteredWords.length > 0 ? (
-        <div className={`flex flex-col gap-3 ${viewMode === 'grid' ? 'md:grid md:gap-4 md:grid-cols-2 lg:grid-cols-3' : 'md:flex md:flex-col md:gap-3'}`}>
+        <div className={`flex flex-col gap-3 ${viewMode === 'grid' ? 'md:grid md:gap-4 md:grid-cols-2 lg:grid-cols-3' : 'md:flex md:flex-col md:gap-2'}`}>
           {filteredWords.map((entry) => (
-            <div 
-              key={`${entry.word}-${entry.category}-${entry.translation}`} 
-              className="bg-gradient-to-br from-gray-800 to-gray-800/80 border-2 border-gray-700 hover:border-blue-500 transition-all duration-300 overflow-hidden rounded-2xl md:rounded-xl active:scale-95"
-            >
-              <div className="p-4 md:p-5 flex flex-col relative">
-                {/* Favorite button */}
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleFavorite(`${entry.word}-${entry.category}`);
-                  }}
-                  className="absolute top-2 right-2 p-2 rounded-full hover:bg-gray-700 transition-colors"
-                  title={isFavorite(`${entry.word}-${entry.category}`) ? "Remove from favorites" : "Add to favorites"}
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill={isFavorite(`${entry.word}-${entry.category}`) ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={isFavorite(`${entry.word}-${entry.category}`) ? "text-yellow-500" : "text-gray-400"}>
-                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                  </svg>
-                </button>
-                
-                {/* Category badge */}
-                <div className="mb-2 md:mb-3">
-                  <span className="text-xs bg-blue-500/10 text-blue-400 px-2.5 py-1 rounded-full capitalize font-medium border border-blue-500/30">
+            viewMode === 'list' ? (
+              // List View - Compact horizontal layout
+              <div 
+                key={`${entry.word}-${entry.category}-${entry.translation}`} 
+                className="bg-gradient-to-br from-gray-800 to-gray-800/80 border-2 border-gray-700 hover:border-blue-500 transition-all duration-200 rounded-xl"
+              >
+                <div className="p-3 flex items-center gap-4">
+                  {/* Script */}
+                  <div className="text-2xl font-bold text-white font-serif min-w-[80px] text-center">
+                    {entry.script}
+                  </div>
+                  
+                  {/* Word */}
+                  <div className="font-bold text-blue-400 min-w-[120px]">
+                    {entry.word}
+                  </div>
+                  
+                  {/* Translation */}
+                  <div className="font-medium text-gray-200 flex-1 min-w-[150px]">
+                    {entry.translation}
+                  </div>
+                  
+                  {/* Phonetic */}
+                  <div className="text-gray-400 italic text-sm min-w-[120px] hidden lg:block">
+                    "{entry.phonetic}"
+                  </div>
+                  
+                  {/* Category badge */}
+                  <span className="text-xs bg-blue-500/10 text-blue-400 px-2 py-1 rounded-full capitalize font-medium border border-blue-500/30 hidden md:inline-block">
                     {entry.category}
                   </span>
-                </div>
-
-                {/* Script & Word */}
-                <div className="mb-3 md:mb-4">
-                  <h3 className="text-3xl md:text-4xl font-bold text-white mb-1 font-serif pr-8">
-                    {entry.script}
-                  </h3>
-                  <h4 className="text-base md:text-lg font-bold text-blue-400">{entry.word}</h4>
-                </div>
-
-                {/* Translation & Phonetic */}
-                <div className="mt-auto">
-                  <p className="text-lg md:text-xl font-medium text-gray-200 mb-1">{entry.translation}</p>
-                  <p className="text-gray-400 italic text-sm">"{entry.phonetic}"</p>
-                </div>
-                
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {preferences.audioEnabled && (
+                  
+                  {/* Actions */}
+                  <div className="flex items-center gap-2">
+                    {preferences.audioEnabled && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          speakWord(entry.word);
+                        }}
+                        className="p-2 rounded-lg hover:bg-gray-700 transition-colors text-blue-400"
+                        title="Listen"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                          <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                        </svg>
+                      </button>
+                    )}
+                    
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        speakWord(entry.word);
+                        setActiveEntry(entry);
                       }}
-                      className="flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300 transition-colors"
+                      className="p-2 rounded-lg hover:bg-gray-700 transition-colors text-gray-400 hover:text-white"
+                      title="Pronunciations"
                     >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="12" cy="12" r="1"></circle>
+                        <circle cx="19" cy="12" r="1"></circle>
+                        <circle cx="5" cy="12" r="1"></circle>
                       </svg>
-                      <span>Listen</span>
                     </button>
-                  )}
-
+                    
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleFavorite(`${entry.word}-${entry.category}`);
+                      }}
+                      className="p-2 rounded-lg hover:bg-gray-700 transition-colors"
+                      title={isFavorite(`${entry.word}-${entry.category}`) ? "Remove from favorites" : "Add to favorites"}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill={isFavorite(`${entry.word}-${entry.category}`) ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={isFavorite(`${entry.word}-${entry.category}`) ? "text-yellow-500" : "text-gray-400"}>
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              // Grid View - Card layout
+              <div 
+                key={`${entry.word}-${entry.category}-${entry.translation}`} 
+                className="bg-gradient-to-br from-gray-800 to-gray-800/80 border-2 border-gray-700 hover:border-blue-500 transition-all duration-300 overflow-hidden rounded-2xl md:rounded-xl active:scale-95"
+              >
+                <div className="p-4 md:p-5 flex flex-col relative">
+                  {/* Favorite button */}
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      setActiveEntry(entry);
+                      toggleFavorite(`${entry.word}-${entry.category}`);
                     }}
-                    className="flex items-center gap-2 rounded-lg border border-gray-700 px-3 py-2 text-sm text-gray-200 hover:border-blue-500 hover:text-white transition-colors"
+                    className="absolute top-2 right-2 p-2 rounded-full hover:bg-gray-700 transition-colors"
+                    title={isFavorite(`${entry.word}-${entry.category}`) ? "Remove from favorites" : "Add to favorites"}
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="12" cy="12" r="3"></circle>
-                      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 8.6 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H2a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 3.6 8.6a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H8a1.65 1.65 0 0 0 1-1.51V2a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V8a1.65 1.65 0 0 0 1.51 1H22a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill={isFavorite(`${entry.word}-${entry.category}`) ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={isFavorite(`${entry.word}-${entry.category}`) ? "text-yellow-500" : "text-gray-400"}>
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
                     </svg>
-                    <span>Native pronunciations</span>
                   </button>
+                  
+                  {/* Category badge */}
+                  <div className="mb-2 md:mb-3">
+                    <span className="text-xs bg-blue-500/10 text-blue-400 px-2.5 py-1 rounded-full capitalize font-medium border border-blue-500/30">
+                      {entry.category}
+                    </span>
+                  </div>
+
+                  {/* Script & Word */}
+                  <div className="mb-3 md:mb-4">
+                    <h3 className="text-3xl md:text-4xl font-bold text-white mb-1 font-serif pr-8">
+                      {entry.script}
+                    </h3>
+                    <h4 className="text-base md:text-lg font-bold text-blue-400">{entry.word}</h4>
+                  </div>
+
+                  {/* Translation & Phonetic */}
+                  <div className="mt-auto">
+                    <p className="text-lg md:text-xl font-medium text-gray-200 mb-1">{entry.translation}</p>
+                    <p className="text-gray-400 italic text-sm">"{entry.phonetic}"</p>
+                  </div>
+                  
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {preferences.audioEnabled && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          speakWord(entry.word);
+                        }}
+                        className="flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300 transition-colors"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                          <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                        </svg>
+                        <span>Listen</span>
+                      </button>
+                    )}
+
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setActiveEntry(entry);
+                      }}
+                      className="flex items-center gap-2 rounded-lg border border-gray-700 px-3 py-2 text-sm text-gray-200 hover:border-blue-500 hover:text-white transition-colors"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 8.6 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H2a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 3.6 8.6a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H8a1.65 1.65 0 0 0 1-1.51V2a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V8a1.65 1.65 0 0 0 1.51 1H22a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                      </svg>
+                      <span>Native pronunciations</span>
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
+            )
           ))}
         </div>
       ) : (
