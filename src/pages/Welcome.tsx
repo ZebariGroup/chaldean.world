@@ -7,7 +7,10 @@ export default function Welcome() {
 
   const handleGuestMode = () => {
     signInAsGuest();
-    navigate('/');
+    // Force navigation after state update
+    setTimeout(() => {
+      navigate('/', { replace: true });
+    }, 100);
   };
 
   return (
