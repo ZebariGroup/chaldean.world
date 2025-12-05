@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
-import { dictionaryDataWithImages, DictionaryEntry } from '../data/dictionary';
+import { dictionaryData, DictionaryEntry } from '../data/dictionary';
 import { useProgress } from '../context/ProgressContext';
 import PronunciationModal from '../components/PronunciationModal';
 
@@ -22,7 +22,7 @@ export default function Dictionary() {
   }, [searchTerm]);
 
   const filteredWords = useMemo(() => {
-    let words = dictionaryDataWithImages;
+    let words = dictionaryData;
     
     // Filter by favorites if enabled
     if (showFavoritesOnly) {
@@ -88,7 +88,7 @@ export default function Dictionary() {
     });
   };
 
-  const categories: string[] = ['all', ...Array.from(new Set(dictionaryDataWithImages.map(d => d.category)))];
+  const categories: string[] = ['all', ...Array.from(new Set(dictionaryData.map(d => d.category)))];
 
   return (
     <div className="w-full max-w-6xl mx-auto px-4 py-4 md:py-6">
@@ -161,22 +161,9 @@ export default function Dictionary() {
           {filteredWords.map((entry) => (
             <div 
               key={`${entry.word}-${entry.category}-${entry.translation}`} 
-              className="bg-gradient-to-br from-gray-800 to-gray-800/80 border-2 border-gray-700 hover:border-blue-500 transition-all duration-300 overflow-hidden rounded-2xl md:rounded-xl flex flex-row md:flex-col active:scale-95"
+              className="bg-gradient-to-br from-gray-800 to-gray-800/80 border-2 border-gray-700 hover:border-blue-500 transition-all duration-300 overflow-hidden rounded-2xl md:rounded-xl active:scale-95"
             >
-              {/* Mobile: Horizontal Layout, Desktop: Vertical */}
-              
-              {/* Image Section */}
-              {entry.image && (
-                <div className="w-24 h-24 md:w-full md:h-40 flex-shrink-0 overflow-hidden relative">
-                  <img 
-                    src={entry.image} 
-                    alt={entry.word} 
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              )}
-
-              <div className="flex-1 p-4 md:p-5 flex flex-col relative">
+              <div className="p-4 md:p-5 flex flex-col relative">
                 {/* Favorite button */}
                 <button
                   onClick={(e) => {
