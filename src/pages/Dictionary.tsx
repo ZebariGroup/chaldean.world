@@ -30,8 +30,9 @@ export default function Dictionary() {
     }
     
     if (!debouncedSearchTerm) {
-      if (selectedCategory === 'all') return words;
-      return words.filter(entry => entry.category === selectedCategory);
+      const filtered = selectedCategory === 'all' ? words : words.filter(entry => entry.category === selectedCategory);
+      // Sort alphabetically by English translation for better user experience
+      return filtered.sort((a, b) => a.translation.localeCompare(b.translation));
     }
 
     const searchLower = debouncedSearchTerm.toLowerCase().trim();
