@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
-import { dictionaryDataWithImages } from '../data/dictionary';
+import { dictionaryDataWithImages, DictionaryEntry } from '../data/dictionary';
 import { useProgress } from '../context/ProgressContext';
+import PronunciationModal from '../components/PronunciationModal';
 
 export default function Dictionary() {
   const { toggleFavorite, isFavorite, preferences } = useProgress();
@@ -9,6 +10,7 @@ export default function Dictionary() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
+  const [activeEntry, setActiveEntry] = useState<DictionaryEntry | null>(null);
 
   // Debounce search input
   useEffect(() => {
@@ -86,7 +88,7 @@ export default function Dictionary() {
     });
   };
 
-  const categories = ['all', ...Array.from(new Set(dictionaryData.map(d => d.category)))];
+  const categories: string[] = ['all', ...Array.from(new Set(dictionaryDataWithImages.map(d => d.category)))];
 
   return (
     <div className="w-full max-w-6xl mx-auto px-4 py-4 md:py-6">
@@ -210,22 +212,37 @@ export default function Dictionary() {
                   <p className="text-gray-400 italic text-sm">"{entry.phonetic}"</p>
                 </div>
                 
-                {/* Audio button */}
-                {preferences.audioEnabled && (
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {preferences.audioEnabled && (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        speakWord(entry.word);
+                      }}
+                      className="flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300 transition-colors"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                      </svg>
+                      <span>Listen</span>
+                    </button>
+                  )}
+
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      speakWord(entry.word);
+                      setActiveEntry(entry);
                     }}
-                    className="mt-3 flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300 transition-colors"
+                    className="flex items-center gap-2 rounded-lg border border-gray-700 px-3 py-2 text-sm text-gray-200 hover:border-blue-500 hover:text-white transition-colors"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                      <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                      <circle cx="12" cy="12" r="3"></circle>
+                      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 8.6 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H2a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 3.6 8.6a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H8a1.65 1.65 0 0 0 1-1.51V2a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V8a1.65 1.65 0 0 0 1.51 1H22a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
                     </svg>
-                    <span>Listen</span>
+                    <span>Native pronunciations</span>
                   </button>
-                )}
+                </div>
               </div>
             </div>
           ))}
@@ -236,6 +253,12 @@ export default function Dictionary() {
           <p className="text-gray-400 text-lg">No words found</p>
           <p className="text-gray-500 text-sm mt-2">Try a different search term</p>
         </div>
+      )}
+      {activeEntry && (
+        <PronunciationModal
+          entry={activeEntry}
+          onClose={() => setActiveEntry(null)}
+        />
       )}
     </div>
   );
