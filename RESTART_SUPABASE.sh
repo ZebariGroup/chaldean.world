@@ -32,3 +32,4 @@ else
     sudo ~/.local/bin/supabase status
 fi
 
+

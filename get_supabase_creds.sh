@@ -17,3 +17,4 @@ else
     echo "Make sure Supabase is running: ./START_SUPABASE.sh"
 fi
 
+

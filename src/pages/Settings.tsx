@@ -275,6 +275,20 @@ export default function Settings() {
         </div>
       </div>
 
+      {/* Feedback */}
+      <div className="mb-8 bg-gray-800 rounded-2xl border-2 border-gray-700 p-6">
+        <h2 className="text-xl font-bold mb-4">Feedback & Support</h2>
+        <div className="space-y-4">
+          <button
+            onClick={() => window.open('mailto:matthew@zebarigroup.com?subject=Chaldean World App Feedback&body=Hi Matthew,%0A%0AI have feedback/corrections for the Chaldean World app:%0A%0A')}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl transition-all"
+          >
+            📧 Send Feedback / Corrections
+          </button>
+          <p className="text-xs text-gray-400">Have suggestions or found errors? Send us an email!</p>
+        </div>
+      </div>
+
       {/* Data Management */}
       <div className="mb-8 bg-gray-800 rounded-2xl border-2 border-gray-700 p-6">
         <h2 className="text-xl font-bold mb-4">Data Management</h2>

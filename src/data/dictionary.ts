@@ -1486,8 +1486,35 @@ export const dictionaryData: DictionaryEntry[] = [
 
 ];
 
-// Export a version with guaranteed images using category fallbacks
-export const dictionaryDataWithImages: DictionaryEntry[] = dictionaryData.map((entry) => ({
-  ...entry,
-  image: entry.image ?? categoryImageMap[entry.category] ?? categoryImageMap.default,
-}));
+// Simple deterministic hash to vary Unsplash source results per word
+const hashString = (value: string) => {
+  let hash = 0;
+  for (let i = 0; i < value.length; i++) {
+    hash = (hash << 5) - hash + value.charCodeAt(i);
+    hash |= 0; // force int32
+  }
+  return Math.abs(hash);
+};
+
+// Generate a unique Unsplash source URL per entry (real images, non-placeholder)
+const generateUniqueImage = (entry: DictionaryEntry) => {
+  const query = encodeURIComponent(`${entry.word} ${entry.translation} ${entry.category}`);
+  const sig = hashString(`${entry.word}-${entry.translation}-${entry.script}-${entry.category}`);
+  return `https://source.unsplash.com/600x600/?${query}&sig=${sig}`;
+};
+
+// Export a version with guaranteed, unique images
+const imageUsage = new Map<string, number>();
+dictionaryData.forEach((entry) => {
+  const fallback = entry.image ?? categoryImageMap[entry.category] ?? categoryImageMap.default;
+  imageUsage.set(fallback, (imageUsage.get(fallback) ?? 0) + 1);
+});
+
+export const dictionaryDataWithImages: DictionaryEntry[] = dictionaryData.map((entry) => {
+  const fallback = entry.image ?? categoryImageMap[entry.category] ?? categoryImageMap.default;
+  const isDuplicate = (imageUsage.get(fallback) ?? 0) > 1;
+  return {
+    ...entry,
+    image: isDuplicate ? generateUniqueImage(entry) : fallback,
+  };
+});

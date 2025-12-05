@@ -12,6 +12,7 @@ import Dictionary from './pages/Dictionary';
 import Translator from './pages/Translator';
 import Settings from './pages/Settings';
 import Review from './pages/Review';
+import EmailConfirmation from './pages/EmailConfirmation';
 import ProtectedRoute from './components/ProtectedRoute';
 import { ProgressProvider } from './context/ProgressContext';
 import { AuthProvider } from './context/AuthContext';
@@ -61,6 +62,7 @@ function App() {
         <Routes>
           <Route path="/welcome" element={<Welcome />} />
           <Route path="/auth" element={<Auth />} />
+          <Route path="/confirm-email" element={<EmailConfirmation />} />
           <Route
             path="/"
             element={

@@ -84,7 +84,6 @@ enabled = true
 # Port to use for Supabase Studio.
 port = 54323
 # External URL of the API server that frontend connects to.
-# Use your local network IP for network access (e.g., http://192.168.2.125)
 api_url = "http://127.0.0.1"
 # OpenAI API Key to use for Supabase AI in the Supabase Studio.
 openai_api_key = "env(OPENAI_API_KEY)"
@@ -148,8 +147,7 @@ enabled = true
 # in emails.
 site_url = "http://127.0.0.1:3000"
 # A list of *exact* URLs that auth providers are permitted to redirect to post authentication.
-# Add your Vercel deployment URL here when deploying
-additional_redirect_urls = ["https://127.0.0.1:3000", "https://chaldean-world.vercel.app", "https://chaldean-world-*.vercel.app"]
+additional_redirect_urls = ["https://127.0.0.1:3000"]
 # How long tokens are valid for, in seconds. Defaults to 3600 (1 hour), maximum 604,800 (1 week).
 jwt_expiry = 3600
 # JWT issuer URL. If not set, defaults to the local API URL (http://127.0.0.1:<port>/auth/v1).
@@ -212,15 +210,15 @@ otp_length = 6
 # Number of seconds before the email OTP expires (defaults to 1 hour).
 otp_expiry = 3600
 
-# Use a production-ready SMTP server
-# [auth.email.smtp]
-# enabled = true
-# host = "smtp.sendgrid.net"
-# port = 587
-# user = "apikey"
-# pass = "env(SENDGRID_API_KEY)"
-# admin_email = "admin@email.com"
-# sender_name = "Admin"
+# Use local Mailpit (Inbucket) for development emails
+[auth.email.smtp]
+enabled = true
+host = "supabase_inbucket_chaldean.world"
+port = 1025
+user = "noreply"
+pass = "dummy"
+admin_email = "noreply@chaldean.world"
+sender_name = "Chaldean World (Local)"
 
 # Uncomment to customize email template
 # [auth.email.template.invite]

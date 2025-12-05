@@ -89,3 +89,4 @@ echo ""
 echo "To redeploy with new env vars:"
 echo "  vercel --prod"
 
+

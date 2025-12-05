@@ -80,3 +80,4 @@ Your local network IP: **192.168.2.125**
 - Exposed URL: Use ngrok HTTPS URL for Vercel
 - Anon Key: Get from `supabase status`
 
+
