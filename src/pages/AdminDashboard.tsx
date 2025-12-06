@@ -95,7 +95,6 @@ export default function AdminDashboard() {
   const saveEdit = () => {
     if (!editedData) return;
 
-    const id = `${editedData.word}-${editedData.category}`;
     const originalEntry = localDictionary.find(e => 
       `${e.word}-${e.category}` === editingId
     );
