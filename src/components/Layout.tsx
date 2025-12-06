@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useProgress } from '../context/ProgressContext';
 import { useAuth } from '../context/AuthContext';
+import { supabase } from '../lib/supabase';
 import PWAInstallPrompt from './PWAInstallPrompt';
 import OfflineIndicator from './OfflineIndicator';
 import UpdateNotification from './UpdateNotification';
@@ -10,8 +11,25 @@ export default function Layout() {
   const { points, level, getWordsToReview } = useProgress();
   const { user, signOut, isGuest } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const location = useLocation();
   const wordsToReview = getWordsToReview().length;
+
+  useEffect(() => {
+    const checkAdmin = async () => {
+      if (!user?.email) {
+        setIsAdmin(false);
+        return;
+      }
+      const { data } = await supabase
+        .from('admin_users')
+        .select('email')
+        .eq('email', user.email)
+        .maybeSingle();
+      setIsAdmin(!!data);
+    };
+    checkAdmin();
+  }, [user]);
 
   const isActive = (path: string) => location.pathname === path;
   const linkClass = (path: string) => `
@@ -65,6 +83,7 @@ export default function Layout() {
                     </span>
                   )}
                 </Link>
+                {isAdmin && <Link to="/admin" className={linkClass('/admin')}>🔧 Admin</Link>}
                 <Link to="/settings" className={linkClass('/settings')}>⚙️</Link>
               </div>
             </div>
@@ -146,6 +165,11 @@ export default function Layout() {
                   </span>
                 )}
               </Link>
+              {isAdmin && (
+                <Link to="/admin" onClick={() => setIsMenuOpen(false)} className={`block ${linkClass('/admin')} text-base py-3`}>
+                  🔧 Admin Dashboard
+                </Link>
+              )}
               <Link to="/settings" onClick={() => setIsMenuOpen(false)} className={`block ${linkClass('/settings')} text-base py-3`}>
                 ⚙️ Settings
               </Link>

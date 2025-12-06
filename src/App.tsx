@@ -12,6 +12,7 @@ import Dictionary from './pages/Dictionary';
 import Translator from './pages/Translator';
 import Settings from './pages/Settings';
 import Review from './pages/Review';
+import AdminDashboard from './pages/AdminDashboard';
 import EmailConfirmation from './pages/EmailConfirmation';
 import ProtectedRoute from './components/ProtectedRoute';
 import { ProgressProvider } from './context/ProgressContext';
@@ -81,6 +82,7 @@ function App() {
             <Route path="translator" element={<Translator />} />
             <Route path="review" element={<Review />} />
             <Route path="settings" element={<Settings />} />
+            <Route path="admin" element={<AdminDashboard />} />
           </Route>
           <Route path="*" element={<Navigate to="/welcome" replace />} />
         </Routes>

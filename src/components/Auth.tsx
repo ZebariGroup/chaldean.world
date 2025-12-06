@@ -7,6 +7,7 @@ export default function Auth() {
   const navigate = useNavigate();
   const mode = searchParams.get('mode');
   const [isSignUp, setIsSignUp] = useState(mode === 'signup');
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   // const [confirmPassword, setConfirmPassword] = useState(''); // Removed for simpler UX
@@ -14,7 +15,7 @@ export default function Auth() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [emailSent, setEmailSent] = useState(false);
-  const { signIn, signUp, signInAsGuest, user, isGuest } = useAuth();
+  const { signIn, signUp, signInAsGuest, resetPassword, user, isGuest } = useAuth();
 
   // Redirect to home if already authenticated or in guest mode
   useEffect(() => {
@@ -36,6 +37,25 @@ export default function Auth() {
     e.preventDefault();
     setError(null);
     setMessage(null);
+
+    if (isForgotPassword) {
+      // Handle password reset
+      setLoading(true);
+      try {
+        const { error } = await resetPassword(email);
+        if (error) {
+          setError(error.message);
+        } else {
+          setEmailSent(true);
+          setMessage(`Password reset email sent to ${email}. Check your inbox and click the link to reset your password.`);
+        }
+      } catch (err) {
+        setError('An unexpected error occurred');
+      } finally {
+        setLoading(false);
+      }
+      return;
+    }
 
     if (isSignUp) {
       // if (password !== confirmPassword) {
@@ -85,7 +105,7 @@ export default function Auth() {
         <div className="text-center mb-6 md:mb-8">
           <h1 className="text-2xl md:text-3xl font-bold text-white mb-2">Chaldean World</h1>
           <p className="text-gray-400">
-            {isSignUp ? 'Create your account' : 'Sign in to continue'}
+            {isForgotPassword ? 'Reset your password' : isSignUp ? 'Create your account' : 'Sign in to continue'}
           </p>
         </div>
 
@@ -153,20 +173,22 @@ export default function Auth() {
             />
           </div>
 
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="••••••••"
-            />
-          </div>
+          {!isForgotPassword && (
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
+                Password
+              </label>
+              <input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="••••••••"
+              />
+            </div>
+          )}
 
           {/* {isSignUp && (
             <div>
@@ -185,29 +207,59 @@ export default function Auth() {
             </div>
           )} */}
 
+          {!isForgotPassword && !isSignUp && (
+            <div className="text-right">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsForgotPassword(true);
+                  setError(null);
+                  setMessage(null);
+                }}
+                className="text-sm text-blue-400 hover:text-blue-300"
+              >
+                Forgot password?
+              </button>
+            </div>
+          )}
+
           <button
             type="submit"
             disabled={loading}
             className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white font-semibold py-3 px-4 rounded-lg transition-colors"
           >
-            {loading ? 'Loading...' : isSignUp ? 'Sign Up' : 'Sign In'}
+            {loading ? 'Loading...' : isForgotPassword ? 'Send Reset Link' : isSignUp ? 'Sign Up' : 'Sign In'}
           </button>
         </form>
 
         <div className="mt-4 md:mt-6 space-y-3">
           <div className="text-center">
-            <button
-              onClick={() => {
-                setIsSignUp(!isSignUp);
-                setError(null);
-                setMessage(null);
-              }}
-              className="text-blue-400 hover:text-blue-300 text-sm"
-            >
-              {isSignUp
-                ? 'Already have an account? Sign in'
-                : "Don't have an account? Sign up"}
-            </button>
+            {isForgotPassword ? (
+              <button
+                onClick={() => {
+                  setIsForgotPassword(false);
+                  setError(null);
+                  setMessage(null);
+                  setEmailSent(false);
+                }}
+                className="text-blue-400 hover:text-blue-300 text-sm"
+              >
+                Back to sign in
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  setIsSignUp(!isSignUp);
+                  setError(null);
+                  setMessage(null);
+                }}
+                className="text-blue-400 hover:text-blue-300 text-sm"
+              >
+                {isSignUp
+                  ? 'Already have an account? Sign in'
+                  : "Don't have an account? Sign up"}
+              </button>
+            )}
           </div>
           
           <div className="relative flex items-center">
