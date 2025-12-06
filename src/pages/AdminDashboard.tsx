@@ -65,7 +65,14 @@ export default function AdminDashboard() {
     result.sort((a, b) => {
       const aVal = a[sortField];
       const bVal = b[sortField];
-      const comparison = aVal < bVal ? -1 : aVal > bVal ? 1 : 0;
+      
+      let comparison = 0;
+      if (typeof aVal === 'string' && typeof bVal === 'string') {
+        comparison = aVal.localeCompare(bVal);
+      } else {
+        comparison = aVal < bVal ? -1 : aVal > bVal ? 1 : 0;
+      }
+      
       return sortDirection === 'asc' ? comparison : -comparison;
     });
 

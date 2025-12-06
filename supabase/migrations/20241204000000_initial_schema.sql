@@ -215,14 +215,18 @@ CREATE POLICY "Users can insert own badges"
 
 -- Function to create user_progress entry when user signs up
 CREATE OR REPLACE FUNCTION create_user_progress()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
 BEGIN
-  INSERT INTO user_progress (id)
+  INSERT INTO public.user_progress (id)
   VALUES (NEW.id)
   ON CONFLICT (id) DO NOTHING;
   RETURN NEW;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$;
 
 -- Trigger to auto-create user_progress on user signup
 CREATE TRIGGER on_auth_user_created
