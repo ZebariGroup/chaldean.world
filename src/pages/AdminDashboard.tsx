@@ -68,7 +68,8 @@ export default function AdminDashboard() {
       
       let comparison = 0;
       if (typeof aVal === 'string' && typeof bVal === 'string') {
-        comparison = aVal.localeCompare(bVal);
+        // Case-insensitive locale comparison
+        comparison = aVal.localeCompare(bVal, undefined, { sensitivity: 'base' });
       } else {
         comparison = aVal < bVal ? -1 : aVal > bVal ? 1 : 0;
       }
@@ -285,13 +286,13 @@ export const dictionaryData: DictionaryEntry[] = ${JSON.stringify(localDictionar
                 </tr>
               </thead>
               <tbody>
-                {filteredAndSorted.map((entry) => {
+                {filteredAndSorted.map((entry, index) => {
                   const id = `${entry.word}-${entry.category}`;
                   const isEditing = editingId === id;
 
                   return (
                     <tr 
-                      key={id}
+                      key={`${id}-${index}`}
                       className="border-t border-gray-700 hover:bg-gray-700/30 transition-colors"
                     >
                       <td className="px-4 py-3">
