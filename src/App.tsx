@@ -18,6 +18,7 @@ import Forum from './pages/Forum';
 import PostView from './pages/PostView';
 import CreatePost from './pages/CreatePost';
 import ForumAdmin from './pages/ForumAdmin';
+import EnglishArabicDictionary from './pages/EnglishArabicDictionary';
 import ProtectedRoute from './components/ProtectedRoute';
 import { ProgressProvider } from './context/ProgressContext';
 import { AuthProvider } from './context/AuthContext';
@@ -91,6 +92,7 @@ function App() {
             <Route path="forum/post/:postId" element={<PostView />} />
             <Route path="forum/new" element={<CreatePost />} />
             <Route path="forum/admin" element={<ForumAdmin />} />
+            <Route path="english-arabic" element={<EnglishArabicDictionary />} />
           </Route>
           <Route path="*" element={<Navigate to="/welcome" replace />} />
         </Routes>
