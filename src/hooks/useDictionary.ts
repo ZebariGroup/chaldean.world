@@ -14,15 +14,30 @@ export function useDictionary() {
   async function fetchDictionary() {
     try {
       setLoading(true);
-      const { data, error: fetchError } = await supabase
-        .from('dictionary')
-        .select('*')
-        .order('word', { ascending: true })
-        .range(0, 9999);
+      let allData: DictionaryEntry[] = [];
+      let from = 0;
+      const limit = 1000; // Fetch in chunks to avoid API limits
+      
+      while (true) {
+        const { data, error: fetchError } = await supabase
+          .from('dictionary')
+          .select('*')
+          .order('word', { ascending: true })
+          .range(from, from + limit - 1);
 
-      if (fetchError) throw fetchError;
+        if (fetchError) throw fetchError;
+        
+        if (!data || data.length === 0) break;
+        
+        allData = [...allData, ...data];
+        
+        // If we got fewer results than the limit, we've reached the end
+        if (data.length < limit) break;
+        
+        from += limit;
+      }
 
-      setDictionary(data || []);
+      setDictionary(allData);
       setError(null);
     } catch (err) {
       console.error('Error fetching dictionary:', err);
@@ -80,4 +95,3 @@ export function useDictionary() {
     deleteWord,
   };
 }
-
