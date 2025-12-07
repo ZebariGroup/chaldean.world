@@ -50,6 +50,7 @@ export default function Dictionary() {
         let score = 0;
         const wordLower = entry.word.toLowerCase();
         const translationLower = entry.translation.toLowerCase();
+        const arabicLower = (entry.arabic || '').toLowerCase();
         const phoneticLower = entry.phonetic.toLowerCase();
         const categoriesLower = entry.categories.map(c => c.toLowerCase()).join(' ');
         const script = entry.script;
@@ -57,23 +58,27 @@ export default function Dictionary() {
         // Exact matches - highest priority
         if (wordLower === searchLower) score += 100;
         if (translationLower === searchLower) score += 100;
+        if (arabicLower === searchLower) score += 100;
         if (phoneticLower === searchLower) score += 100;
         if (script === debouncedSearchTerm) score += 100;
 
         // Starts with - second priority
         if (wordLower.startsWith(searchLower)) score += 50;
         if (translationLower.startsWith(searchLower)) score += 50;
+        if (arabicLower.startsWith(searchLower)) score += 50;
         if (phoneticLower.startsWith(searchLower)) score += 50;
         if (script.startsWith(debouncedSearchTerm)) score += 50;
 
         // Word boundary matches - third priority
         if (searchRegex.test(wordLower)) score += 30;
         if (searchRegex.test(translationLower)) score += 30;
+        if (searchRegex.test(arabicLower)) score += 30;
         if (searchRegex.test(phoneticLower)) score += 30;
         
         // Contains matches - fourth priority
         if (wordLower.includes(searchLower)) score += 20;
         if (translationLower.includes(searchLower)) score += 20;
+        if (arabicLower.includes(searchLower)) score += 20;
         if (phoneticLower.includes(searchLower)) score += 20;
         if (script.includes(debouncedSearchTerm) && !script.startsWith(debouncedSearchTerm)) score += 10;
         
