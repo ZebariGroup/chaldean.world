@@ -1,10 +1,12 @@
 import { useState, useMemo, useEffect } from 'react';
-import { dictionaryData, DictionaryEntry } from '../data/dictionary';
+import { DictionaryEntry } from '../data/dictionary';
 import { useProgress } from '../context/ProgressContext';
+import { useDictionary } from '../hooks/useDictionary';
 import PronunciationModal from '../components/PronunciationModal';
 
 export default function Dictionary() {
   const { toggleFavorite, isFavorite, preferences } = useProgress();
+  const { dictionary: dictionaryData, loading: dictLoading } = useDictionary();
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>('all');

@@ -1,13 +1,15 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../lib/supabase';
-import { dictionaryData, DictionaryEntry, CategoryType } from '../data/dictionary';
+import { DictionaryEntry, CategoryType } from '../data/dictionary';
+import { useDictionary } from '../hooks/useDictionary';
 
 type SortField = keyof DictionaryEntry;
 type SortDirection = 'asc' | 'desc';
 
 export default function AdminDashboard() {
   const { user } = useAuth();
+  const { dictionary, loading: dictLoading, updateWord, refetch } = useDictionary();
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -16,8 +18,8 @@ export default function AdminDashboard() {
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
   const [sortField, setSortField] = useState<SortField>('word');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
-  const [localDictionary, setLocalDictionary] = useState<DictionaryEntry[]>(dictionaryData);
   const [saveMessage, setSaveMessage] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     const checkAdmin = async () => {
@@ -39,14 +41,14 @@ export default function AdminDashboard() {
 
   const categories = useMemo(() => {
     const cats = new Set<CategoryType>();
-    dictionaryData.forEach(entry => {
+    dictionary.forEach(entry => {
       entry.categories.forEach(cat => cats.add(cat));
     });
     return Array.from(cats).sort();
-  }, []);
+  }, [dictionary]);
 
   const filteredAndSorted = useMemo(() => {
-    let result = [...localDictionary];
+    let result = [...dictionary];
 
     // Filter by search term
     if (searchTerm) {
@@ -86,7 +88,7 @@ export default function AdminDashboard() {
     });
 
     return result;
-  }, [localDictionary, searchTerm, categoryFilter, sortField, sortDirection]);
+  }, [dictionary, searchTerm, categoryFilter, sortField, sortDirection]);
 
   const handleSort = (field: SortField) => {
     if (sortField === field) {
@@ -108,54 +110,51 @@ export default function AdminDashboard() {
     setEditedData(null);
   };
 
-  const saveEdit = () => {
-    if (!editedData) return;
+  const saveEdit = async () => {
+    if (!editedData || !editedData.id) return;
 
-    const originalEntry = localDictionary.find(e => 
-      `${e.word}-${e.categories.join('-')}` === editingId
-    );
+    setSaving(true);
+    try {
+      await updateWord(editedData.id, {
+        word: editedData.word,
+        translation: editedData.translation,
+        phonetic: editedData.phonetic,
+        script: editedData.script,
+        categories: editedData.categories,
+      });
 
-    if (!originalEntry) return;
+      // Show success message
+      setSaveMessage(`Updated "${editedData.word}" successfully`);
+      setTimeout(() => setSaveMessage(null), 3000);
 
-    // Update local state
-    const updated = localDictionary.map(entry => 
-      `${entry.word}-${entry.categories.join('-')}` === editingId ? editedData : entry
-    );
-    setLocalDictionary(updated);
-
-    // Show success message
-    setSaveMessage(`Updated "${editedData.word}" successfully`);
-    setTimeout(() => setSaveMessage(null), 3000);
-
-    setEditingId(null);
-    setEditedData(null);
+      setEditingId(null);
+      setEditedData(null);
+    } catch (error) {
+      console.error('Error saving:', error);
+      setSaveMessage(`Error: ${error instanceof Error ? error.message : 'Failed to save'}`);
+      setTimeout(() => setSaveMessage(null), 5000);
+    } finally {
+      setSaving(false);
+    }
   };
 
-  const exportToFile = () => {
-    const content = `export interface DictionaryEntry {
-  word: string;
-  translation: string;
-  phonetic: string;
-  script: string;
-  category: 'greeting' | 'noun' | 'verb' | 'adjective' | 'phrase' | 'number' | 'food' | 'family' | 'color' | 'time' | 'place' | 'animal' | 'nature' | 'body' | 'home' | 'profession' | 'clothing' | 'emotion' | 'travel' | 'question' | 'preposition' | 'conjunction';
-}
+  const exportToJSON = () => {
+    const cleanData = dictionary.map(({ id, created_at, updated_at, ...rest }) => rest);
+    const content = JSON.stringify(cleanData, null, 2);
 
-export const dictionaryData: DictionaryEntry[] = ${JSON.stringify(localDictionary, null, 2).replace(/"categories":/g, '\n  categories:')};
-`;
-
-    const blob = new Blob([content], { type: 'text/typescript' });
+    const blob = new Blob([content], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'dictionary.ts';
+    a.download = 'dictionary_export.json';
     a.click();
     URL.revokeObjectURL(url);
 
-    setSaveMessage('Dictionary exported to dictionary.ts');
+    setSaveMessage('Dictionary exported to JSON');
     setTimeout(() => setSaveMessage(null), 3000);
   };
 
-  if (loading) {
+  if (loading || dictLoading) {
     return (
       <div className="flex items-center justify-center h-full">
         <div className="text-gray-400">Loading...</div>
@@ -214,16 +213,16 @@ export const dictionaryData: DictionaryEntry[] = ${JSON.stringify(localDictionar
 
             {/* Export Button */}
             <button
-              onClick={exportToFile}
+              onClick={exportToJSON}
               className="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg text-white font-medium transition-colors whitespace-nowrap"
             >
-              Export Changes
+              Export to JSON
             </button>
           </div>
 
           {/* Stats */}
           <div className="mt-3 text-sm text-gray-400">
-            Showing {filteredAndSorted.length} of {localDictionary.length} words
+            Showing {filteredAndSorted.length} of {dictionary.length} words
           </div>
         </div>
       </div>
@@ -388,13 +387,15 @@ export const dictionaryData: DictionaryEntry[] = ${JSON.stringify(localDictionar
                           <div className="flex gap-2">
                             <button
                               onClick={saveEdit}
-                              className="px-3 py-1 bg-green-600 hover:bg-green-500 rounded text-sm text-white transition-colors"
+                              disabled={saving}
+                              className="px-3 py-1 bg-green-600 hover:bg-green-500 disabled:bg-green-900 disabled:cursor-not-allowed rounded text-sm text-white transition-colors"
                             >
-                              Save
+                              {saving ? 'Saving...' : 'Save'}
                             </button>
                             <button
                               onClick={cancelEdit}
-                              className="px-3 py-1 bg-gray-600 hover:bg-gray-500 rounded text-sm text-white transition-colors"
+                              disabled={saving}
+                              className="px-3 py-1 bg-gray-600 hover:bg-gray-500 disabled:bg-gray-800 disabled:cursor-not-allowed rounded text-sm text-white transition-colors"
                             >
                               Cancel
                             </button>
