@@ -85,7 +85,6 @@ export default function Layout() {
                   )}
                 </Link>
                 {isAdmin && <Link to="/admin" className={linkClass('/admin')}>🔧 Admin</Link>}
-                {isAdmin && <Link to="/english-arabic" className={linkClass('/english-arabic')}>🔄 EN↔AR</Link>}
                 <Link to="/settings" className={linkClass('/settings')}>⚙️</Link>
               </div>
             </div>
@@ -173,11 +172,6 @@ export default function Layout() {
               {isAdmin && (
                 <Link to="/admin" onClick={() => setIsMenuOpen(false)} className={`block ${linkClass('/admin')} text-base py-3`}>
                   🔧 Admin Dashboard
-                </Link>
-              )}
-              {isAdmin && (
-                <Link to="/english-arabic" onClick={() => setIsMenuOpen(false)} className={`block ${linkClass('/english-arabic')} text-base py-3`}>
-                  🔄 English ↔ Arabic
                 </Link>
               )}
               <Link to="/settings" onClick={() => setIsMenuOpen(false)} className={`block ${linkClass('/settings')} text-base py-3`}>
