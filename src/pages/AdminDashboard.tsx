@@ -9,7 +9,7 @@ type SortDirection = 'asc' | 'desc';
 
 export default function AdminDashboard() {
   const { user } = useAuth();
-  const { dictionary, loading: dictLoading, updateWord } = useDictionary();
+  const { dictionary, loading: dictLoading, updateWord, addWord, deleteWord } = useDictionary();
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -20,6 +20,16 @@ export default function AdminDashboard() {
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
   const [saveMessage, setSaveMessage] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [newEntry, setNewEntry] = useState<Partial<DictionaryEntry>>({
+    word: '',
+    translation: '',
+    phonetic: '',
+    script: '',
+    arabic: '',
+    arabic_phonetic: '',
+    categories: []
+  });
 
   useEffect(() => {
     const checkAdmin = async () => {
@@ -140,6 +150,73 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleDelete = async (id: string, word: string) => {
+    if (!confirm(`Are you sure you want to delete "${word}"? This cannot be undone.`)) {
+      return;
+    }
+
+    setSaving(true);
+    try {
+      await deleteWord(id);
+      setSaveMessage(`Deleted "${word}" successfully`);
+      setTimeout(() => setSaveMessage(null), 3000);
+    } catch (error) {
+      console.error('Error deleting:', error);
+      setSaveMessage(`Error: ${error instanceof Error ? error.message : 'Failed to delete'}`);
+      setTimeout(() => setSaveMessage(null), 5000);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleAddWord = async () => {
+    if (!newEntry.word || !newEntry.translation || !newEntry.phonetic || !newEntry.script) {
+      setSaveMessage('Error: Please fill in all required fields (word, translation, phonetic, script)');
+      setTimeout(() => setSaveMessage(null), 5000);
+      return;
+    }
+
+    if (!newEntry.categories || newEntry.categories.length === 0) {
+      setSaveMessage('Error: Please select at least one category');
+      setTimeout(() => setSaveMessage(null), 5000);
+      return;
+    }
+
+    setSaving(true);
+    try {
+      await addWord({
+        word: newEntry.word,
+        translation: newEntry.translation,
+        phonetic: newEntry.phonetic,
+        script: newEntry.script,
+        arabic: newEntry.arabic || '',
+        arabic_phonetic: newEntry.arabic_phonetic || '',
+        categories: newEntry.categories as CategoryType[]
+      });
+
+      setSaveMessage(`Added "${newEntry.word}" successfully`);
+      setTimeout(() => setSaveMessage(null), 3000);
+
+      // Reset form
+      setNewEntry({
+        word: '',
+        translation: '',
+        phonetic: '',
+        script: '',
+        arabic: '',
+        arabic_phonetic: '',
+        categories: []
+      });
+      setShowAddForm(false);
+    } catch (error) {
+      console.error('Error adding word:', error);
+      setSaveMessage(`Error: ${error instanceof Error ? error.message : 'Failed to add word'}`);
+      setTimeout(() => setSaveMessage(null), 5000);
+    } finally {
+      setSaving(false);
+    }
+  };
+
   const exportToJSON = () => {
     const cleanData = dictionary.map(({ id, created_at, updated_at, ...rest }) => rest);
     const content = JSON.stringify(cleanData, null, 2);
@@ -213,14 +290,122 @@ export default function AdminDashboard() {
               ))}
             </select>
 
+            {/* Add Word Button */}
+            <button
+              onClick={() => setShowAddForm(!showAddForm)}
+              className="px-4 py-2 bg-green-600 hover:bg-green-500 rounded-lg text-white font-medium transition-colors whitespace-nowrap"
+            >
+              {showAddForm ? 'Cancel' : '+ Add Word'}
+            </button>
+
             {/* Export Button */}
             <button
               onClick={exportToJSON}
               className="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg text-white font-medium transition-colors whitespace-nowrap"
             >
-              Export to JSON
+              Export JSON
             </button>
           </div>
+
+          {/* Add Word Form */}
+          {showAddForm && (
+            <div className="mt-4 p-4 bg-gray-700 border border-gray-600 rounded-lg">
+              <h3 className="text-lg font-semibold mb-3">Add New Word</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-sm text-gray-300 mb-1">English *</label>
+                  <input
+                    type="text"
+                    value={newEntry.translation || ''}
+                    onChange={(e) => setNewEntry({...newEntry, translation: e.target.value})}
+                    className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white focus:outline-none focus:border-blue-500"
+                    placeholder="Hello"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-300 mb-1">Chaldean *</label>
+                  <input
+                    type="text"
+                    value={newEntry.word || ''}
+                    onChange={(e) => setNewEntry({...newEntry, word: e.target.value})}
+                    className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white focus:outline-none focus:border-blue-500"
+                    placeholder="Shlama"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-300 mb-1">Chaldean Phonetic *</label>
+                  <input
+                    type="text"
+                    value={newEntry.phonetic || ''}
+                    onChange={(e) => setNewEntry({...newEntry, phonetic: e.target.value})}
+                    className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white focus:outline-none focus:border-blue-500"
+                    placeholder="sh-la-ma"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-300 mb-1">Chaldean Script *</label>
+                  <input
+                    type="text"
+                    value={newEntry.script || ''}
+                    onChange={(e) => setNewEntry({...newEntry, script: e.target.value})}
+                    className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white focus:outline-none focus:border-blue-500"
+                    placeholder="ܫܠܡܐ"
+                    dir="rtl"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-300 mb-1">Arabic Phonetic</label>
+                  <input
+                    type="text"
+                    value={newEntry.arabic_phonetic || ''}
+                    onChange={(e) => setNewEntry({...newEntry, arabic_phonetic: e.target.value})}
+                    className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white focus:outline-none focus:border-blue-500"
+                    placeholder="sah-laam"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-300 mb-1">Arabic Script</label>
+                  <input
+                    type="text"
+                    value={newEntry.arabic || ''}
+                    onChange={(e) => setNewEntry({...newEntry, arabic: e.target.value})}
+                    className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white focus:outline-none focus:border-blue-500"
+                    placeholder="سلام"
+                    dir="rtl"
+                  />
+                </div>
+                <div className="md:col-span-2">
+                  <label className="block text-sm text-gray-300 mb-1">Categories * (comma-separated)</label>
+                  <input
+                    type="text"
+                    value={newEntry.categories?.join(', ') || ''}
+                    onChange={(e) => setNewEntry({...newEntry, categories: e.target.value.split(',').map(s => s.trim()).filter(Boolean) as CategoryType[]})}
+                    className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white focus:outline-none focus:border-blue-500"
+                    placeholder="Greetings, Common Phrases"
+                  />
+                  <div className="mt-1 text-xs text-gray-400">
+                    Available: {categories.join(', ')}
+                  </div>
+                </div>
+              </div>
+              <div className="mt-4 flex gap-2">
+                <button
+                  onClick={handleAddWord}
+                  disabled={saving}
+                  className="px-4 py-2 bg-green-600 hover:bg-green-500 disabled:bg-gray-600 disabled:cursor-not-allowed rounded-lg text-white font-medium transition-colors"
+                >
+                  {saving ? 'Adding...' : 'Add Word'}
+                </button>
+                <button
+                  onClick={() => setShowAddForm(false)}
+                  disabled={saving}
+                  className="px-4 py-2 bg-gray-600 hover:bg-gray-500 disabled:cursor-not-allowed rounded-lg text-white font-medium transition-colors"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          )}
 
           {/* Stats */}
           <div className="mt-3 text-sm text-gray-400">
@@ -463,12 +648,22 @@ export default function AdminDashboard() {
                             </button>
                           </div>
                         ) : (
-                          <button
-                            onClick={() => startEdit(entry)}
-                            className="px-3 py-1 bg-blue-600 hover:bg-blue-500 rounded text-sm text-white transition-colors"
-                          >
-                            Edit
-                          </button>
+                          <div className="flex gap-2">
+                            <button
+                              onClick={() => startEdit(entry)}
+                              className="px-3 py-1 bg-blue-600 hover:bg-blue-500 rounded text-sm text-white transition-colors"
+                            >
+                              Edit
+                            </button>
+                            <button
+                              onClick={() => entry.id && handleDelete(entry.id, entry.word)}
+                              disabled={saving || !entry.id}
+                              className="px-3 py-1 bg-red-600 hover:bg-red-500 disabled:bg-gray-600 disabled:cursor-not-allowed rounded text-sm text-white transition-colors"
+                              title="Delete word"
+                            >
+                              Delete
+                            </button>
+                          </div>
                         )}
                       </td>
                     </tr>
