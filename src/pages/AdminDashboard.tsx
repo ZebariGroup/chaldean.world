@@ -334,19 +334,15 @@ export default function AdminDashboard() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-sm text-gray-300 mb-1">
-                    English * <span className="text-xs text-blue-400">🔄 Auto-translates to Arabic</span>
+                    English * <span className="text-xs text-blue-400">🔄 Auto-translates on blur</span>
                   </label>
                   <input
                     type="text"
                     value={newEntry.translation || ''}
-                    onChange={(e) => {
-                      const english = e.target.value;
-                      setNewEntry({...newEntry, translation: english});
-                      autoTranslateEnglish(english);
-                    }}
+                    onChange={(e) => setNewEntry({...newEntry, translation: e.target.value})}
                     onBlur={(e) => autoTranslateEnglish(e.target.value)}
                     className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white focus:outline-none focus:border-blue-500"
-                    placeholder="Hello"
+                    placeholder="Hello (type and press Tab or click away)"
                   />
                 </div>
                 <div>
