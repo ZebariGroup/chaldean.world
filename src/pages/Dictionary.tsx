@@ -100,7 +100,7 @@ export default function Dictionary() {
     });
   };
 
-  const categories: string[] = ['all', ...Array.from(new Set(dictionaryData.map(d => d.category)))];
+  const categories: string[] = ['all', ...Array.from(new Set(dictionaryData.flatMap(d => d.categories)))];
 
   return (
     <div className="w-full max-w-6xl mx-auto px-4 py-4 md:py-6">

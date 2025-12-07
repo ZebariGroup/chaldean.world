@@ -596,8 +596,12 @@ export default function Practice() {
                   Translation
                 </p>
                 <div className="text-5xl md:text-6xl font-bold text-green-400 mb-4">{currentCard.translation}</div>
-                <div className="text-sm text-gray-400 uppercase tracking-wider bg-blue-500/10 px-3 py-1 rounded-full inline-block">
-                  {currentCard.category}
+                <div className="flex gap-2 justify-center flex-wrap">
+                  {currentCard.categories.map(cat => (
+                    <div key={cat} className="text-sm text-gray-400 uppercase tracking-wider bg-blue-500/10 px-3 py-1 rounded-full inline-block">
+                      {cat}
+                    </div>
+                  ))}
                 </div>
                 <p className="text-gray-500 text-sm mt-8">Tap for next card</p>
               </div>

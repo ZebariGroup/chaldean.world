@@ -36,7 +36,7 @@ export default function LessonRunner() {
         // Find the word in dictionary to get its category for proper ID format
         const dictEntry = dictionaryData.find(d => d.word === word.word);
         if (dictEntry) {
-          addWordToReview(`${word.word}-${dictEntry.category}`);
+          addWordToReview(`${word.word}-${dictEntry.categories.join('-')}`);
         }
       });
     }

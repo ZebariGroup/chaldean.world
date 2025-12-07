@@ -21,8 +21,8 @@ export default function Review() {
     if (reviewMode === 'srs') {
       const wordIds = getWordsToReview();
       return wordIds.map(id => {
-        // Try matching with category format first (new format)
-        let word = dictionaryData.find(w => `${w.word}-${w.category}` === id);
+        // Try matching with categories format first (new format)
+        let word = dictionaryData.find(w => `${w.word}-${w.categories.join('-')}` === id);
         // If not found, try matching just the word (for backward compatibility with old "word-vocab" format)
         if (!word) {
           const wordOnly = id.replace(/-vocab$/, '').replace(/-\w+$/, '');
@@ -38,7 +38,7 @@ export default function Review() {
         const word = dictionaryData.find(w => 
           q.includes(w.word) || q.includes(w.translation)
         );
-        return word ? { word, originalId: `${word.word}-${word.category}` } : null;
+        return word ? { word, originalId: `${word.word}-${word.categories.join('-')}` } : null;
       }).filter(Boolean) as Array<{ word: typeof dictionaryData[0], originalId: string }>;
     }
     return [];
@@ -49,9 +49,9 @@ export default function Review() {
 
   const handleQuality = (quality: number) => {
     if (currentWordEntry && reviewMode === 'srs' && currentWord) {
-      // Always use the correct format: word-category
+      // Always use the correct format: word-categories
       // This ensures consistency going forward
-      const correctId = `${currentWord.word}-${currentWord.category}`;
+      const correctId = `${currentWord.word}-${currentWord.categories.join('-')}`;
       updateWordReview(correctId, quality);
     }
 
