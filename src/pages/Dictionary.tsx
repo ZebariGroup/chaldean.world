@@ -89,7 +89,8 @@ export default function Dictionary() {
       })
       .filter(item => {
         const matchesCategory = selectedCategory === 'all' || item.entry.categories.includes(selectedCategory as any);
-        return item.score > 0 && matchesCategory;
+        // Require a minimum score to reduce noise
+        return item.score >= 15 && matchesCategory;
       })
       .sort((a, b) => {
         if (b.score !== a.score) return b.score - a.score;
