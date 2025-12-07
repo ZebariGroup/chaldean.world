@@ -52,22 +52,39 @@ export default function ForumAdmin() {
 
   const loadReports = async () => {
     try {
-      const { data, error } = await supabase
+      const { data: reportsData, error: reportsError } = await supabase
         .from('forum_reports')
-        .select(`
-          *,
-          forum_posts (
-            title,
-            content
-          ),
-          forum_comments (
-            content
-          )
-        `)
+        .select('*')
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
-      setReports(data || []);
+      if (reportsError) throw reportsError;
+
+      // Get related posts
+      const postIds = reportsData?.filter(r => r.post_id).map(r => r.post_id) || [];
+      const { data: posts } = postIds.length > 0 ? await supabase
+        .from('forum_posts')
+        .select('id, title, content')
+        .in('id', postIds) : { data: [] };
+
+      // Get related comments
+      const commentIds = reportsData?.filter(r => r.comment_id).map(r => r.comment_id) || [];
+      const { data: comments } = commentIds.length > 0 ? await supabase
+        .from('forum_comments')
+        .select('id, content')
+        .in('id', commentIds) : { data: [] };
+
+      // Combine data
+      const reportsWithData = (reportsData || []).map(report => {
+        const post = posts?.find(p => p.id === report.post_id);
+        const comment = comments?.find(c => c.id === report.comment_id);
+        return {
+          ...report,
+          forum_posts: post || undefined,
+          forum_comments: comment || undefined
+        };
+      });
+
+      setReports(reportsWithData);
     } catch (error) {
       console.error('Error loading reports:', error);
     }

@@ -70,24 +70,34 @@ export default function PostView() {
 
   const loadPost = async () => {
     try {
-      const { data, error } = await supabase
+      const { data: postData, error: postError } = await supabase
         .from('forum_posts')
-        .select(`
-          *,
-          user_profiles (
-            display_name,
-            username,
-            avatar_url
-          ),
-          forum_categories (
-            name,
-            icon
-          )
-        `)
+        .select('*')
         .eq('id', postId)
         .single();
 
-      if (error) throw error;
+      if (postError) throw postError;
+
+      // Get user profile
+      const { data: userProfile } = await supabase
+        .from('user_profiles')
+        .select('display_name, username, avatar_url')
+        .eq('id', postData.user_id)
+        .single();
+
+      // Get category
+      const { data: category } = await supabase
+        .from('forum_categories')
+        .select('name, icon')
+        .eq('id', postData.category_id)
+        .single();
+
+      const data = {
+        ...postData,
+        user_profiles: userProfile || { display_name: 'Unknown', username: 'unknown', avatar_url: null },
+        forum_categories: category || { name: 'Unknown', icon: '💭' }
+      };
+
       setPost(data);
 
       // Get like count
@@ -106,33 +116,39 @@ export default function PostView() {
 
   const loadComments = async () => {
     try {
-      const { data, error } = await supabase
+      const { data: commentsData, error: commentsError } = await supabase
         .from('forum_comments')
-        .select(`
-          *,
-          user_profiles (
-            display_name,
-            username,
-            avatar_url
-          )
-        `)
+        .select('*')
         .eq('post_id', postId)
         .eq('is_deleted', false)
         .order('created_at', { ascending: true });
 
-      if (error) throw error;
+      if (commentsError) throw commentsError;
+
+      // Get user profiles for all comments
+      const userIds = [...new Set((commentsData || []).map(c => c.user_id))];
+      const { data: userProfiles } = await supabase
+        .from('user_profiles')
+        .select('id, display_name, username, avatar_url')
+        .in('id', userIds);
 
       // Get like counts and user likes for each comment
-      const commentIds = (data || []).map(c => c.id);
+      const commentIds = (commentsData || []).map(c => c.id);
       const { data: likes } = await supabase
         .from('forum_likes')
         .select('comment_id, user_id')
         .in('comment_id', commentIds);
 
-      const commentsWithLikes = (data || []).map(comment => {
+      const commentsWithLikes = (commentsData || []).map(comment => {
         const commentLikes = likes?.filter(l => l.comment_id === comment.id) || [];
+        const userProfile = userProfiles?.find(u => u.id === comment.user_id) || {
+          display_name: 'Unknown',
+          username: 'unknown',
+          avatar_url: null
+        };
         return {
           ...comment,
+          user_profiles: userProfile,
           like_count: commentLikes.length,
           is_liked: user ? commentLikes.some(l => l.user_id === user.id) : false
         };

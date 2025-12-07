@@ -80,11 +80,7 @@ export default function Forum() {
           created_at,
           is_pinned,
           view_count,
-          user_id,
-          user_profiles (
-            display_name,
-            username
-          )
+          user_id
         `)
         .eq('category_id', categoryId)
         .eq('is_deleted', false)
@@ -92,6 +88,13 @@ export default function Forum() {
         .order('created_at', { ascending: false });
 
       if (postsError) throw postsError;
+
+      // Get user profiles for all posts
+      const userIds = [...new Set((postsData || []).map(p => p.user_id))];
+      const { data: userProfiles } = await supabase
+        .from('user_profiles')
+        .select('id, display_name, username')
+        .in('id', userIds);
 
       // Get comment counts
       const postIds = (postsData || []).map(p => p.id);
@@ -111,8 +114,10 @@ export default function Forum() {
       const postsWithCounts = (postsData || []).map(post => {
         const commentCount = commentCounts?.filter(c => c.post_id === post.id).length || 0;
         const likeCount = likeCounts?.filter(l => l.post_id === post.id).length || 0;
-        // user_profiles comes as an array from Supabase, we need the first element
-        const userProfile = Array.isArray(post.user_profiles) ? post.user_profiles[0] : post.user_profiles;
+        const userProfile = userProfiles?.find(u => u.id === post.user_id) || {
+          display_name: 'Unknown',
+          username: 'unknown'
+        };
         return { 
           ...post, 
           user_profiles: userProfile,
