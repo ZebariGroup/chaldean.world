@@ -80,7 +80,7 @@ export default function AdminDashboard() {
       } else if (typeof aVal === 'string' && typeof bVal === 'string') {
         // Case-insensitive locale comparison
         comparison = aVal.localeCompare(bVal, undefined, { sensitivity: 'base' });
-      } else {
+      } else if (aVal !== undefined && bVal !== undefined) {
         comparison = aVal < bVal ? -1 : aVal > bVal ? 1 : 0;
       }
       
