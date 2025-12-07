@@ -169,25 +169,6 @@ export default function AdminDashboard() {
     }
   };
 
-  const autoTranslateEnglish = async (english: string) => {
-    if (!english.trim()) return;
-    
-    try {
-      const { data } = await supabase.rpc('translate_english_to_arabic', {
-        input_text: english.trim()
-      });
-      if (data && data.length > 0) {
-        const result = data[0];
-        setNewEntry(prev => ({
-          ...prev,
-          arabic: result.arabic || prev.arabic,
-          arabic_phonetic: result.arabic_phonetic || prev.arabic_phonetic
-        }));
-      }
-    } catch (error) {
-      console.error('Auto-translate error:', error);
-    }
-  };
 
   const handleAddWord = async () => {
     if (!newEntry.word || !newEntry.translation || !newEntry.phonetic || !newEntry.script) {
@@ -333,16 +314,13 @@ export default function AdminDashboard() {
               <h3 className="text-lg font-semibold mb-3">Add New Word</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-sm text-gray-300 mb-1">
-                    English * <span className="text-xs text-blue-400">🔄 Auto-translates on blur</span>
-                  </label>
+                  <label className="block text-sm text-gray-300 mb-1">English *</label>
                   <input
                     type="text"
                     value={newEntry.translation || ''}
                     onChange={(e) => setNewEntry({...newEntry, translation: e.target.value})}
-                    onBlur={(e) => autoTranslateEnglish(e.target.value)}
                     className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white focus:outline-none focus:border-blue-500"
-                    placeholder="Hello (type and press Tab or click away)"
+                    placeholder="Hello"
                   />
                 </div>
                 <div>
