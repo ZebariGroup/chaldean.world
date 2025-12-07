@@ -118,6 +118,7 @@ export default function AdminDashboard() {
       await updateWord(editedData.id, {
         word: editedData.word,
         translation: editedData.translation,
+        arabic: editedData.arabic || '',
         phonetic: editedData.phonetic,
         script: editedData.script,
         categories: editedData.categories,
@@ -250,8 +251,19 @@ export default function AdminDashboard() {
                     onClick={() => handleSort('translation')}
                   >
                     <div className="flex items-center gap-2">
-                      Translation
+                      English
                       {sortField === 'translation' && (
+                        <span>{sortDirection === 'asc' ? '↑' : '↓'}</span>
+                      )}
+                    </div>
+                  </th>
+                  <th 
+                    className="px-4 py-3 text-left cursor-pointer hover:bg-gray-700 transition-colors"
+                    onClick={() => handleSort('arabic')}
+                  >
+                    <div className="flex items-center gap-2">
+                      Arabic
+                      {sortField === 'arabic' && (
                         <span>{sortDirection === 'asc' ? '↑' : '↓'}</span>
                       )}
                     </div>
@@ -324,6 +336,20 @@ export default function AdminDashboard() {
                           />
                         ) : (
                           <span className="text-gray-300">{entry.translation}</span>
+                        )}
+                      </td>
+                      <td className="px-4 py-3">
+                        {isEditing ? (
+                          <input
+                            type="text"
+                            value={editedData?.arabic || ''}
+                            onChange={(e) => setEditedData({ ...editedData!, arabic: e.target.value })}
+                            className="w-full px-2 py-1 bg-gray-700 border border-gray-600 rounded text-white focus:outline-none focus:border-blue-500"
+                            dir="rtl"
+                            placeholder="Arabic translation"
+                          />
+                        ) : (
+                          <span className="text-gray-300" dir="rtl">{entry.arabic || '-'}</span>
                         )}
                       </td>
                       <td className="px-4 py-3">

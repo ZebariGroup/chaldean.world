@@ -198,10 +198,17 @@ export default function Dictionary() {
                     {entry.word}
                   </div>
                   
-                  {/* Translation */}
+                  {/* English Translation */}
                   <div className="font-medium text-gray-200 flex-1 min-w-[150px]">
                     {entry.translation}
                   </div>
+                  
+                  {/* Arabic Translation */}
+                  {entry.arabic && (
+                    <div className="font-medium text-amber-300 min-w-[120px] hidden xl:block" dir="rtl">
+                      {entry.arabic}
+                    </div>
+                  )}
                   
                   {/* Phonetic */}
                   <div className="text-gray-400 italic text-sm min-w-[120px] hidden lg:block">
@@ -306,6 +313,9 @@ export default function Dictionary() {
                   {/* Translation & Phonetic */}
                   <div className="mt-auto">
                     <p className="text-lg md:text-xl font-medium text-gray-200 mb-1">{entry.translation}</p>
+                    {entry.arabic && (
+                      <p className="text-base md:text-lg font-medium text-amber-300 mb-1" dir="rtl">{entry.arabic}</p>
+                    )}
                     <p className="text-gray-400 italic text-sm">"{entry.phonetic}"</p>
                   </div>
                   
