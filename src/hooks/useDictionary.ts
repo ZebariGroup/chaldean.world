@@ -17,7 +17,8 @@ export function useDictionary() {
       const { data, error: fetchError } = await supabase
         .from('dictionary')
         .select('*')
-        .order('word', { ascending: true });
+        .order('word', { ascending: true })
+        .range(0, 9999);
 
       if (fetchError) throw fetchError;
 
