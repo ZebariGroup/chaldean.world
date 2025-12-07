@@ -9,7 +9,7 @@ type SortDirection = 'asc' | 'desc';
 
 export default function AdminDashboard() {
   const { user } = useAuth();
-  const { dictionary, loading: dictLoading, updateWord, addWord, deleteWord } = useDictionary();
+  const { dictionary, loading: dictLoading, updateWord, addWord, deleteWord, refetch } = useDictionary();
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -31,6 +31,14 @@ export default function AdminDashboard() {
     categories: []
   });
 
+  // Filters
+  const [filterMissingChaldean, setFilterMissingChaldean] = useState(false);
+  const [filterMissingArabic, setFilterMissingArabic] = useState(false);
+
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(50);
+
   useEffect(() => {
     const checkAdmin = async () => {
       if (!user?.email) {
@@ -48,6 +56,11 @@ export default function AdminDashboard() {
     };
     checkAdmin();
   }, [user]);
+
+  // Reset pagination when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, categoryFilter, filterMissingChaldean, filterMissingArabic]);
 
   const categories = useMemo(() => {
     const cats = new Set<CategoryType>();
@@ -76,6 +89,14 @@ export default function AdminDashboard() {
       result = result.filter(entry => entry.categories.includes(categoryFilter as CategoryType));
     }
 
+    // Special Filters
+    if (filterMissingChaldean) {
+      result = result.filter(entry => !entry.word || entry.word.trim() === '');
+    }
+    if (filterMissingArabic) {
+      result = result.filter(entry => !entry.arabic || entry.arabic.trim() === '');
+    }
+
     // Sort
     result.sort((a, b) => {
       const aVal = a[sortField];
@@ -98,7 +119,21 @@ export default function AdminDashboard() {
     });
 
     return result;
-  }, [dictionary, searchTerm, categoryFilter, sortField, sortDirection]);
+  }, [dictionary, searchTerm, categoryFilter, sortField, sortDirection, filterMissingChaldean, filterMissingArabic]);
+
+  // Pagination Logic
+  const totalPages = Math.ceil(filteredAndSorted.length / itemsPerPage);
+  const currentWords = filteredAndSorted.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
 
   const handleSort = (field: SortField) => {
     if (sortField === field) {
@@ -259,7 +294,12 @@ export default function AdminDashboard() {
       {/* Header */}
       <div className="bg-gray-800/50 border-b border-gray-700 p-4">
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-2xl font-bold mb-4">Admin Dictionary Editor</h1>
+          <div className="flex justify-between items-start mb-4">
+            <h1 className="text-2xl font-bold">Admin Dictionary Editor</h1>
+            {dictionary.length === 0 && (
+              <button onClick={refetch} className="text-blue-400 hover:underline text-sm">Reload</button>
+            )}
+          </div>
           
           {/* Success Message */}
           {saveMessage && (
@@ -269,43 +309,67 @@ export default function AdminDashboard() {
           )}
 
           {/* Controls */}
-          <div className="flex flex-col md:flex-row gap-3">
-            {/* Search */}
-            <input
-              type="text"
-              placeholder="Search words, translations, phonetics..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="flex-1 px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
-            />
+          <div className="flex flex-col gap-3">
+            <div className="flex flex-col md:flex-row gap-3">
+              {/* Search */}
+              <input
+                type="text"
+                placeholder="Search words, translations, phonetics..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="flex-1 px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
+              />
 
-            {/* Category Filter */}
-            <select
-              value={categoryFilter}
-              onChange={(e) => setCategoryFilter(e.target.value)}
-              className="px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
-            >
-              <option value="all">All Categories</option>
-              {categories.map(cat => (
-                <option key={cat} value={cat}>{cat}</option>
-              ))}
-            </select>
+              {/* Category Filter */}
+              <select
+                value={categoryFilter}
+                onChange={(e) => setCategoryFilter(e.target.value)}
+                className="px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
+              >
+                <option value="all">All Categories</option>
+                {categories.map(cat => (
+                  <option key={cat} value={cat}>{cat}</option>
+                ))}
+              </select>
 
-            {/* Add Word Button */}
-            <button
-              onClick={() => setShowAddForm(!showAddForm)}
-              className="px-4 py-2 bg-green-600 hover:bg-green-500 rounded-lg text-white font-medium transition-colors whitespace-nowrap"
-            >
-              {showAddForm ? 'Cancel' : '+ Add Word'}
-            </button>
+              {/* Add Word Button */}
+              <button
+                onClick={() => setShowAddForm(!showAddForm)}
+                className="px-4 py-2 bg-green-600 hover:bg-green-500 rounded-lg text-white font-medium transition-colors whitespace-nowrap"
+              >
+                {showAddForm ? 'Cancel' : '+ Add Word'}
+              </button>
 
-            {/* Export Button */}
-            <button
-              onClick={exportToJSON}
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg text-white font-medium transition-colors whitespace-nowrap"
-            >
-              Export JSON
-            </button>
+              {/* Export Button */}
+              <button
+                onClick={exportToJSON}
+                className="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg text-white font-medium transition-colors whitespace-nowrap"
+              >
+                Export JSON
+              </button>
+            </div>
+
+            {/* Missing content filters */}
+            <div className="flex gap-4 pt-2">
+              <label className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer">
+                <input 
+                  type="checkbox" 
+                  checked={filterMissingChaldean} 
+                  onChange={(e) => setFilterMissingChaldean(e.target.checked)}
+                  className="rounded bg-gray-700 border-gray-600 text-red-500 focus:ring-red-500"
+                />
+                Show Missing Chaldean
+              </label>
+              <label className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer">
+                <input 
+                  type="checkbox" 
+                  checked={filterMissingArabic} 
+                  onChange={(e) => setFilterMissingArabic(e.target.checked)}
+                  className="rounded bg-gray-700 border-gray-600 text-red-500 focus:ring-red-500"
+                />
+                Show Missing Arabic
+              </label>
+            </div>
           </div>
 
           {/* Add Word Form */}
@@ -503,7 +567,7 @@ export default function AdminDashboard() {
                 </tr>
               </thead>
               <tbody>
-                {filteredAndSorted.map((entry, index) => {
+                {currentWords.map((entry, index) => {
                   const id = `${entry.word}-${entry.categories.join('-')}`;
                   const isEditing = editingId === id;
 
@@ -536,7 +600,9 @@ export default function AdminDashboard() {
                             className="w-full px-2 py-1 bg-gray-700 border border-gray-600 rounded text-white focus:outline-none focus:border-blue-500"
                           />
                         ) : (
-                          <span className="font-medium">{entry.word}</span>
+                          <span className={`font-medium ${!entry.word ? 'text-red-400 italic' : ''}`}>
+                            {entry.word || 'Missing'}
+                          </span>
                         )}
                       </td>
                       
@@ -673,9 +739,33 @@ export default function AdminDashboard() {
               </tbody>
             </table>
           </div>
+
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div className="mt-6 flex justify-center items-center gap-4">
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-700 transition-colors"
+              >
+                Previous
+              </button>
+              
+              <div className="text-gray-400">
+                Page <span className="text-white font-medium">{currentPage}</span> of <span className="text-white font-medium">{totalPages}</span>
+              </div>
+
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className="px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-700 transition-colors"
+              >
+                Next
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
   );
 }
-

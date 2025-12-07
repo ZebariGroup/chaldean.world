@@ -14,9 +14,10 @@ export function useDictionary() {
   async function fetchDictionary() {
     try {
       setLoading(true);
-      let allData: DictionaryEntry[] = [];
+      setDictionary([]); // Clear existing data on refetch
+      
       let from = 0;
-      const limit = 1000; // Fetch in chunks to avoid API limits
+      const limit = 1000; // Fetch in chunks
       
       while (true) {
         const { data, error: fetchError } = await supabase
@@ -29,7 +30,8 @@ export function useDictionary() {
         
         if (!data || data.length === 0) break;
         
-        allData = [...allData, ...data];
+        // Progressive update: append new chunk to state immediately
+        setDictionary(prev => [...prev, ...data]);
         
         // If we got fewer results than the limit, we've reached the end
         if (data.length < limit) break;
@@ -37,7 +39,6 @@ export function useDictionary() {
         from += limit;
       }
 
-      setDictionary(allData);
       setError(null);
     } catch (err) {
       console.error('Error fetching dictionary:', err);
@@ -56,7 +57,10 @@ export function useDictionary() {
 
     if (error) throw error;
     
-    await fetchDictionary(); // Refresh
+    // Optimistic update or refetch
+    // Refetching entire dictionary is expensive now. 
+    // Better to append locally.
+    setDictionary(prev => [...prev, data].sort((a, b) => a.word.localeCompare(b.word)));
     return data;
   }
 
@@ -70,7 +74,8 @@ export function useDictionary() {
 
     if (error) throw error;
     
-    await fetchDictionary(); // Refresh
+    // Local update
+    setDictionary(prev => prev.map(item => item.id === id ? data : item));
     return data;
   }
 
@@ -82,7 +87,8 @@ export function useDictionary() {
 
     if (error) throw error;
     
-    await fetchDictionary(); // Refresh
+    // Local delete
+    setDictionary(prev => prev.filter(item => item.id !== id));
   }
 
   return {
