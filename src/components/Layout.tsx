@@ -75,6 +75,7 @@ export default function Layout() {
                 <Link to="/practice" className={linkClass('/practice')}>🎯 Practice</Link>
                 <Link to="/dictionary" className={linkClass('/dictionary')}>📖 Dictionary</Link>
                 <Link to="/translator" className={linkClass('/translator')}>💬 Translator</Link>
+                <Link to="/forum" className={linkClass('/forum')}>💭 Forum</Link>
                 <Link to="/review" className={linkClass('/review') + ' relative'}>
                   🔄 Review
                   {wordsToReview > 0 && (
@@ -156,6 +157,9 @@ export default function Layout() {
               </Link>
               <Link to="/dictionary" onClick={() => setIsMenuOpen(false)} className={`block ${linkClass('/dictionary')} text-base py-3`}>
                 📖 Dictionary
+              </Link>
+              <Link to="/forum" onClick={() => setIsMenuOpen(false)} className={`block ${linkClass('/forum')} text-base py-3`}>
+                💭 Community Forum
               </Link>
               <Link to="/review" onClick={() => setIsMenuOpen(false)} className={`block ${linkClass('/review')} text-base py-3 relative`}>
                 🔄 Review

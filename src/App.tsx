@@ -14,6 +14,10 @@ import Settings from './pages/Settings';
 import Review from './pages/Review';
 import AdminDashboard from './pages/AdminDashboard';
 import EmailConfirmation from './pages/EmailConfirmation';
+import Forum from './pages/Forum';
+import PostView from './pages/PostView';
+import CreatePost from './pages/CreatePost';
+import ForumAdmin from './pages/ForumAdmin';
 import ProtectedRoute from './components/ProtectedRoute';
 import { ProgressProvider } from './context/ProgressContext';
 import { AuthProvider } from './context/AuthContext';
@@ -83,6 +87,10 @@ function App() {
             <Route path="review" element={<Review />} />
             <Route path="settings" element={<Settings />} />
             <Route path="admin" element={<AdminDashboard />} />
+            <Route path="forum" element={<Forum />} />
+            <Route path="forum/post/:postId" element={<PostView />} />
+            <Route path="forum/new" element={<CreatePost />} />
+            <Route path="forum/admin" element={<ForumAdmin />} />
           </Route>
           <Route path="*" element={<Navigate to="/welcome" replace />} />
         </Routes>
