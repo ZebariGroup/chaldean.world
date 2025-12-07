@@ -249,12 +249,12 @@ export default function Translator() {
                 <div className="grid gap-3 md:grid-cols-2">
                   {result.matches.map((entry: typeof dictionaryData[0], matchIdx: number) => (
                   <div
-                    key={`${entry.word}-${entry.category}-${matchIdx}`}
+                    key={`${entry.word}-${entry.categories[0]}-${matchIdx}`}
                     className="bg-gradient-to-br from-gray-800 to-gray-800/50 rounded-2xl border-2 border-gray-700 hover:border-blue-500 p-6 transition-all"
                   >
                     <div className="flex justify-between items-start mb-4">
                       <div className="text-xs font-bold text-blue-400 uppercase tracking-wider bg-blue-500/10 px-2 py-1 rounded-full">
-                        {entry.category}
+                        {entry.categories[0]}
                       </div>
                       {preferences.audioEnabled && (
                         <button

@@ -26,11 +26,11 @@ export default function Dictionary() {
     
     // Filter by favorites if enabled
     if (showFavoritesOnly) {
-      words = words.filter(entry => isFavorite(`${entry.word}-${entry.category}`));
+      words = words.filter(entry => isFavorite(`${entry.word}-${entry.categories.join('-')}`));
     }
     
     if (!debouncedSearchTerm) {
-      const filtered = selectedCategory === 'all' ? words : words.filter(entry => entry.category === selectedCategory);
+      const filtered = selectedCategory === 'all' ? words : words.filter(entry => entry.categories.includes(selectedCategory as any));
       // Sort alphabetically by English translation for better user experience
       return filtered.sort((a, b) => a.translation.localeCompare(b.translation));
     }
@@ -49,7 +49,7 @@ export default function Dictionary() {
         const wordLower = entry.word.toLowerCase();
         const translationLower = entry.translation.toLowerCase();
         const phoneticLower = entry.phonetic.toLowerCase();
-        const categoryLower = entry.category.toLowerCase();
+        const categoriesLower = entry.categories.map(c => c.toLowerCase()).join(' ');
         const script = entry.script;
 
         // Exact matches - highest priority
@@ -76,12 +76,12 @@ export default function Dictionary() {
         if (script.includes(debouncedSearchTerm) && !script.startsWith(debouncedSearchTerm)) score += 10;
         
         // Category match - bonus points
-        if (categoryLower === searchLower || categoryLower.includes(searchLower)) score += 15;
+        if (categoriesLower === searchLower || categoriesLower.includes(searchLower)) score += 15;
 
         return { entry, score };
       })
       .filter(item => {
-        const matchesCategory = selectedCategory === 'all' || item.entry.category === selectedCategory;
+        const matchesCategory = selectedCategory === 'all' || item.entry.categories.includes(selectedCategory as any);
         return item.score > 0 && matchesCategory;
       })
       .sort((a, b) => {
@@ -174,7 +174,7 @@ export default function Dictionary() {
             viewMode === 'list' ? (
               // List View - Compact horizontal layout
               <div 
-                key={`${entry.word}-${entry.category}-${entry.translation}`} 
+                key={`${entry.word}-${entry.categories.join('-')}-${entry.translation}`} 
                 className="bg-gradient-to-br from-gray-800 to-gray-800/80 border-2 border-gray-700 hover:border-blue-500 transition-all duration-200 rounded-xl"
               >
                 <div className="p-3 flex items-center gap-4">
@@ -198,10 +198,14 @@ export default function Dictionary() {
                     "{entry.phonetic}"
                   </div>
                   
-                  {/* Category badge */}
-                  <span className="text-xs bg-blue-500/10 text-blue-400 px-2 py-1 rounded-full capitalize font-medium border border-blue-500/30 hidden md:inline-block">
-                    {entry.category}
-                  </span>
+                  {/* Category badges */}
+                  <div className="hidden md:flex gap-1 flex-wrap">
+                    {entry.categories.map(cat => (
+                      <span key={cat} className="text-xs bg-blue-500/10 text-blue-400 px-2 py-1 rounded-full capitalize font-medium border border-blue-500/30">
+                        {cat}
+                      </span>
+                    ))}
+                  </div>
                   
                   {/* Actions */}
                   <div className="flex items-center gap-2">
@@ -239,12 +243,12 @@ export default function Dictionary() {
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        toggleFavorite(`${entry.word}-${entry.category}`);
+                        toggleFavorite(`${entry.word}-${entry.categories.join('-')}`);
                       }}
                       className="p-2 rounded-lg hover:bg-gray-700 transition-colors"
-                      title={isFavorite(`${entry.word}-${entry.category}`) ? "Remove from favorites" : "Add to favorites"}
+                      title={isFavorite(`${entry.word}-${entry.categories.join('-')}`) ? "Remove from favorites" : "Add to favorites"}
                     >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill={isFavorite(`${entry.word}-${entry.category}`) ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={isFavorite(`${entry.word}-${entry.category}`) ? "text-yellow-500" : "text-gray-400"}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill={isFavorite(`${entry.word}-${entry.categories.join('-')}`) ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={isFavorite(`${entry.word}-${entry.categories.join('-')}`) ? "text-yellow-500" : "text-gray-400"}>
                         <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
                       </svg>
                     </button>
@@ -254,7 +258,7 @@ export default function Dictionary() {
             ) : (
               // Grid View - Card layout
               <div 
-                key={`${entry.word}-${entry.category}-${entry.translation}`} 
+                key={`${entry.word}-${entry.categories.join('-')}-${entry.translation}`} 
                 className="bg-gradient-to-br from-gray-800 to-gray-800/80 border-2 border-gray-700 hover:border-blue-500 transition-all duration-300 overflow-hidden rounded-2xl md:rounded-xl active:scale-95"
               >
                 <div className="p-4 md:p-5 flex flex-col relative">
@@ -262,21 +266,23 @@ export default function Dictionary() {
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      toggleFavorite(`${entry.word}-${entry.category}`);
+                      toggleFavorite(`${entry.word}-${entry.categories.join('-')}`);
                     }}
                     className="absolute top-2 right-2 p-2 rounded-full hover:bg-gray-700 transition-colors"
-                    title={isFavorite(`${entry.word}-${entry.category}`) ? "Remove from favorites" : "Add to favorites"}
+                    title={isFavorite(`${entry.word}-${entry.categories.join('-')}`) ? "Remove from favorites" : "Add to favorites"}
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill={isFavorite(`${entry.word}-${entry.category}`) ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={isFavorite(`${entry.word}-${entry.category}`) ? "text-yellow-500" : "text-gray-400"}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill={isFavorite(`${entry.word}-${entry.categories.join('-')}`) ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={isFavorite(`${entry.word}-${entry.categories.join('-')}`) ? "text-yellow-500" : "text-gray-400"}>
                       <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
                     </svg>
                   </button>
                   
                   {/* Category badge */}
-                  <div className="mb-2 md:mb-3">
-                    <span className="text-xs bg-blue-500/10 text-blue-400 px-2.5 py-1 rounded-full capitalize font-medium border border-blue-500/30">
-                      {entry.category}
-                    </span>
+                  <div className="mb-2 md:mb-3 flex gap-1 flex-wrap">
+                    {entry.categories.map(cat => (
+                      <span key={cat} className="text-xs bg-blue-500/10 text-blue-400 px-2.5 py-1 rounded-full capitalize font-medium border border-blue-500/30">
+                        {cat}
+                      </span>
+                    ))}
                   </div>
 
                   {/* Script & Word */}

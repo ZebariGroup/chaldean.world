@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../lib/supabase';
-import { dictionaryData, DictionaryEntry } from '../data/dictionary';
+import { dictionaryData, DictionaryEntry, CategoryType } from '../data/dictionary';
 
 type SortField = keyof DictionaryEntry;
 type SortDirection = 'asc' | 'desc';
@@ -38,7 +38,10 @@ export default function AdminDashboard() {
   }, [user]);
 
   const categories = useMemo(() => {
-    const cats = new Set(dictionaryData.map(entry => entry.category));
+    const cats = new Set<CategoryType>();
+    dictionaryData.forEach(entry => {
+      entry.categories.forEach(cat => cats.add(cat));
+    });
     return Array.from(cats).sort();
   }, []);
 
@@ -58,7 +61,7 @@ export default function AdminDashboard() {
 
     // Filter by category
     if (categoryFilter !== 'all') {
-      result = result.filter(entry => entry.category === categoryFilter);
+      result = result.filter(entry => entry.categories.includes(categoryFilter as CategoryType));
     }
 
     // Sort
@@ -67,7 +70,12 @@ export default function AdminDashboard() {
       const bVal = b[sortField];
       
       let comparison = 0;
-      if (typeof aVal === 'string' && typeof bVal === 'string') {
+      if (Array.isArray(aVal) && Array.isArray(bVal)) {
+        // Sort arrays by their first element
+        const aStr = aVal.join(', ');
+        const bStr = bVal.join(', ');
+        comparison = aStr.localeCompare(bStr, undefined, { sensitivity: 'base' });
+      } else if (typeof aVal === 'string' && typeof bVal === 'string') {
         // Case-insensitive locale comparison
         comparison = aVal.localeCompare(bVal, undefined, { sensitivity: 'base' });
       } else {
@@ -90,7 +98,7 @@ export default function AdminDashboard() {
   };
 
   const startEdit = (entry: DictionaryEntry) => {
-    const id = `${entry.word}-${entry.category}`;
+    const id = `${entry.word}-${entry.categories.join('-')}`;
     setEditingId(id);
     setEditedData({ ...entry });
   };
@@ -104,14 +112,14 @@ export default function AdminDashboard() {
     if (!editedData) return;
 
     const originalEntry = localDictionary.find(e => 
-      `${e.word}-${e.category}` === editingId
+      `${e.word}-${e.categories.join('-')}` === editingId
     );
 
     if (!originalEntry) return;
 
     // Update local state
     const updated = localDictionary.map(entry => 
-      `${entry.word}-${entry.category}` === editingId ? editedData : entry
+      `${entry.word}-${entry.categories.join('-')}` === editingId ? editedData : entry
     );
     setLocalDictionary(updated);
 
@@ -132,7 +140,7 @@ export default function AdminDashboard() {
   category: 'greeting' | 'noun' | 'verb' | 'adjective' | 'phrase' | 'number' | 'food' | 'family' | 'color' | 'time' | 'place' | 'animal' | 'nature' | 'body' | 'home' | 'profession' | 'clothing' | 'emotion' | 'travel' | 'question' | 'preposition' | 'conjunction';
 }
 
-export const dictionaryData: DictionaryEntry[] = ${JSON.stringify(localDictionary, null, 2)};
+export const dictionaryData: DictionaryEntry[] = ${JSON.stringify(localDictionary, null, 2).replace(/"categories":/g, '\n  categories:')};
 `;
 
     const blob = new Blob([content], { type: 'text/typescript' });
@@ -273,11 +281,11 @@ export const dictionaryData: DictionaryEntry[] = ${JSON.stringify(localDictionar
                   </th>
                   <th 
                     className="px-4 py-3 text-left cursor-pointer hover:bg-gray-700 transition-colors"
-                    onClick={() => handleSort('category')}
+                    onClick={() => handleSort('categories')}
                   >
                     <div className="flex items-center gap-2">
-                      Category
-                      {sortField === 'category' && (
+                      Categories
+                      {sortField === 'categories' && (
                         <span>{sortDirection === 'asc' ? '↑' : '↓'}</span>
                       )}
                     </div>
@@ -287,7 +295,7 @@ export const dictionaryData: DictionaryEntry[] = ${JSON.stringify(localDictionar
               </thead>
               <tbody>
                 {filteredAndSorted.map((entry, index) => {
-                  const id = `${entry.word}-${entry.category}`;
+                  const id = `${entry.word}-${entry.categories.join('-')}`;
                   const isEditing = editingId === id;
 
                   return (
@@ -346,19 +354,33 @@ export const dictionaryData: DictionaryEntry[] = ${JSON.stringify(localDictionar
                       </td>
                       <td className="px-4 py-3">
                         {isEditing ? (
-                          <select
-                            value={editedData?.category || ''}
-                            onChange={(e) => setEditedData({ ...editedData!, category: e.target.value as any })}
-                            className="w-full px-2 py-1 bg-gray-700 border border-gray-600 rounded text-white focus:outline-none focus:border-blue-500"
-                          >
+                          <div className="space-y-2">
                             {categories.map(cat => (
-                              <option key={cat} value={cat}>{cat}</option>
+                              <label key={cat} className="flex items-center gap-2 text-sm">
+                                <input
+                                  type="checkbox"
+                                  checked={editedData?.categories.includes(cat) || false}
+                                  onChange={(e) => {
+                                    if (!editedData) return;
+                                    const newCategories = e.target.checked
+                                      ? [...editedData.categories, cat]
+                                      : editedData.categories.filter(c => c !== cat);
+                                    setEditedData({ ...editedData, categories: newCategories });
+                                  }}
+                                  className="rounded bg-gray-700 border-gray-600 text-blue-600 focus:ring-blue-500"
+                                />
+                                <span className="text-gray-300">{cat}</span>
+                              </label>
                             ))}
-                          </select>
+                          </div>
                         ) : (
-                          <span className="inline-block px-2 py-1 bg-gray-700 rounded text-xs text-gray-300">
-                            {entry.category}
-                          </span>
+                          <div className="flex flex-wrap gap-1">
+                            {entry.categories.map(cat => (
+                              <span key={cat} className="inline-block px-2 py-1 bg-gray-700 rounded text-xs text-gray-300">
+                                {cat}
+                              </span>
+                            ))}
+                          </div>
                         )}
                       </td>
                       <td className="px-4 py-3">

@@ -68,3 +68,6 @@ CREATE POLICY "Owners can delete pronunciation audio"
   FOR DELETE
   USING (bucket_id = 'pronunciations' AND owner = auth.uid());
 
+
+
+

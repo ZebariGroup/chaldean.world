@@ -81,3 +81,6 @@ Your local network IP: **192.168.2.125**
 - Anon Key: Get from `supabase status`
 
 
+
+
+

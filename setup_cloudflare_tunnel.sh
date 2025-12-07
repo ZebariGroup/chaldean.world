@@ -41,6 +41,8 @@ echo ""
 echo "Your Supabase URL will be shown below. Use it for Vercel environment variables."
 echo ""
 
-cloudflared tunnel --url http://localhost:54321
+cloudflared tunnel --url http://108.202.235.64:54321
+
+
 
 

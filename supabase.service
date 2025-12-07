@@ -1,0 +1,28 @@
+[Unit]
+Description=Supabase Local Development Server
+Requires=docker.service
+After=docker.service
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+User=supabase
+Group=supabase
+WorkingDirectory=/home/supabase/Documents/SupabaseCursor/chaldean.world
+ExecStart=/home/supabase/.local/bin/supabase start
+ExecStop=/home/supabase/.local/bin/supabase stop
+Restart=on-failure
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+# Environment variables if needed
+Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/supabase/.local/bin"
+
+[Install]
+WantedBy=multi-user.target
+
+
+
