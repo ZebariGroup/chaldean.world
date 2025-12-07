@@ -68,7 +68,7 @@ RETURNS TABLE (
   english TEXT,
   arabic TEXT,
   arabic_phonetic TEXT,
-  confidence FLOAT
+  confidence DOUBLE PRECISION
 )
 LANGUAGE plpgsql
 AS $$
@@ -79,9 +79,9 @@ BEGIN
     ead.arabic,
     ead.arabic_phonetic,
     CASE 
-      WHEN LOWER(ead.english) = LOWER(input_text) THEN 1.0
-      WHEN LOWER(ead.english) LIKE LOWER(input_text) || '%' THEN 0.8
-      ELSE 0.5
+      WHEN LOWER(ead.english) = LOWER(input_text) THEN 1.0::DOUBLE PRECISION
+      WHEN LOWER(ead.english) LIKE LOWER(input_text) || '%' THEN 0.8::DOUBLE PRECISION
+      ELSE 0.5::DOUBLE PRECISION
     END as confidence
   FROM english_arabic_dictionary ead
   WHERE LOWER(ead.english) = LOWER(input_text)
@@ -103,7 +103,7 @@ RETURNS TABLE (
   translation TEXT,
   phonetic TEXT,
   script TEXT,
-  similarity_score FLOAT
+  similarity_score DOUBLE PRECISION
 )
 LANGUAGE plpgsql
 AS $$
@@ -115,10 +115,10 @@ BEGIN
     d.phonetic,
     d.script,
     CASE 
-      WHEN d.arabic = arabic_text THEN 1.0
-      WHEN d.arabic LIKE '%' || arabic_text || '%' THEN 0.7
-      WHEN d.arabic_phonetic LIKE '%' || arabic_text || '%' THEN 0.5
-      ELSE 0.3
+      WHEN d.arabic = arabic_text THEN 1.0::DOUBLE PRECISION
+      WHEN d.arabic LIKE '%' || arabic_text || '%' THEN 0.7::DOUBLE PRECISION
+      WHEN d.arabic_phonetic LIKE '%' || arabic_text || '%' THEN 0.5::DOUBLE PRECISION
+      ELSE 0.3::DOUBLE PRECISION
     END as similarity_score
   FROM dictionary d
   WHERE d.arabic IS NOT NULL 
