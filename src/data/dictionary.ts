@@ -1,11 +1,14 @@
 export type CategoryType = 'greeting' | 'noun' | 'verb' | 'adjective' | 'phrase' | 'number' | 'food' | 'family' | 'color' | 'time' | 'place' | 'animal' | 'nature' | 'body' | 'home' | 'profession' | 'clothing' | 'emotion' | 'travel' | 'question' | 'preposition' | 'conjunction';
 
 export interface DictionaryEntry {
+  id?: string;
   word: string;
   translation: string;
   phonetic: string;
   script: string;
   categories: CategoryType[];
+  created_at?: string;
+  updated_at?: string;
 }
 
 export const dictionaryData: DictionaryEntry[] = [

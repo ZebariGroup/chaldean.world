@@ -9,7 +9,7 @@ type SortDirection = 'asc' | 'desc';
 
 export default function AdminDashboard() {
   const { user } = useAuth();
-  const { dictionary, loading: dictLoading, updateWord, refetch } = useDictionary();
+  const { dictionary, loading: dictLoading, updateWord } = useDictionary();
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
