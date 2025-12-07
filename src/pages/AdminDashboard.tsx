@@ -238,17 +238,6 @@ export default function AdminDashboard() {
                 <tr>
                   <th 
                     className="px-4 py-3 text-left cursor-pointer hover:bg-gray-700 transition-colors"
-                    onClick={() => handleSort('word')}
-                  >
-                    <div className="flex items-center gap-2">
-                      Word
-                      {sortField === 'word' && (
-                        <span>{sortDirection === 'asc' ? '↑' : '↓'}</span>
-                      )}
-                    </div>
-                  </th>
-                  <th 
-                    className="px-4 py-3 text-left cursor-pointer hover:bg-gray-700 transition-colors"
                     onClick={() => handleSort('translation')}
                   >
                     <div className="flex items-center gap-2">
@@ -260,22 +249,11 @@ export default function AdminDashboard() {
                   </th>
                   <th 
                     className="px-4 py-3 text-left cursor-pointer hover:bg-gray-700 transition-colors"
-                    onClick={() => handleSort('arabic')}
+                    onClick={() => handleSort('word')}
                   >
                     <div className="flex items-center gap-2">
-                      Arabic
-                      {sortField === 'arabic' && (
-                        <span>{sortDirection === 'asc' ? '↑' : '↓'}</span>
-                      )}
-                    </div>
-                  </th>
-                  <th 
-                    className="px-4 py-3 text-left cursor-pointer hover:bg-gray-700 transition-colors"
-                    onClick={() => handleSort('arabic_phonetic')}
-                  >
-                    <div className="flex items-center gap-2">
-                      Arabic Phonetic
-                      {sortField === 'arabic_phonetic' && (
+                      Chaldean
+                      {sortField === 'word' && (
                         <span>{sortDirection === 'asc' ? '↑' : '↓'}</span>
                       )}
                     </div>
@@ -296,8 +274,30 @@ export default function AdminDashboard() {
                     onClick={() => handleSort('script')}
                   >
                     <div className="flex items-center gap-2">
-                      Script
+                      Chaldean Script
                       {sortField === 'script' && (
+                        <span>{sortDirection === 'asc' ? '↑' : '↓'}</span>
+                      )}
+                    </div>
+                  </th>
+                  <th 
+                    className="px-4 py-3 text-left cursor-pointer hover:bg-gray-700 transition-colors"
+                    onClick={() => handleSort('arabic_phonetic')}
+                  >
+                    <div className="flex items-center gap-2">
+                      Arabic Phonetic
+                      {sortField === 'arabic_phonetic' && (
+                        <span>{sortDirection === 'asc' ? '↑' : '↓'}</span>
+                      )}
+                    </div>
+                  </th>
+                  <th 
+                    className="px-4 py-3 text-left cursor-pointer hover:bg-gray-700 transition-colors"
+                    onClick={() => handleSort('arabic')}
+                  >
+                    <div className="flex items-center gap-2">
+                      Arabic Script
+                      {sortField === 'arabic' && (
                         <span>{sortDirection === 'asc' ? '↑' : '↓'}</span>
                       )}
                     </div>
@@ -326,18 +326,7 @@ export default function AdminDashboard() {
                       key={`${id}-${index}`}
                       className="border-t border-gray-700 hover:bg-gray-700/30 transition-colors"
                     >
-                      <td className="px-4 py-3">
-                        {isEditing ? (
-                          <input
-                            type="text"
-                            value={editedData?.word || ''}
-                            onChange={(e) => setEditedData({ ...editedData!, word: e.target.value })}
-                            className="w-full px-2 py-1 bg-gray-700 border border-gray-600 rounded text-white focus:outline-none focus:border-blue-500"
-                          />
-                        ) : (
-                          <span className="font-medium">{entry.word}</span>
-                        )}
-                      </td>
+                      {/* English */}
                       <td className="px-4 py-3">
                         {isEditing ? (
                           <input
@@ -350,20 +339,51 @@ export default function AdminDashboard() {
                           <span className="text-gray-300">{entry.translation}</span>
                         )}
                       </td>
+                      
+                      {/* Chaldean */}
                       <td className="px-4 py-3">
                         {isEditing ? (
                           <input
                             type="text"
-                            value={editedData?.arabic || ''}
-                            onChange={(e) => setEditedData({ ...editedData!, arabic: e.target.value })}
+                            value={editedData?.word || ''}
+                            onChange={(e) => setEditedData({ ...editedData!, word: e.target.value })}
                             className="w-full px-2 py-1 bg-gray-700 border border-gray-600 rounded text-white focus:outline-none focus:border-blue-500"
-                            dir="rtl"
-                            placeholder="Arabic translation"
                           />
                         ) : (
-                          <span className="text-gray-300" dir="rtl">{entry.arabic || '-'}</span>
+                          <span className="font-medium">{entry.word}</span>
                         )}
                       </td>
+                      
+                      {/* Chaldean Phonetic */}
+                      <td className="px-4 py-3">
+                        {isEditing ? (
+                          <input
+                            type="text"
+                            value={editedData?.phonetic || ''}
+                            onChange={(e) => setEditedData({ ...editedData!, phonetic: e.target.value })}
+                            className="w-full px-2 py-1 bg-gray-700 border border-gray-600 rounded text-white focus:outline-none focus:border-blue-500"
+                          />
+                        ) : (
+                          <span className="text-gray-400 text-sm">{entry.phonetic}</span>
+                        )}
+                      </td>
+                      
+                      {/* Chaldean Script */}
+                      <td className="px-4 py-3">
+                        {isEditing ? (
+                          <input
+                            type="text"
+                            value={editedData?.script || ''}
+                            onChange={(e) => setEditedData({ ...editedData!, script: e.target.value })}
+                            className="w-full px-2 py-1 bg-gray-700 border border-gray-600 rounded text-white focus:outline-none focus:border-blue-500"
+                            dir="rtl"
+                          />
+                        ) : (
+                          <span className="text-lg" dir="rtl">{entry.script}</span>
+                        )}
+                      </td>
+                      
+                      {/* Arabic Phonetic */}
                       <td className="px-4 py-3">
                         {isEditing ? (
                           <input
@@ -377,29 +397,20 @@ export default function AdminDashboard() {
                           <span className="text-gray-400 text-sm">{entry.arabic_phonetic || '-'}</span>
                         )}
                       </td>
+                      
+                      {/* Arabic Script */}
                       <td className="px-4 py-3">
                         {isEditing ? (
                           <input
                             type="text"
-                            value={editedData?.phonetic || ''}
-                            onChange={(e) => setEditedData({ ...editedData!, phonetic: e.target.value })}
-                            className="w-full px-2 py-1 bg-gray-700 border border-gray-600 rounded text-white focus:outline-none focus:border-blue-500"
-                          />
-                        ) : (
-                          <span className="text-gray-400 text-sm">{entry.phonetic}</span>
-                        )}
-                      </td>
-                      <td className="px-4 py-3">
-                        {isEditing ? (
-                          <input
-                            type="text"
-                            value={editedData?.script || ''}
-                            onChange={(e) => setEditedData({ ...editedData!, script: e.target.value })}
+                            value={editedData?.arabic || ''}
+                            onChange={(e) => setEditedData({ ...editedData!, arabic: e.target.value })}
                             className="w-full px-2 py-1 bg-gray-700 border border-gray-600 rounded text-white focus:outline-none focus:border-blue-500"
                             dir="rtl"
+                            placeholder="Arabic translation"
                           />
                         ) : (
-                          <span className="text-lg" dir="rtl">{entry.script}</span>
+                          <span className="text-gray-300" dir="rtl">{entry.arabic || '-'}</span>
                         )}
                       </td>
                       <td className="px-4 py-3">
