@@ -119,6 +119,7 @@ export default function AdminDashboard() {
         word: editedData.word,
         translation: editedData.translation,
         arabic: editedData.arabic || '',
+        arabic_phonetic: editedData.arabic_phonetic || '',
         phonetic: editedData.phonetic,
         script: editedData.script,
         categories: editedData.categories,
@@ -270,10 +271,21 @@ export default function AdminDashboard() {
                   </th>
                   <th 
                     className="px-4 py-3 text-left cursor-pointer hover:bg-gray-700 transition-colors"
+                    onClick={() => handleSort('arabic_phonetic')}
+                  >
+                    <div className="flex items-center gap-2">
+                      Arabic Phonetic
+                      {sortField === 'arabic_phonetic' && (
+                        <span>{sortDirection === 'asc' ? '↑' : '↓'}</span>
+                      )}
+                    </div>
+                  </th>
+                  <th 
+                    className="px-4 py-3 text-left cursor-pointer hover:bg-gray-700 transition-colors"
                     onClick={() => handleSort('phonetic')}
                   >
                     <div className="flex items-center gap-2">
-                      Phonetic
+                      Chaldean Phonetic
                       {sortField === 'phonetic' && (
                         <span>{sortDirection === 'asc' ? '↑' : '↓'}</span>
                       )}
@@ -350,6 +362,19 @@ export default function AdminDashboard() {
                           />
                         ) : (
                           <span className="text-gray-300" dir="rtl">{entry.arabic || '-'}</span>
+                        )}
+                      </td>
+                      <td className="px-4 py-3">
+                        {isEditing ? (
+                          <input
+                            type="text"
+                            value={editedData?.arabic_phonetic || ''}
+                            onChange={(e) => setEditedData({ ...editedData!, arabic_phonetic: e.target.value })}
+                            className="w-full px-2 py-1 bg-gray-700 border border-gray-600 rounded text-white focus:outline-none focus:border-blue-500"
+                            placeholder="e.g. Mar-ha-ba"
+                          />
+                        ) : (
+                          <span className="text-gray-400 text-sm">{entry.arabic_phonetic || '-'}</span>
                         )}
                       </td>
                       <td className="px-4 py-3">

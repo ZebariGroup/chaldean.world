@@ -5,6 +5,7 @@ export interface DictionaryEntry {
   word: string;
   translation: string;
   arabic: string;
+  arabic_phonetic?: string;
   phonetic: string;
   script: string;
   categories: CategoryType[];

@@ -210,12 +210,15 @@ export default function Dictionary() {
                   
                   {/* Arabic Translation */}
                   {entry.arabic && (
-                    <div className="font-medium text-amber-300 min-w-[120px] hidden xl:block" dir="rtl">
-                      {entry.arabic}
+                    <div className="min-w-[140px] hidden xl:block">
+                      <div className="font-medium text-amber-300" dir="rtl">{entry.arabic}</div>
+                      {entry.arabic_phonetic && (
+                        <div className="text-amber-400/70 italic text-xs mt-0.5">"{entry.arabic_phonetic}"</div>
+                      )}
                     </div>
                   )}
                   
-                  {/* Phonetic */}
+                  {/* Chaldean Phonetic */}
                   <div className="text-gray-400 italic text-sm min-w-[120px] hidden lg:block">
                     "{entry.phonetic}"
                   </div>
@@ -316,10 +319,15 @@ export default function Dictionary() {
                   </div>
 
                   {/* Translation & Phonetic */}
-                  <div className="mt-auto">
-                    <p className="text-lg md:text-xl font-medium text-gray-200 mb-1">{entry.translation}</p>
+                  <div className="mt-auto space-y-1">
+                    <p className="text-lg md:text-xl font-medium text-gray-200">{entry.translation}</p>
                     {entry.arabic && (
-                      <p className="text-base md:text-lg font-medium text-amber-300 mb-1" dir="rtl">{entry.arabic}</p>
+                      <>
+                        <p className="text-base md:text-lg font-medium text-amber-300" dir="rtl">{entry.arabic}</p>
+                        {entry.arabic_phonetic && (
+                          <p className="text-amber-400/70 italic text-xs">"{entry.arabic_phonetic}"</p>
+                        )}
+                      </>
                     )}
                     <p className="text-gray-400 italic text-sm">"{entry.phonetic}"</p>
                   </div>
