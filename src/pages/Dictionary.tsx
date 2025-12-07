@@ -104,6 +104,14 @@ export default function Dictionary() {
 
   const categories: string[] = ['all', ...Array.from(new Set(dictionaryData.flatMap(d => d.categories)))];
 
+  if (dictLoading) {
+    return (
+      <div className="w-full h-full flex items-center justify-center">
+        <div className="text-gray-400">Loading dictionary...</div>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full max-w-6xl mx-auto px-4 py-4 md:py-6">
       <div className="mb-6 md:mb-8">
