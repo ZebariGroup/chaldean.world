@@ -18,7 +18,7 @@ import Forum from './pages/Forum';
 import PostView from './pages/PostView';
 import CreatePost from './pages/CreatePost';
 import ForumAdmin from './pages/ForumAdmin';
-import EnglishArabicDictionary from './pages/EnglishArabicDictionary';
+// import EnglishArabicDictionary from './pages/EnglishArabicDictionary';
 import ProtectedRoute from './components/ProtectedRoute';
 import { ProgressProvider } from './context/ProgressContext';
 import { AuthProvider } from './context/AuthContext';
