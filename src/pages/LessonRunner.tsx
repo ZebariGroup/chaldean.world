@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useLessons, Lesson } from '../hooks/useLessons';
 import { useProgress } from '../context/ProgressContext';
+import { IconRenderer } from '../components/icons/IconRenderer';
 
 type LessonPhase = 'intro' | 'learning' | 'quiz' | 'completed';
 
@@ -61,7 +62,9 @@ export default function LessonRunner() {
     return (
       <div className="h-full flex items-center justify-center px-4">
         <div className="max-w-2xl w-full text-center animate-fade-in">
-          <div className="text-5xl md:text-6xl mb-4 md:mb-6">{lesson.icon || "📚"}</div>
+          <div className="mb-4 md:mb-6">
+            <IconRenderer icon={lesson.icon} className="w-20 h-20 md:w-24 md:h-24 text-blue-400 mx-auto" size={80} />
+          </div>
           <h1 className="text-2xl md:text-4xl font-bold mb-3 md:mb-6">{lesson.title}</h1>
           <p className="text-base md:text-xl text-gray-300 mb-6 md:mb-8">{lesson.description}</p>
           <div className="bg-gradient-to-br from-gray-800 to-gray-800/50 p-5 md:p-6 rounded-2xl inline-block mb-6 md:mb-8 border border-gray-700">

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../context/AuthContext';
+import { IconHeart, IconComment, IconEye, IconLocation } from '../components/icons/ChaldeanIcons';
 
 interface Post {
   id: string;
@@ -357,7 +358,8 @@ export default function PostView() {
                 )}
                 {post.user_profiles?.hometown && (
                   <span className="text-gray-400 text-sm flex items-center gap-1" title="Hometown">
-                    📍 {post.user_profiles.hometown}
+                    <IconLocation className="w-4 h-4" />
+                    {post.user_profiles.hometown}
                   </span>
                 )}
                 {post.is_pinned && (
@@ -397,22 +399,15 @@ export default function PostView() {
                   : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
               } ${!user ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
-              <svg className={`w-5 h-5 ${isLiked ? 'fill-current' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-              </svg>
+              <IconHeart className={`w-5 h-5 ${isLiked ? 'fill-current' : ''}`} filled={isLiked} />
               <span className="font-semibold">{likeCount}</span>
             </button>
             <div className="flex items-center gap-2 text-gray-400">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-              </svg>
+              <IconComment className="w-5 h-5" />
               <span>{comments.length} {comments.length === 1 ? 'comment' : 'comments'}</span>
             </div>
             <div className="flex items-center gap-2 text-gray-400">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-              </svg>
+              <IconEye className="w-5 h-5" />
               <span>{post.view_count} views</span>
             </div>
           </div>
@@ -504,9 +499,7 @@ export default function PostView() {
                     comment.is_liked ? 'text-red-400' : 'text-gray-400 hover:text-red-400'
                   } transition-colors ${!user ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
-                  <svg className={`w-4 h-4 ${comment.is_liked ? 'fill-current' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                  </svg>
+                  <IconHeart className={`w-4 h-4 ${comment.is_liked ? 'fill-current' : ''}`} filled={comment.is_liked} />
                   <span>{comment.like_count}</span>
                 </button>
                 {user && !post.is_locked && (
@@ -553,9 +546,7 @@ export default function PostView() {
                         reply.is_liked ? 'text-red-400' : 'text-gray-400 hover:text-red-400'
                       } transition-colors ${!user ? 'opacity-50 cursor-not-allowed' : ''}`}
                     >
-                      <svg className={`w-3 h-3 ${reply.is_liked ? 'fill-current' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                      </svg>
+                      <IconHeart className={`w-3 h-3 ${reply.is_liked ? 'fill-current' : ''}`} filled={reply.is_liked} />
                       <span>{reply.like_count}</span>
                     </button>
                   </div>

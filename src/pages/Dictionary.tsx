@@ -3,6 +3,7 @@ import { DictionaryEntry } from '../data/dictionary';
 import { useProgress } from '../context/ProgressContext';
 import { useDictionary } from '../hooks/useDictionary';
 import PronunciationModal from '../components/PronunciationModal';
+import { IconAudio, IconMore, IconStar, IconSearch } from '../components/icons/ChaldeanIcons';
 
 export default function Dictionary() {
   const { toggleFavorite, isFavorite, preferences } = useProgress();
@@ -199,9 +200,7 @@ export default function Dictionary() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <svg className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
+          <IconSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
         </div>
         
         <div className="flex flex-col md:flex-row gap-3">
@@ -225,9 +224,7 @@ export default function Dictionary() {
               }`}
               title="Show Favorites"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill={showFavoritesOnly ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-              </svg>
+              <IconStar className="w-5 h-5" filled={showFavoritesOnly} />
               <span className="md:hidden">Favorites</span>
             </button>
 
@@ -292,9 +289,20 @@ export default function Dictionary() {
                     {/* Content Container */}
                     <div className="flex-1 flex flex-col md:flex-row md:items-center gap-1 md:gap-4 min-w-0">
                       {/* Mobile Header: Script + Word */}
-                      <div className="flex items-center gap-2 md:hidden">
-                         <span className="text-xl font-serif text-white">{entry.script}</span>
-                         <span className="font-bold text-blue-400 truncate">{entry.word || <span className="text-gray-600 italic font-normal">No Chaldean</span>}</span>
+                      <div className="flex flex-col gap-1 md:hidden">
+                        <div className="flex items-center gap-2">
+                          <span className="text-xl font-serif text-white">{entry.script}</span>
+                          <span className="font-bold text-blue-400 truncate">{entry.word || <span className="text-gray-600 italic font-normal">No Chaldean</span>}</span>
+                        </div>
+                        {/* Mobile: Show Arabic below */}
+                        {entry.arabic && (
+                          <div className="text-sm">
+                            <div className="font-medium text-amber-300" dir="rtl">{entry.arabic}</div>
+                            {entry.arabic_phonetic && (
+                              <div className="text-amber-400/70 italic text-xs mt-0.5">"{entry.arabic_phonetic}"</div>
+                            )}
+                          </div>
+                        )}
                       </div>
 
                       {/* Desktop Word */}
@@ -307,9 +315,9 @@ export default function Dictionary() {
                         {entry.translation}
                       </div>
                       
-                      {/* Arabic Translation (Desktop) */}
+                      {/* Arabic Translation */}
                       {entry.arabic && (
-                        <div className="min-w-[140px] hidden xl:block">
+                        <div className="min-w-[140px] hidden md:block">
                           <div className="font-medium text-amber-300 truncate" dir="rtl">{entry.arabic}</div>
                           {entry.arabic_phonetic && (
                             <div className="text-amber-400/70 italic text-xs mt-0.5 truncate">"{entry.arabic_phonetic}"</div>
@@ -334,10 +342,7 @@ export default function Dictionary() {
                           className="p-2 rounded-lg hover:bg-gray-700 transition-colors text-blue-400"
                           title="Listen"
                         >
-                          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-                          </svg>
+                          <IconAudio className="w-[18px] h-[18px]" />
                         </button>
                       )}
                       
@@ -349,11 +354,7 @@ export default function Dictionary() {
                         className="p-2 rounded-lg hover:bg-gray-700 transition-colors text-gray-400 hover:text-white"
                         title="Pronunciations"
                       >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <circle cx="12" cy="12" r="1"></circle>
-                          <circle cx="19" cy="12" r="1"></circle>
-                          <circle cx="5" cy="12" r="1"></circle>
-                        </svg>
+                        <IconMore className="w-[18px] h-[18px]" />
                       </button>
                       
                       <button
@@ -364,9 +365,7 @@ export default function Dictionary() {
                         className="p-2 rounded-lg hover:bg-gray-700 transition-colors"
                         title={isFavorite(`${entry.word}-${entry.categories.join('-')}`) ? "Remove from favorites" : "Add to favorites"}
                       >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill={isFavorite(`${entry.word}-${entry.categories.join('-')}`) ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={isFavorite(`${entry.word}-${entry.categories.join('-')}`) ? "text-yellow-500" : "text-gray-400"}>
-                          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                        </svg>
+                        <IconStar className={`w-[18px] h-[18px] ${isFavorite(`${entry.word}-${entry.categories.join('-')}`) ? "text-yellow-500" : "text-gray-400"}`} filled={isFavorite(`${entry.word}-${entry.categories.join('-')}`)} />
                       </button>
                     </div>
                   </div>
@@ -387,9 +386,7 @@ export default function Dictionary() {
                       className="absolute top-2 right-2 p-2 rounded-full hover:bg-gray-700 transition-colors"
                       title={isFavorite(`${entry.word}-${entry.categories.join('-')}`) ? "Remove from favorites" : "Add to favorites"}
                     >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill={isFavorite(`${entry.word}-${entry.categories.join('-')}`) ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={isFavorite(`${entry.word}-${entry.categories.join('-')}`) ? "text-yellow-500" : "text-gray-400"}>
-                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                      </svg>
+                      <IconStar className={`w-5 h-5 ${isFavorite(`${entry.word}-${entry.categories.join('-')}`) ? "text-yellow-500" : "text-gray-400"}`} filled={isFavorite(`${entry.word}-${entry.categories.join('-')}`)} />
                     </button>
                     
                     {/* Category badge */}

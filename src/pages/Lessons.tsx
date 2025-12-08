@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import { useLessons } from '../hooks/useLessons';
 import { useProgress } from '../context/ProgressContext';
+import { IconRenderer } from '../components/icons/IconRenderer';
+import { IconCheck, IconStar } from '../components/icons/ChaldeanIcons';
 
 export default function Lessons() {
   const { lessons, loading } = useLessons();
@@ -42,7 +44,9 @@ export default function Lessons() {
               <div className="flex md:block p-4 md:p-6">
                 {/* Left side on mobile: Icon + Level */}
                 <div className="flex flex-col items-center justify-center mr-4 md:mr-0 md:mb-3">
-                  <div className="text-4xl md:text-5xl mb-1 md:mb-3">{lesson.icon || "📚"}</div>
+                  <div className="mb-1 md:mb-3">
+                    <IconRenderer icon={lesson.icon} className="w-16 h-16 md:w-20 md:h-20 text-blue-400" size={64} />
+                  </div>
                   <div className="text-xs font-bold text-blue-400 uppercase tracking-wider bg-blue-500/10 px-2 py-1 rounded-full">
                     {lesson.level}
                   </div>
@@ -52,9 +56,7 @@ export default function Lessons() {
                 <div className="flex-1">
                   {isCompleted && (
                     <div className="absolute top-3 right-3 md:top-4 md:right-4 text-green-500 bg-green-500/10 p-1.5 md:p-2 rounded-full">
-                      <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                      </svg>
+                      <IconCheck className="w-4 h-4 md:w-5 md:h-5" />
                     </div>
                   )}
                   
@@ -63,7 +65,8 @@ export default function Lessons() {
                   
                   <div className="flex items-center justify-between text-xs md:text-sm">
                     <span className="text-yellow-400 font-bold flex items-center gap-1 bg-yellow-500/10 px-2 py-1 rounded-full">
-                      <span>★</span> {lesson.xpReward} XP
+                      <IconStar className="w-3 h-3" filled />
+                      {lesson.xpReward} XP
                     </span>
                     <span className={`font-medium ${isCompleted ? 'text-green-400' : 'text-blue-400'}`}>
                       {isCompleted ? '↻ Review' : 'Start →'}

@@ -6,6 +6,7 @@ import { supabase } from '../lib/supabase';
 import PWAInstallPrompt from './PWAInstallPrompt';
 import OfflineIndicator from './OfflineIndicator';
 import UpdateNotification from './UpdateNotification';
+import { IconHome, IconLessons, IconPractice, IconDictionary, IconTranslator, IconForum, IconReview, IconSettings, IconAdmin, IconMenu, IconClose, IconStar } from './icons/ChaldeanIcons';
 
 export default function Layout() {
   const { points, level, getWordsToReview } = useProgress();
@@ -70,22 +71,48 @@ export default function Layout() {
             {/* Desktop Menu */}
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-2">
-                <Link to="/" className={linkClass('/')}>🏠 Home</Link>
-                <Link to="/lessons" className={linkClass('/lessons')}>📚 Lessons</Link>
-                <Link to="/practice" className={linkClass('/practice')}>🎯 Practice</Link>
-                <Link to="/dictionary" className={linkClass('/dictionary')}>📖 Dictionary</Link>
-                <Link to="/translator" className={linkClass('/translator')}>💬 Translator</Link>
-                <Link to="/forum" className={linkClass('/forum')}>💭 Forum</Link>
-                <Link to="/review" className={linkClass('/review') + ' relative'}>
-                  🔄 Review
+                <Link to="/" className={`${linkClass('/')} flex items-center gap-1`}>
+                  <IconHome className="w-4 h-4" />
+                  <span>Home</span>
+                </Link>
+                <Link to="/lessons" className={`${linkClass('/lessons')} flex items-center gap-1`}>
+                  <IconLessons className="w-4 h-4" />
+                  <span>Lessons</span>
+                </Link>
+                <Link to="/practice" className={`${linkClass('/practice')} flex items-center gap-1`}>
+                  <IconPractice className="w-4 h-4" />
+                  <span>Practice</span>
+                </Link>
+                <Link to="/dictionary" className={`${linkClass('/dictionary')} flex items-center gap-1`}>
+                  <IconDictionary className="w-4 h-4" />
+                  <span>Dictionary</span>
+                </Link>
+                <Link to="/translator" className={`${linkClass('/translator')} flex items-center gap-1`}>
+                  <IconTranslator className="w-4 h-4" />
+                  <span>Translator</span>
+                </Link>
+                <Link to="/forum" className={`${linkClass('/forum')} flex items-center gap-1`}>
+                  <IconForum className="w-4 h-4" />
+                  <span>Forum</span>
+                </Link>
+                <Link to="/review" className={`${linkClass('/review')} relative flex items-center gap-1`}>
+                  <IconReview className="w-4 h-4" />
+                  <span>Review</span>
                   {wordsToReview > 0 && (
                     <span className="absolute -top-1 -right-1 bg-orange-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
                       {wordsToReview}
                     </span>
                   )}
                 </Link>
-                {isAdmin && <Link to="/admin" className={linkClass('/admin')}>🔧 Admin</Link>}
-                <Link to="/settings" className={linkClass('/settings')}>⚙️</Link>
+                {isAdmin && (
+                  <Link to="/admin" className={`${linkClass('/admin')} flex items-center gap-1`}>
+                    <IconAdmin className="w-4 h-4" />
+                    <span>Admin</span>
+                  </Link>
+                )}
+                <Link to="/settings" className={linkClass('/settings')}>
+                  <IconSettings className="w-4 h-4" />
+                </Link>
               </div>
             </div>
 
@@ -98,7 +125,7 @@ export default function Layout() {
                     <span className="font-bold text-blue-100 text-sm">{level}</span>
                   </div>
                   <div className="bg-gradient-to-br from-yellow-600/20 to-yellow-500/10 px-3 py-1.5 rounded-full border border-yellow-500/50 flex items-center gap-2 shadow-lg">
-                    <span className="text-yellow-400 text-lg">★</span>
+                    <IconStar className="w-4 h-4 text-yellow-400" filled />
                     <span className="font-bold text-yellow-100 text-sm md:text-base">{points}</span>
                   </div>
                 </>
@@ -128,13 +155,9 @@ export default function Layout() {
                 >
                   <span className="sr-only">Open main menu</span>
                   {!isMenuOpen ? (
-                    <svg className="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
+                    <IconMenu className="block h-6 w-6" />
                   ) : (
-                    <svg className="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
+                    <IconClose className="block h-6 w-6" />
                   )}
                 </button>
               </div>
@@ -146,23 +169,29 @@ export default function Layout() {
         {isMenuOpen && (
           <div className="md:hidden border-t border-gray-700 bg-gray-800/95 backdrop-blur-sm" id="mobile-menu">
             <div className="px-3 py-3 space-y-1">
-              <Link to="/" onClick={() => setIsMenuOpen(false)} className={`block ${linkClass('/')} text-base py-3`}>
-                🏠 Home
+              <Link to="/" onClick={() => setIsMenuOpen(false)} className={`block ${linkClass('/')} text-base py-3 flex items-center gap-2`}>
+                <IconHome className="w-5 h-5" />
+                <span>Home</span>
               </Link>
-              <Link to="/lessons" onClick={() => setIsMenuOpen(false)} className={`block ${linkClass('/lessons')} text-base py-3`}>
-                📚 Lessons
+              <Link to="/lessons" onClick={() => setIsMenuOpen(false)} className={`block ${linkClass('/lessons')} text-base py-3 flex items-center gap-2`}>
+                <IconLessons className="w-5 h-5" />
+                <span>Lessons</span>
               </Link>
-              <Link to="/practice" onClick={() => setIsMenuOpen(false)} className={`block ${linkClass('/practice')} text-base py-3`}>
-                🎯 Practice
+              <Link to="/practice" onClick={() => setIsMenuOpen(false)} className={`block ${linkClass('/practice')} text-base py-3 flex items-center gap-2`}>
+                <IconPractice className="w-5 h-5" />
+                <span>Practice</span>
               </Link>
-              <Link to="/dictionary" onClick={() => setIsMenuOpen(false)} className={`block ${linkClass('/dictionary')} text-base py-3`}>
-                📖 Dictionary
+              <Link to="/dictionary" onClick={() => setIsMenuOpen(false)} className={`block ${linkClass('/dictionary')} text-base py-3 flex items-center gap-2`}>
+                <IconDictionary className="w-5 h-5" />
+                <span>Dictionary</span>
               </Link>
-              <Link to="/forum" onClick={() => setIsMenuOpen(false)} className={`block ${linkClass('/forum')} text-base py-3`}>
-                💭 Community Forum
+              <Link to="/forum" onClick={() => setIsMenuOpen(false)} className={`block ${linkClass('/forum')} text-base py-3 flex items-center gap-2`}>
+                <IconForum className="w-5 h-5" />
+                <span>Community Forum</span>
               </Link>
-              <Link to="/review" onClick={() => setIsMenuOpen(false)} className={`block ${linkClass('/review')} text-base py-3 relative`}>
-                🔄 Review
+              <Link to="/review" onClick={() => setIsMenuOpen(false)} className={`block ${linkClass('/review')} text-base py-3 relative flex items-center gap-2`}>
+                <IconReview className="w-5 h-5" />
+                <span>Review</span>
                 {wordsToReview > 0 && (
                   <span className="absolute top-2 right-2 bg-orange-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
                     {wordsToReview}
@@ -170,12 +199,14 @@ export default function Layout() {
                 )}
               </Link>
               {isAdmin && (
-                <Link to="/admin" onClick={() => setIsMenuOpen(false)} className={`block ${linkClass('/admin')} text-base py-3`}>
-                  🔧 Admin Dashboard
+                <Link to="/admin" onClick={() => setIsMenuOpen(false)} className={`block ${linkClass('/admin')} text-base py-3 flex items-center gap-2`}>
+                  <IconAdmin className="w-5 h-5" />
+                  <span>Admin Dashboard</span>
                 </Link>
               )}
-              <Link to="/settings" onClick={() => setIsMenuOpen(false)} className={`block ${linkClass('/settings')} text-base py-3`}>
-                ⚙️ Settings
+              <Link to="/settings" onClick={() => setIsMenuOpen(false)} className={`block ${linkClass('/settings')} text-base py-3 flex items-center gap-2`}>
+                <IconSettings className="w-5 h-5" />
+                <span>Settings</span>
               </Link>
             </div>
           </div>
@@ -190,38 +221,27 @@ export default function Layout() {
       <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-gray-800/95 backdrop-blur-lg border-t border-gray-700 z-30 pb-safe">
         <div className="grid grid-cols-5 px-1 py-1">
           <Link to="/" className={bottomNavClass('/')} onClick={() => setIsMenuOpen(false)}>
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-            </svg>
+            <IconHome className="w-6 h-6" />
             <span className="text-xs font-medium">Home</span>
           </Link>
           
           <Link to="/lessons" className={bottomNavClass('/lessons')} onClick={() => setIsMenuOpen(false)}>
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-            </svg>
+            <IconLessons className="w-6 h-6" />
             <span className="text-xs font-medium">Lessons</span>
           </Link>
           
           <Link to="/dictionary" className={bottomNavClass('/dictionary')} onClick={() => setIsMenuOpen(false)}>
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5z" />
-            </svg>
+            <IconDictionary className="w-6 h-6" />
             <span className="text-xs font-medium">Dict</span>
           </Link>
           
           <Link to="/translator" className={bottomNavClass('/translator')} onClick={() => setIsMenuOpen(false)}>
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
-            </svg>
+            <IconTranslator className="w-6 h-6" />
             <span className="text-xs font-medium">Translate</span>
           </Link>
           
           <Link to="/review" className={bottomNavClass('/review') + ' relative'} onClick={() => setIsMenuOpen(false)}>
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-            </svg>
+            <IconReview className="w-6 h-6" />
             <span className="text-xs font-medium">Review</span>
             {wordsToReview > 0 && (
               <span className="absolute -top-1 -right-1 bg-orange-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
