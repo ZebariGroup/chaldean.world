@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { lessonsData } from '../data/lessons';
-import { dictionaryData } from '../data/dictionary';
+import { useLessons, Lesson } from '../hooks/useLessons';
 import { useProgress } from '../context/ProgressContext';
 
 type LessonPhase = 'intro' | 'learning' | 'quiz' | 'completed';
@@ -10,8 +9,10 @@ export default function LessonRunner() {
   const { lessonId } = useParams();
   const navigate = useNavigate();
   const { completeLesson, addPoints, addWordToReview, addIncorrectAnswer, addStudyTime } = useProgress();
+  const { fetchLessonById } = useLessons();
   
-  const lesson = lessonsData.find(l => l.id === Number(lessonId));
+  const [lesson, setLesson] = useState<Lesson | null>(null);
+  const [loading, setLoading] = useState(true);
   
   const [phase, setPhase] = useState<LessonPhase>('intro');
   
@@ -25,22 +26,35 @@ export default function LessonRunner() {
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [startTime] = useState(Date.now());
 
-  if (!lesson) {
-    return <div className="text-center py-12">Lesson not found</div>;
-  }
+  // Fetch lesson on mount
+  useEffect(() => {
+    const loadLesson = async () => {
+      if (!lessonId) return;
+      setLoading(true);
+      const lessonData = await fetchLessonById(Number(lessonId));
+      setLesson(lessonData);
+      setLoading(false);
+    };
+    loadLesson();
+  }, [lessonId, fetchLessonById]);
 
   // Add words to review system when learning
   useEffect(() => {
-    if (phase === 'learning') {
+    if (phase === 'learning' && lesson) {
       lesson.vocabulary.forEach(word => {
-        // Find the word in dictionary to get its category for proper ID format
-        const dictEntry = dictionaryData.find(d => d.word === word.word);
-        if (dictEntry) {
-          addWordToReview(`${word.word}-${dictEntry.categories.join('-')}`);
-        }
+        // Use word as ID (dictionary entries are linked by word)
+        addWordToReview(word.word);
       });
     }
   }, [phase, lesson, addWordToReview]);
+
+  if (loading) {
+    return <div className="text-center py-12">Loading lesson...</div>;
+  }
+
+  if (!lesson) {
+    return <div className="text-center py-12">Lesson not found</div>;
+  }
 
   // --- Intro View ---
   if (phase === 'intro') {

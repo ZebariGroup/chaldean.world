@@ -1,9 +1,18 @@
 import { Link } from 'react-router-dom';
-import { lessonsData } from '../data/lessons';
+import { useLessons } from '../hooks/useLessons';
 import { useProgress } from '../context/ProgressContext';
 
 export default function Lessons() {
+  const { lessons, loading } = useLessons();
   const { completedLessons } = useProgress();
+
+  if (loading) {
+    return (
+      <div className="w-full max-w-6xl mx-auto px-4 py-4 md:py-0">
+        <div className="text-center py-12">Loading lessons...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full max-w-6xl mx-auto px-4 py-4 md:py-0">
@@ -14,7 +23,7 @@ export default function Lessons() {
       
       {/* Mobile: List view, Desktop: Grid view */}
       <div className="flex flex-col gap-3 md:grid md:gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {lessonsData.map((lesson) => {
+        {lessons.map((lesson) => {
           const isCompleted = completedLessons.includes(lesson.id);
           
           return (
