@@ -22,6 +22,8 @@ interface Post {
   user_profiles: {
     display_name: string;
     username: string;
+    language_level?: string;
+    hometown?: string;
   };
   comment_count: number;
   like_count: number;
@@ -93,7 +95,7 @@ export default function Forum() {
       const userIds = [...new Set((postsData || []).map(p => p.user_id))];
       const { data: userProfiles } = await supabase
         .from('user_profiles')
-        .select('id, display_name, username')
+        .select('id, display_name, username, language_level, hometown')
         .in('id', userIds);
 
       // Get comment counts
@@ -272,8 +274,22 @@ export default function Forum() {
                     </p>
 
                     <div className="flex items-center gap-4 text-xs text-gray-500">
-                      <span className="flex items-center gap-1">
+                      <span className="flex items-center gap-2">
                         <span className="text-blue-400">@{post.user_profiles?.username || 'unknown'}</span>
+                        {post.user_profiles?.language_level && (
+                          <span className={`px-1.5 py-0.5 rounded text-[10px] border ${
+                            post.user_profiles.language_level === 'Native' ? 'border-purple-500/50 text-purple-400' :
+                            post.user_profiles.language_level === 'Advanced' ? 'border-green-500/50 text-green-400' :
+                            'border-blue-500/50 text-blue-400'
+                          }`}>
+                            {post.user_profiles.language_level}
+                          </span>
+                        )}
+                        {post.user_profiles?.hometown && (
+                          <span className="text-gray-400 flex items-center gap-1" title="Hometown">
+                            📍 {post.user_profiles.hometown}
+                          </span>
+                        )}
                       </span>
                       <span>•</span>
                       <span>{formatDate(post.created_at)}</span>

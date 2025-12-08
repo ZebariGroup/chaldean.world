@@ -1,7 +1,8 @@
 import { useProgress } from '../context/ProgressContext';
 import { useAuth } from '../context/AuthContext';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { requestNotificationPermission } from '../utils/notifications';
+import { supabase } from '../lib/supabase';
 
 export default function Settings() {
   const { 
@@ -23,6 +24,84 @@ export default function Settings() {
   
   const [showExport, setShowExport] = useState(false);
   const [importData, setImportData] = useState('');
+
+  // Profile State
+  const [profile, setProfile] = useState({
+    username: '',
+    display_name: '',
+    bio: '',
+    language_level: 'Beginner',
+    hometown: '',
+  });
+  const [loadingProfile, setLoadingProfile] = useState(false);
+  const [profileMessage, setProfileMessage] = useState({ type: '', text: '' });
+
+  useEffect(() => {
+    if (user && !isGuest) {
+      loadProfile();
+    }
+  }, [user, isGuest]);
+
+  const loadProfile = async () => {
+    try {
+      setLoadingProfile(true);
+      const { data, error } = await supabase
+        .from('user_profiles')
+        .select('*')
+        .eq('id', user!.id)
+        .single();
+
+      if (error && error.code !== 'PGRST116') throw error;
+
+      if (data) {
+        setProfile({
+          username: data.username || '',
+          display_name: data.display_name || '',
+          bio: data.bio || '',
+          language_level: data.language_level || 'Beginner',
+          hometown: data.hometown || '',
+        });
+      }
+    } catch (error) {
+      console.error('Error loading profile:', error);
+    } finally {
+      setLoadingProfile(false);
+    }
+  };
+
+  const updateProfile = async () => {
+    if (!user || isGuest) return;
+
+    try {
+      setLoadingProfile(true);
+      setProfileMessage({ type: '', text: '' });
+
+      const updates = {
+        id: user.id,
+        username: profile.username,
+        display_name: profile.display_name,
+        bio: profile.bio,
+        language_level: profile.language_level,
+        hometown: profile.hometown,
+        updated_at: new Date().toISOString(),
+      };
+
+      const { error } = await supabase
+        .from('user_profiles')
+        .upsert(updates);
+
+      if (error) throw error;
+
+      setProfileMessage({ type: 'success', text: 'Profile updated successfully!' });
+      setTimeout(() => setProfileMessage({ type: '', text: '' }), 3000);
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      setProfileMessage({ type: 'error', text: 'Error updating profile. Please try again.' });
+    } finally {
+      setLoadingProfile(false);
+    }
+  };
+
 
   const handleExport = () => {
     const data = exportProgress();
@@ -91,6 +170,89 @@ export default function Settings() {
           <div className="text-xs md:text-sm text-gray-400 mt-1">Words Learned</div>
         </div>
       </div>
+
+      {/* Public Profile Settings */}
+      {!isGuest && (
+        <div className="mb-8 bg-gray-800 rounded-2xl border-2 border-gray-700 p-6">
+          <h2 className="text-xl font-bold mb-4">Public Profile</h2>
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium mb-2">Display Name</label>
+                <input
+                  type="text"
+                  value={profile.display_name}
+                  onChange={(e) => setProfile({ ...profile, display_name: e.target.value })}
+                  className="w-full p-3 rounded-xl bg-gray-700 border-2 border-gray-600 focus:border-blue-500 outline-none"
+                  placeholder="How others see you"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2">Username</label>
+                <input
+                  type="text"
+                  value={profile.username}
+                  onChange={(e) => setProfile({ ...profile, username: e.target.value })}
+                  className="w-full p-3 rounded-xl bg-gray-700 border-2 border-gray-600 focus:border-blue-500 outline-none"
+                  placeholder="@username"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium mb-2">Language Level</label>
+                <select
+                  value={profile.language_level}
+                  onChange={(e) => setProfile({ ...profile, language_level: e.target.value })}
+                  className="w-full p-3 rounded-xl bg-gray-700 border-2 border-gray-600 focus:border-blue-500 outline-none"
+                >
+                  <option value="Beginner">Beginner</option>
+                  <option value="Elementary">Elementary</option>
+                  <option value="Intermediate">Intermediate</option>
+                  <option value="Advanced">Advanced</option>
+                  <option value="Native">Native</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2">Hometown / Location</label>
+                <input
+                  type="text"
+                  value={profile.hometown}
+                  onChange={(e) => setProfile({ ...profile, hometown: e.target.value })}
+                  className="w-full p-3 rounded-xl bg-gray-700 border-2 border-gray-600 focus:border-blue-500 outline-none"
+                  placeholder="e.g. Detroit, Baghdad, Ankawa"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-2">Bio</label>
+              <textarea
+                value={profile.bio}
+                onChange={(e) => setProfile({ ...profile, bio: e.target.value })}
+                className="w-full p-3 rounded-xl bg-gray-700 border-2 border-gray-600 focus:border-blue-500 outline-none resize-none h-24"
+                placeholder="Tell us a bit about yourself..."
+              />
+            </div>
+
+            <div className="flex items-center justify-between pt-2">
+              <button
+                onClick={updateProfile}
+                disabled={loadingProfile}
+                className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-bold py-3 px-6 rounded-xl transition-all"
+              >
+                {loadingProfile ? 'Saving...' : 'Save Profile'}
+              </button>
+              {profileMessage.text && (
+                <span className={`text-sm ${profileMessage.type === 'error' ? 'text-red-400' : 'text-green-400'}`}>
+                  {profileMessage.text}
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Additional Stats */}
       <div className="mb-8 bg-gray-800 rounded-2xl border-2 border-gray-700 p-6">

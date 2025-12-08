@@ -1,0 +1,4 @@
+ALTER TABLE user_profiles
+ADD COLUMN IF NOT EXISTS language_level TEXT,
+ADD COLUMN IF NOT EXISTS hometown TEXT;
+
