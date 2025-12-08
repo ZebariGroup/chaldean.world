@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
-import { DictionaryEntry } from '../data/dictionary';
 
 export interface LessonVocabulary {
   word: string;
@@ -59,22 +58,22 @@ export function useLessons() {
       const lessonIds = lessonsData.map(l => l.id);
       const { data: vocabularyData, error: vocabError } = await supabase
         .from('lesson_vocabulary')
-        .select(`
-          lesson_id,
-          display_order,
-          dictionary_id,
-          dictionary!inner (
-            id,
-            word,
-            translation,
-            phonetic,
-            script
-          )
-        `)
+        .select('lesson_id, display_order, dictionary_id')
         .in('lesson_id', lessonIds)
         .order('display_order', { ascending: true });
 
       if (vocabError) throw vocabError;
+
+      // Fetch dictionary entries for vocabulary
+      const dictionaryIds = [...new Set((vocabularyData || []).map((v: any) => v.dictionary_id))];
+      const { data: dictionaryData, error: dictError } = await supabase
+        .from('dictionary')
+        .select('id, word, translation, phonetic, script')
+        .in('id', dictionaryIds);
+
+      if (dictError) throw dictError;
+
+      const dictionaryMap = new Map((dictionaryData || []).map((d: any) => [d.id, d]));
 
       // Fetch questions for all lessons
       const { data: questionsData, error: questionsError } = await supabase
@@ -88,8 +87,8 @@ export function useLessons() {
       // Group vocabulary by lesson_id
       const vocabularyByLesson: Record<number, LessonVocabulary[]> = {};
       (vocabularyData || []).forEach((item: any) => {
-        if (!item.dictionary) return;
-        const dict = item.dictionary as DictionaryEntry;
+        const dict = dictionaryMap.get(item.dictionary_id);
+        if (!dict) return;
         if (!vocabularyByLesson[item.lesson_id]) {
           vocabularyByLesson[item.lesson_id] = [];
         }
@@ -152,21 +151,22 @@ export function useLessons() {
       // Fetch vocabulary
       const { data: vocabularyData, error: vocabError } = await supabase
         .from('lesson_vocabulary')
-        .select(`
-          display_order,
-          dictionary_id,
-          dictionary!inner (
-            id,
-            word,
-            translation,
-            phonetic,
-            script
-          )
-        `)
+        .select('display_order, dictionary_id')
         .eq('lesson_id', id)
         .order('display_order', { ascending: true });
 
       if (vocabError) throw vocabError;
+
+      // Fetch dictionary entries
+      const dictionaryIds = (vocabularyData || []).map((v: any) => v.dictionary_id);
+      const { data: dictionaryData, error: dictError } = await supabase
+        .from('dictionary')
+        .select('id, word, translation, phonetic, script')
+        .in('id', dictionaryIds);
+
+      if (dictError) throw dictError;
+
+      const dictionaryMap = new Map((dictionaryData || []).map((d: any) => [d.id, d]));
 
       // Fetch questions
       const { data: questionsData, error: questionsError } = await supabase
@@ -179,8 +179,8 @@ export function useLessons() {
 
       const vocabulary: LessonVocabulary[] = (vocabularyData || [])
         .map((item: any) => {
-          if (!item.dictionary) return null;
-          const dict = item.dictionary as DictionaryEntry;
+          const dict = dictionaryMap.get(item.dictionary_id);
+          if (!dict) return null;
           return {
             word: dict.word,
             translation: dict.translation,
