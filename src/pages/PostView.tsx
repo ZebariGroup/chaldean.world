@@ -18,7 +18,9 @@ interface Post {
     display_name: string;
     username: string;
     avatar_url: string | null;
-    language_level?: string;
+    fluency_english?: string;
+    fluency_arabic?: string;
+    fluency_sureth?: string;
     hometown?: string;
   };
   forum_categories: {
@@ -38,7 +40,9 @@ interface Comment {
     display_name: string;
     username: string;
     avatar_url: string | null;
-    language_level?: string;
+    fluency_english?: string;
+    fluency_arabic?: string;
+    fluency_sureth?: string;
     hometown?: string;
   };
   like_count: number;
@@ -85,7 +89,7 @@ export default function PostView() {
       // Get user profile
       const { data: userProfile } = await supabase
         .from('user_profiles')
-        .select('display_name, username, avatar_url, language_level, hometown')
+        .select('display_name, username, avatar_url, fluency_sureth, hometown')
         .eq('id', postData.user_id)
         .single();
 
@@ -133,7 +137,7 @@ export default function PostView() {
       const userIds = [...new Set((commentsData || []).map(c => c.user_id))];
       const { data: userProfiles } = await supabase
         .from('user_profiles')
-        .select('id, display_name, username, avatar_url, language_level, hometown')
+        .select('id, display_name, username, avatar_url, fluency_sureth, hometown')
         .in('id', userIds);
 
       // Get like counts and user likes for each comment
@@ -342,13 +346,13 @@ export default function PostView() {
               <div className="flex items-center gap-2 mb-1 flex-wrap">
                 <h2 className="text-xl font-bold text-white">{post.user_profiles?.display_name}</h2>
                 <span className="text-gray-500">@{post.user_profiles?.username}</span>
-                {post.user_profiles?.language_level && (
+                {post.user_profiles?.fluency_sureth && (
                   <span className={`px-2 py-0.5 rounded text-xs border ${
-                    post.user_profiles.language_level === 'Native' ? 'border-purple-500/50 text-purple-400' :
-                    post.user_profiles.language_level === 'Advanced' ? 'border-green-500/50 text-green-400' :
+                    post.user_profiles.fluency_sureth === 'Native' ? 'border-purple-500/50 text-purple-400' :
+                    post.user_profiles.fluency_sureth === 'Fluent' || post.user_profiles.fluency_sureth === 'Advanced' ? 'border-green-500/50 text-green-400' :
                     'border-blue-500/50 text-blue-400'
                   }`}>
-                    {post.user_profiles.language_level}
+                    {post.user_profiles.fluency_sureth}
                   </span>
                 )}
                 {post.user_profiles?.hometown && (
@@ -473,13 +477,13 @@ export default function PostView() {
                   <div className="flex items-center gap-2 flex-wrap">
                     <span className="font-semibold text-white">{comment.user_profiles?.display_name}</span>
                     <span className="text-gray-500 text-sm">@{comment.user_profiles?.username}</span>
-                    {comment.user_profiles?.language_level && (
+                    {comment.user_profiles?.fluency_sureth && (
                       <span className={`px-1.5 py-0.5 rounded text-[10px] border ${
-                        comment.user_profiles.language_level === 'Native' ? 'border-purple-500/50 text-purple-400' :
-                        comment.user_profiles.language_level === 'Advanced' ? 'border-green-500/50 text-green-400' :
+                        comment.user_profiles.fluency_sureth === 'Native' ? 'border-purple-500/50 text-purple-400' :
+                        comment.user_profiles.fluency_sureth === 'Fluent' || comment.user_profiles.fluency_sureth === 'Advanced' ? 'border-green-500/50 text-green-400' :
                         'border-blue-500/50 text-blue-400'
                       }`}>
-                        {comment.user_profiles.language_level}
+                        {comment.user_profiles.fluency_sureth}
                       </span>
                     )}
                     <span className="text-gray-500 text-sm">•</span>
@@ -526,13 +530,13 @@ export default function PostView() {
                       <div className="flex items-center gap-2 flex-wrap">
                         <span className="font-semibold text-white text-sm">{reply.user_profiles?.display_name}</span>
                         <span className="text-gray-500 text-xs">@{reply.user_profiles?.username}</span>
-                        {reply.user_profiles?.language_level && (
+                        {reply.user_profiles?.fluency_sureth && (
                           <span className={`px-1.5 py-0.5 rounded text-[10px] border ${
-                            reply.user_profiles.language_level === 'Native' ? 'border-purple-500/50 text-purple-400' :
-                            reply.user_profiles.language_level === 'Advanced' ? 'border-green-500/50 text-green-400' :
+                            reply.user_profiles.fluency_sureth === 'Native' ? 'border-purple-500/50 text-purple-400' :
+                            reply.user_profiles.fluency_sureth === 'Fluent' || reply.user_profiles.fluency_sureth === 'Advanced' ? 'border-green-500/50 text-green-400' :
                             'border-blue-500/50 text-blue-400'
                           }`}>
-                            {reply.user_profiles.language_level}
+                            {reply.user_profiles.fluency_sureth}
                           </span>
                         )}
                         <span className="text-gray-500 text-xs">•</span>

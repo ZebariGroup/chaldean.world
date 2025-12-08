@@ -30,7 +30,9 @@ export default function Settings() {
     username: '',
     display_name: '',
     bio: '',
-    language_level: 'Beginner',
+    fluency_english: 'Intermediate',
+    fluency_arabic: 'Intermediate',
+    fluency_sureth: 'Beginner',
     hometown: '',
   });
   const [loadingProfile, setLoadingProfile] = useState(false);
@@ -58,7 +60,9 @@ export default function Settings() {
           username: data.username || '',
           display_name: data.display_name || '',
           bio: data.bio || '',
-          language_level: data.language_level || 'Beginner',
+          fluency_english: data.fluency_english || 'Intermediate',
+          fluency_arabic: data.fluency_arabic || 'Intermediate',
+          fluency_sureth: data.fluency_sureth || 'Beginner',
           hometown: data.hometown || '',
         });
       }
@@ -81,7 +85,9 @@ export default function Settings() {
         username: profile.username,
         display_name: profile.display_name,
         bio: profile.bio,
-        language_level: profile.language_level,
+        fluency_english: profile.fluency_english,
+        fluency_arabic: profile.fluency_arabic,
+        fluency_sureth: profile.fluency_sureth,
         hometown: profile.hometown,
         updated_at: new Date().toISOString(),
       };
@@ -201,20 +207,6 @@ export default function Settings() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium mb-2">Language Level</label>
-                <select
-                  value={profile.language_level}
-                  onChange={(e) => setProfile({ ...profile, language_level: e.target.value })}
-                  className="w-full p-3 rounded-xl bg-gray-700 border-2 border-gray-600 focus:border-blue-500 outline-none"
-                >
-                  <option value="Beginner">Beginner</option>
-                  <option value="Elementary">Elementary</option>
-                  <option value="Intermediate">Intermediate</option>
-                  <option value="Advanced">Advanced</option>
-                  <option value="Native">Native</option>
-                </select>
-              </div>
-              <div>
                 <label className="block text-sm font-medium mb-2">Hometown / Location</label>
                 <input
                   type="text"
@@ -223,6 +215,55 @@ export default function Settings() {
                   className="w-full p-3 rounded-xl bg-gray-700 border-2 border-gray-600 focus:border-blue-500 outline-none"
                   placeholder="e.g. Detroit, Baghdad, Ankawa"
                 />
+              </div>
+            </div>
+
+            <h3 className="text-lg font-semibold mt-4 mb-2">Language Fluency</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label className="block text-sm font-medium mb-2">English</label>
+                <select
+                  value={profile.fluency_english}
+                  onChange={(e) => setProfile({ ...profile, fluency_english: e.target.value })}
+                  className="w-full p-3 rounded-xl bg-gray-700 border-2 border-gray-600 focus:border-blue-500 outline-none"
+                >
+                  <option value="Native">Native</option>
+                  <option value="Fluent">Fluent</option>
+                  <option value="Advanced">Advanced</option>
+                  <option value="Intermediate">Intermediate</option>
+                  <option value="Beginner">Beginner</option>
+                  <option value="None">None</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2">Arabic</label>
+                <select
+                  value={profile.fluency_arabic}
+                  onChange={(e) => setProfile({ ...profile, fluency_arabic: e.target.value })}
+                  className="w-full p-3 rounded-xl bg-gray-700 border-2 border-gray-600 focus:border-blue-500 outline-none"
+                >
+                  <option value="Native">Native</option>
+                  <option value="Fluent">Fluent</option>
+                  <option value="Advanced">Advanced</option>
+                  <option value="Intermediate">Intermediate</option>
+                  <option value="Beginner">Beginner</option>
+                  <option value="None">None</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2">Sureth (Chaldean)</label>
+                <select
+                  value={profile.fluency_sureth}
+                  onChange={(e) => setProfile({ ...profile, fluency_sureth: e.target.value })}
+                  className="w-full p-3 rounded-xl bg-gray-700 border-2 border-gray-600 focus:border-blue-500 outline-none"
+                >
+                  <option value="Native">Native</option>
+                  <option value="Fluent">Fluent</option>
+                  <option value="Advanced">Advanced</option>
+                  <option value="Intermediate">Intermediate</option>
+                  <option value="Beginner">Beginner</option>
+                  <option value="None">None</option>
+                </select>
               </div>
             </div>
 

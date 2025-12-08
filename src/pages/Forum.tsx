@@ -22,7 +22,9 @@ interface Post {
   user_profiles: {
     display_name: string;
     username: string;
-    language_level?: string;
+    fluency_english?: string;
+    fluency_arabic?: string;
+    fluency_sureth?: string;
     hometown?: string;
   };
   comment_count: number;
@@ -95,7 +97,7 @@ export default function Forum() {
       const userIds = [...new Set((postsData || []).map(p => p.user_id))];
       const { data: userProfiles } = await supabase
         .from('user_profiles')
-        .select('id, display_name, username, language_level, hometown')
+        .select('id, display_name, username, fluency_sureth, hometown')
         .in('id', userIds);
 
       // Get comment counts
@@ -276,13 +278,13 @@ export default function Forum() {
                     <div className="flex items-center gap-4 text-xs text-gray-500">
                       <span className="flex items-center gap-2">
                         <span className="text-blue-400">@{post.user_profiles?.username || 'unknown'}</span>
-                        {post.user_profiles?.language_level && (
+                        {post.user_profiles?.fluency_sureth && (
                           <span className={`px-1.5 py-0.5 rounded text-[10px] border ${
-                            post.user_profiles.language_level === 'Native' ? 'border-purple-500/50 text-purple-400' :
-                            post.user_profiles.language_level === 'Advanced' ? 'border-green-500/50 text-green-400' :
+                            post.user_profiles.fluency_sureth === 'Native' ? 'border-purple-500/50 text-purple-400' :
+                            post.user_profiles.fluency_sureth === 'Fluent' || post.user_profiles.fluency_sureth === 'Advanced' ? 'border-green-500/50 text-green-400' :
                             'border-blue-500/50 text-blue-400'
                           }`}>
-                            {post.user_profiles.language_level}
+                            {post.user_profiles.fluency_sureth}
                           </span>
                         )}
                         {post.user_profiles?.hometown && (
