@@ -6,6 +6,7 @@ interface EnglishArabicEntry {
   id: string;
   english: string;
   arabic: string;
+  arabic_romanized: string;
   arabic_phonetic: string;
   part_of_speech: string;
   context: string;
@@ -15,6 +16,7 @@ interface EnglishArabicEntry {
 interface TranslationResult {
   english: string;
   arabic: string;
+  arabic_romanized: string;
   arabic_phonetic: string;
   confidence: number;
 }
@@ -42,6 +44,7 @@ export default function EnglishArabicDictionary() {
   const [newEntry, setNewEntry] = useState({
     english: '',
     arabic: '',
+    arabic_romanized: '',
     arabic_phonetic: '',
     part_of_speech: '',
     context: '',
@@ -135,6 +138,7 @@ export default function EnglishArabicDictionary() {
       setNewEntry({
         english: '',
         arabic: '',
+        arabic_romanized: '',
         arabic_phonetic: '',
         part_of_speech: '',
         context: '',
@@ -174,6 +178,7 @@ export default function EnglishArabicDictionary() {
   const filteredEntries = entries.filter(entry =>
     entry.english.toLowerCase().includes(searchTerm.toLowerCase()) ||
     entry.arabic.includes(searchTerm) ||
+    entry.arabic_romanized?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     entry.arabic_phonetic?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -232,7 +237,8 @@ export default function EnglishArabicDictionary() {
                       <div className="flex items-center justify-between">
                         <div className="flex-1">
                           <div className="text-2xl mb-1" dir="rtl">{result.arabic}</div>
-                          <div className="text-sm text-gray-400">{result.arabic_phonetic}</div>
+                          <div className="text-sm text-gray-400">{result.arabic_romanized}</div>
+                          <div className="text-xs text-gray-500">{result.arabic_phonetic}</div>
                         </div>
                         <div className="text-xs text-blue-400">
                           {Math.round(result.confidence * 100)}% match
@@ -335,9 +341,16 @@ export default function EnglishArabicDictionary() {
                   />
                   <input
                     type="text"
+                    value={newEntry.arabic_romanized}
+                    onChange={(e) => setNewEntry({...newEntry, arabic_romanized: e.target.value})}
+                    placeholder="Arabic Word (English Letters)"
+                    className="px-3 py-2 bg-gray-900 border border-gray-600 rounded text-white focus:outline-none focus:border-blue-500"
+                  />
+                  <input
+                    type="text"
                     value={newEntry.arabic_phonetic}
                     onChange={(e) => setNewEntry({...newEntry, arabic_phonetic: e.target.value})}
-                    placeholder="Arabic Phonetic"
+                    placeholder="Arabic Phonetic (with punctuation)"
                     className="px-3 py-2 bg-gray-900 border border-gray-600 rounded text-white focus:outline-none focus:border-blue-500"
                   />
                   <input
@@ -378,6 +391,7 @@ export default function EnglishArabicDictionary() {
                     <tr>
                       <th className="px-4 py-3 text-left">English</th>
                       <th className="px-4 py-3 text-left">Arabic</th>
+                      <th className="px-4 py-3 text-left">Romanized</th>
                       <th className="px-4 py-3 text-left">Phonetic</th>
                       <th className="px-4 py-3 text-left">Type</th>
                       <th className="px-4 py-3 text-left">Rank</th>
@@ -387,13 +401,13 @@ export default function EnglishArabicDictionary() {
                   <tbody>
                     {loading ? (
                       <tr>
-                        <td colSpan={6} className="px-4 py-8 text-center text-gray-400">
+                        <td colSpan={7} className="px-4 py-8 text-center text-gray-400">
                           Loading...
                         </td>
                       </tr>
                     ) : filteredEntries.length === 0 ? (
                       <tr>
-                        <td colSpan={6} className="px-4 py-8 text-center text-gray-400">
+                        <td colSpan={7} className="px-4 py-8 text-center text-gray-400">
                           No entries found
                         </td>
                       </tr>
@@ -402,6 +416,7 @@ export default function EnglishArabicDictionary() {
                         <tr key={entry.id} className="border-t border-gray-700 hover:bg-gray-700/30">
                           <td className="px-4 py-3">{entry.english}</td>
                           <td className="px-4 py-3" dir="rtl">{entry.arabic}</td>
+                          <td className="px-4 py-3 text-sm text-gray-400">{entry.arabic_romanized}</td>
                           <td className="px-4 py-3 text-sm text-gray-400">{entry.arabic_phonetic}</td>
                           <td className="px-4 py-3 text-sm text-gray-400">{entry.part_of_speech}</td>
                           <td className="px-4 py-3 text-sm text-gray-400">{entry.frequency_rank}</td>
