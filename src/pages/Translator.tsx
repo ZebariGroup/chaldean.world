@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { dictionaryData } from '../data/dictionary';
 import { useProgress } from '../context/ProgressContext';
+import { useDictionary } from '../hooks/useDictionary';
+import { DictionaryEntry } from '../data/dictionary';
 
 // Common English words to filter out (stop words)
 const STOP_WORDS = new Set([
@@ -56,6 +57,7 @@ const SYNONYMS: Record<string, string[]> = {
 
 export default function Translator() {
   const { preferences } = useProgress();
+  const { dictionary: dictionaryData, loading } = useDictionary();
   const [inputText, setInputText] = useState('');
   const [translationResults, setTranslationResults] = useState<any[]>([]);
 
@@ -122,7 +124,7 @@ export default function Translator() {
       
       // Search for the word and all its synonyms
       variations.forEach(variation => {
-        dictionaryData.forEach(entry => {
+        dictionaryData.forEach((entry: DictionaryEntry) => {
           if (matchesWord(entry.translation, variation)) {
             allMatches.add(entry);
           }
@@ -180,6 +182,10 @@ export default function Translator() {
         <h1 className="text-2xl md:text-3xl font-bold mb-2">English to Chaldean Translator</h1>
         <p className="text-gray-400 text-sm md:text-base">Type an English word or phrase to translate</p>
       </div>
+
+      {loading && (
+        <div className="text-center text-gray-400 mb-4">Loading dictionary...</div>
+      )}
 
       {/* Translation Input */}
       <div className="mb-6">
@@ -247,7 +253,7 @@ export default function Translator() {
                 )}
                 
                 <div className="grid gap-3 md:grid-cols-2">
-                  {result.matches.map((entry: typeof dictionaryData[0], matchIdx: number) => (
+                  {result.matches.map((entry: DictionaryEntry, matchIdx: number) => (
                   <div
                     key={`${entry.word}-${entry.categories[0]}-${matchIdx}`}
                     className="bg-gradient-to-br from-gray-800 to-gray-800/50 rounded-2xl border-2 border-gray-700 hover:border-blue-500 p-6 transition-all"

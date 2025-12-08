@@ -15,7 +15,7 @@ export default function Dictionary() {
   const [activeEntry, setActiveEntry] = useState<DictionaryEntry | null>(null);
   
   // Filters
-  const [filterChaldean, setFilterChaldean] = useState(false);
+  const [filterChaldean, setFilterChaldean] = useState(true);
   const [filterArabic, setFilterArabic] = useState(false);
 
   // Pagination

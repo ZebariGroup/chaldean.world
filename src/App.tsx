@@ -92,7 +92,7 @@ function App() {
             <Route path="forum/post/:postId" element={<PostView />} />
             <Route path="forum/new" element={<CreatePost />} />
             <Route path="forum/admin" element={<ForumAdmin />} />
-            <Route path="english-arabic" element={<EnglishArabicDictionary />} />
+            {/* <Route path="english-arabic" element={<EnglishArabicDictionary />} /> */}
           </Route>
           <Route path="*" element={<Navigate to="/welcome" replace />} />
         </Routes>
