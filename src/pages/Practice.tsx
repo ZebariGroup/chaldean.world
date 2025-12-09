@@ -2,6 +2,14 @@ import { useState, useEffect } from 'react';
 import { dictionaryData } from '../data/dictionary';
 import { useProgress } from '../context/ProgressContext';
 import { IconAudio } from '../components/icons/ChaldeanIcons';
+import { 
+  IconMatchGame, 
+  IconQuizGame, 
+  IconListeningGame, 
+  IconFlashcardsGame, 
+  IconSpeedGame 
+} from '../components/icons/PracticeIcons';
+import { playWordAudio } from '../utils/audioPlayback';
 
 interface Card {
   id: string;
@@ -122,9 +130,19 @@ export default function Practice() {
   const speakWord = (text: string) => {
     if (!preferences.audioEnabled) return;
     
-    import('../utils/speech').then(({ speak }) => {
-      speak(text, { rate: 0.85 });
-    });
+    // Find the full entry for this word to properly check for native audio
+    const entry = dictionaryData.find(e => e.word === text);
+    
+    if (entry) {
+      // In games, we generally just want to play audio, not open modals interrupting the game
+      // So we don't pass a callback to open the modal, playWordAudio will fallback to playing first available
+      playWordAudio(entry);
+    } else {
+      // Fallback for words not found directly (should contain same words)
+      import('../utils/speech').then(({ speak }) => {
+        speak(text, { rate: 0.85 });
+      });
+    }
   };
 
   const handleCardClick = (id: string) => {
@@ -206,7 +224,9 @@ export default function Practice() {
               onClick={initializeMatchGame}
               className="p-6 rounded-2xl border-2 bg-gradient-to-br from-blue-900/30 to-gray-800 border-blue-500/50 hover:border-blue-500 active:scale-95 transition-all"
             >
-              <div className="text-5xl mb-3">🎯</div>
+              <div className="flex justify-center mb-3 text-blue-400">
+                <IconMatchGame className="w-12 h-12" size={48} />
+              </div>
               <h2 className="text-xl font-bold mb-2">Match Pairs</h2>
               <p className="text-gray-400 text-sm">Memory game - match words</p>
             </button>
@@ -215,7 +235,9 @@ export default function Practice() {
               onClick={initializeQuizGame}
               className="p-6 rounded-2xl border-2 bg-gradient-to-br from-purple-900/30 to-gray-800 border-purple-500/50 hover:border-purple-500 active:scale-95 transition-all"
             >
-              <div className="text-5xl mb-3">❓</div>
+              <div className="flex justify-center mb-3 text-purple-400">
+                <IconQuizGame className="w-12 h-12" size={48} />
+              </div>
               <h2 className="text-xl font-bold mb-2">Quick Quiz</h2>
               <p className="text-gray-400 text-sm">Multiple choice quiz</p>
             </button>
@@ -224,7 +246,9 @@ export default function Practice() {
               onClick={initializeListeningGame}
               className="p-6 rounded-2xl border-2 bg-gradient-to-br from-green-900/30 to-gray-800 border-green-500/50 hover:border-green-500 active:scale-95 transition-all"
             >
-              <div className="text-5xl mb-3">🎧</div>
+              <div className="flex justify-center mb-3 text-green-400">
+                <IconListeningGame className="w-12 h-12" size={48} />
+              </div>
               <h2 className="text-xl font-bold mb-2">Listening Quiz</h2>
               <p className="text-gray-400 text-sm">Listen and choose</p>
             </button>
@@ -233,7 +257,9 @@ export default function Practice() {
               onClick={initializeFlashcardGame}
               className="p-6 rounded-2xl border-2 bg-gradient-to-br from-orange-900/30 to-gray-800 border-orange-500/50 hover:border-orange-500 active:scale-95 transition-all"
             >
-              <div className="text-5xl mb-3">🃏</div>
+              <div className="flex justify-center mb-3 text-orange-400">
+                <IconFlashcardsGame className="w-12 h-12" size={48} />
+              </div>
               <h2 className="text-xl font-bold mb-2">Flashcards</h2>
               <p className="text-gray-400 text-sm">Review vocabulary cards</p>
             </button>
@@ -242,7 +268,9 @@ export default function Practice() {
               onClick={initializeSpeedGame}
               className="p-6 rounded-2xl border-2 bg-gradient-to-br from-red-900/30 to-gray-800 border-red-500/50 hover:border-red-500 active:scale-95 transition-all"
             >
-              <div className="text-5xl mb-3">⚡</div>
+              <div className="flex justify-center mb-3 text-red-400">
+                <IconSpeedGame className="w-12 h-12" size={48} />
+              </div>
               <h2 className="text-xl font-bold mb-2">Speed Round</h2>
               <p className="text-gray-400 text-sm">60 seconds challenge</p>
             </button>
@@ -432,7 +460,10 @@ export default function Practice() {
         <div className="w-full max-w-2xl mx-auto">
           <div className="mb-6">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold">🎧 Listening Quiz</h2>
+              <div className="flex items-center gap-2">
+                <IconListeningGame className="w-8 h-8 text-green-400" />
+                <h2 className="text-2xl font-bold">Listening Quiz</h2>
+              </div>
               <div className="bg-gray-800 px-4 py-2 rounded-full border-2 border-gray-700">
                 <span className="text-gray-400 text-sm">Score: </span>
                 <span className="font-bold text-green-400">{quizScore}/{quizWords.length}</span>
@@ -546,7 +577,10 @@ export default function Practice() {
         <div className="w-full max-w-2xl mx-auto">
           <div className="mb-6">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold">🃏 Flashcards</h2>
+              <div className="flex items-center gap-2">
+                <IconFlashcardsGame className="w-8 h-8 text-orange-400" />
+                <h2 className="text-2xl font-bold">Flashcards</h2>
+              </div>
               <div className="bg-gray-800 px-4 py-2 rounded-full border-2 border-gray-700">
                 <span className="font-bold text-orange-400">{currentFlashcardIndex + 1}</span>
                 <span className="text-gray-400"> / {flashcardWords.length}</span>
@@ -671,7 +705,10 @@ export default function Practice() {
         <div className="w-full max-w-2xl mx-auto">
           <div className="mb-6">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold">⚡ Speed Round</h2>
+              <div className="flex items-center gap-2">
+                <IconSpeedGame className="w-8 h-8 text-red-400" />
+                <h2 className="text-2xl font-bold">Speed Round</h2>
+              </div>
               <div className="flex gap-4">
                 <div className="bg-gray-800 px-4 py-2 rounded-full border-2 border-gray-700">
                   <span className="text-gray-400 text-sm">Score: </span>

@@ -60,7 +60,7 @@ export default function Layout() {
             <div className="flex items-center">
               <Link to="/" className="flex items-center gap-2 flex-shrink-0" onClick={() => setIsMenuOpen(false)}>
                 <div className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center">
-                  <img src="/assyrian-star.svg" alt="Assyrian Star" className="w-full h-full object-contain" style={{ filter: 'drop-shadow(0 0 8px rgba(59, 130, 246, 0.5))' }} />
+                  <img src="/logo.png" alt="Chaldean World Logo" className="w-full h-full object-contain" style={{ filter: 'drop-shadow(0 0 8px rgba(59, 130, 246, 0.5))' }} />
                 </div>
                 <span className="text-lg md:text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text">
                   Chaldean World

@@ -21,6 +21,7 @@ CREATE INDEX IF NOT EXISTS idx_english_arabic_frequency ON english_arabic_dictio
 CREATE INDEX IF NOT EXISTS idx_english_arabic_english_fts ON english_arabic_dictionary USING gin(to_tsvector('english', english));
 
 -- Auto-update timestamp trigger
+DROP TRIGGER IF EXISTS update_english_arabic_updated_at ON english_arabic_dictionary;
 CREATE TRIGGER update_english_arabic_updated_at
   BEFORE UPDATE ON english_arabic_dictionary
   FOR EACH ROW
@@ -30,11 +31,13 @@ CREATE TRIGGER update_english_arabic_updated_at
 ALTER TABLE english_arabic_dictionary ENABLE ROW LEVEL SECURITY;
 
 -- Everyone can read
+DROP POLICY IF EXISTS "Everyone can view English-Arabic dictionary" ON english_arabic_dictionary;
 CREATE POLICY "Everyone can view English-Arabic dictionary"
   ON english_arabic_dictionary FOR SELECT
   USING (true);
 
 -- Only admins can modify
+DROP POLICY IF EXISTS "Admins can insert English-Arabic words" ON english_arabic_dictionary;
 CREATE POLICY "Admins can insert English-Arabic words"
   ON english_arabic_dictionary FOR INSERT
   WITH CHECK (
@@ -44,6 +47,7 @@ CREATE POLICY "Admins can insert English-Arabic words"
     )
   );
 
+DROP POLICY IF EXISTS "Admins can update English-Arabic words" ON english_arabic_dictionary;
 CREATE POLICY "Admins can update English-Arabic words"
   ON english_arabic_dictionary FOR UPDATE
   USING (
@@ -53,6 +57,7 @@ CREATE POLICY "Admins can update English-Arabic words"
     )
   );
 
+DROP POLICY IF EXISTS "Admins can delete English-Arabic words" ON english_arabic_dictionary;
 CREATE POLICY "Admins can delete English-Arabic words"
   ON english_arabic_dictionary FOR DELETE
   USING (
@@ -63,6 +68,7 @@ CREATE POLICY "Admins can delete English-Arabic words"
   );
 
 -- Function to auto-translate English to Arabic
+DROP FUNCTION IF EXISTS translate_english_to_arabic(TEXT);
 CREATE OR REPLACE FUNCTION translate_english_to_arabic(input_text TEXT)
 RETURNS TABLE (
   english TEXT,
@@ -97,6 +103,7 @@ END;
 $$;
 
 -- Function to suggest Chaldean words based on Arabic
+DROP FUNCTION IF EXISTS suggest_chaldean_from_arabic(TEXT);
 CREATE OR REPLACE FUNCTION suggest_chaldean_from_arabic(arabic_text TEXT)
 RETURNS TABLE (
   word TEXT,

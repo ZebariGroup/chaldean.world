@@ -8,22 +8,27 @@ interface IconProps {
 }
 
 // Base icon wrapper with consistent styling
-const IconWrapper: React.FC<{
+export const IconWrapper: React.FC<{
   children: React.ReactNode;
   className?: string;
   size?: number;
   viewBox?: string;
 }> = ({ children, className = '', size = 24, viewBox = '0 0 24 24' }) => (
-  <svg
-    className={className}
-    width={size}
-    height={size}
-    viewBox={viewBox}
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
+  <div 
+    className={`inline-flex items-center justify-center ${className}`} 
+    style={{ width: size, height: size }}
   >
-    {children}
-  </svg>
+    <svg
+      width={size}
+      height={size}
+      viewBox={viewBox}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="w-full h-full"
+    >
+      {children}
+    </svg>
+  </div>
 );
 
 // Cuneiform pattern decoration (reusable) - intentionally removed as unused

@@ -4,6 +4,7 @@ import { useProgress } from '../context/ProgressContext';
 import { useDictionary } from '../hooks/useDictionary';
 import PronunciationModal from '../components/PronunciationModal';
 import { IconAudio, IconMore, IconStar, IconSearch } from '../components/icons/ChaldeanIcons';
+import { playWordAudio } from '../utils/audioPlayback';
 
 export default function Dictionary() {
   const { toggleFavorite, isFavorite, preferences } = useProgress();
@@ -135,15 +136,8 @@ export default function Dictionary() {
     }
   };
 
-  const speakWord = (text: string) => {
-    if (!preferences.audioEnabled) return;
-    
-    // Use dynamic import to avoid SSR issues
-    import('../utils/speech').then(({ speak }) => {
-      speak(text, { rate: 0.85 });
-    });
-  };
-
+  // Removed unused speakWord function as we now use playWordAudio
+  
   const categories: string[] = ['all', ...Array.from(new Set(dictionaryData.flatMap(d => d.categories)))];
 
   if (dictLoading && dictionaryData.length === 0) {
@@ -337,7 +331,7 @@ export default function Dictionary() {
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            speakWord(entry.word);
+                            playWordAudio(entry, setActiveEntry);
                           }}
                           className="p-2 rounded-lg hover:bg-gray-700 transition-colors text-blue-400"
                           title="Listen"
@@ -435,7 +429,7 @@ export default function Dictionary() {
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            speakWord(entry.word);
+                            playWordAudio(entry, setActiveEntry);
                           }}
                           className="flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300 transition-colors"
                         >

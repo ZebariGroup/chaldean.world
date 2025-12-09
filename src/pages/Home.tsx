@@ -1,7 +1,19 @@
 import { Link } from 'react-router-dom';
 import { useProgress } from '../context/ProgressContext';
+import { useAuth } from '../context/AuthContext';
+import { supabase } from '../lib/supabase';
 import { dictionaryData } from '../data/dictionary';
-import { useMemo } from 'react';
+import { useMemo, useState, useEffect } from 'react';
+import { 
+  IconLessons, 
+  IconTranslator, 
+  IconDictionary, 
+  IconPractice,
+  IconReview,
+  IconStar,
+  IconForum
+} from '../components/icons/ChaldeanIcons';
+import { IconSparkles, IconBook } from '../components/icons/LessonIcons';
 
 export default function Home() {
   const { 
@@ -12,6 +24,38 @@ export default function Home() {
     dailyProgress,
     preferences,
   } = useProgress();
+  const { user } = useAuth();
+  const [userName, setUserName] = useState<string>('');
+
+  useEffect(() => {
+    const loadName = async () => {
+      if (user) {
+        // Try to get from auth metadata first
+        if (user.user_metadata?.full_name) {
+          setUserName(user.user_metadata.full_name.split(' ')[0]); // First name only
+          return;
+        }
+        
+        // Fallback to profiles table
+        const { data } = await supabase
+          .from('profiles')
+          .select('full_name')
+          .eq('id', user.id)
+          .single();
+        
+        if (data?.full_name) {
+          setUserName(data.full_name.split(' ')[0]);
+        }
+      } else {
+        // Guest mode
+        const guestName = localStorage.getItem('guestName');
+        if (guestName) {
+          setUserName(guestName.split(' ')[0]);
+        }
+      }
+    };
+    loadName();
+  }, [user]);
   
   const wordsToReview = getWordsToReview().length;
 
@@ -28,11 +72,23 @@ export default function Home() {
       
       {/* Hero Section - More compact on mobile */}
       <div className="text-center max-w-3xl mx-auto mb-6 md:mb-8">
-        <div className="inline-block mb-3 p-3 md:p-4">
-          <img src="/assyrian-star.svg" alt="Assyrian Star" className="w-16 h-16 md:w-24 md:h-24 mx-auto" style={{ filter: 'drop-shadow(0 0 12px rgba(59, 130, 246, 0.6))' }} />
-        </div>
         <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-3 md:mb-6">
-          Welcome to <span className="bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text">Chaldean World</span>
+          {userName ? `Shlama, ${userName}!` : 'Welcome to'} <br className="hidden md:block" />
+          <span className="bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text">
+            Chaldean W<span className="relative inline-block">
+              o
+              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6 md:w-9 md:h-9 bg-white rounded-full opacity-90 blur-[1px]"></div>
+              <img 
+                src="/logo.png" 
+                alt="App Logo" 
+                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 md:w-12 md:h-12 animate-spin-slow z-10" 
+                style={{ 
+                  filter: 'drop-shadow(0 0 8px rgba(59, 130, 246, 0.8))',
+                  animationDuration: '8s'
+                }} 
+              />
+            </span>rld
+          </span>
         </h1>
         <p className="text-base md:text-xl text-gray-300 mb-4 md:mb-6 leading-relaxed">
           Learn Chaldean through interactive lessons, flashcards, and comprehensive dictionary.
@@ -41,15 +97,15 @@ export default function Home() {
         {/* Stats Row */}
         <div className="flex flex-wrap justify-center gap-3 mb-4 md:mb-6">
           <div className="inline-flex items-center bg-gray-800/80 border border-orange-500/30 rounded-full px-4 md:px-6 py-2">
-            <span className="text-xl md:text-2xl mr-2">🔥</span>
+            <IconSparkles className="w-5 h-5 md:w-6 md:h-6 mr-2 text-orange-400" />
             <span className="text-orange-400 font-bold text-base md:text-lg">{currentStreak} Day Streak</span>
           </div>
           <div className="inline-flex items-center bg-gray-800/80 border border-blue-500/30 rounded-full px-4 md:px-6 py-2">
-            <span className="text-xl md:text-2xl mr-2">⭐</span>
+            <IconStar className="w-5 h-5 md:w-6 md:h-6 mr-2 text-blue-400" filled />
             <span className="text-blue-400 font-bold text-base md:text-lg">Level {level}</span>
           </div>
           <div className="inline-flex items-center bg-gray-800/80 border border-purple-500/30 rounded-full px-4 md:px-6 py-2">
-            <span className="text-xl md:text-2xl mr-2">📚</span>
+            <IconBook className="w-5 h-5 md:w-6 md:h-6 mr-2 text-purple-400" />
             <span className="text-purple-400 font-bold text-base md:text-lg">{wordsLearned.length} Words</span>
           </div>
         </div>
@@ -77,7 +133,7 @@ export default function Home() {
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <span className="text-3xl">🔄</span>
+              <IconReview className="w-8 h-8 text-white" />
               <div>
                 <div className="font-bold text-lg">Time to Review!</div>
                 <div className="text-sm text-orange-200">{wordsToReview} words ready</div>
@@ -105,20 +161,46 @@ export default function Home() {
       {/* Action Buttons - Full width on mobile like Duolingo */}
       <div className="grid gap-3 md:gap-4 md:grid-cols-2 w-full max-w-lg mx-auto">
         <Link to="/lessons" className="group relative bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white text-center font-bold py-5 md:py-4 px-6 rounded-2xl md:rounded-xl transition-all shadow-lg hover:shadow-blue-500/25 active:scale-95">
-          <div className="text-xl md:text-lg">🎓 Start Learning</div>
+          <div className="flex items-center justify-center gap-2 text-xl md:text-lg">
+            <IconLessons className="w-6 h-6" />
+            <span>Start Learning</span>
+          </div>
           <div className="text-blue-200 text-sm font-normal mt-1">Interactive Lessons</div>
         </Link>
         <Link to="/translator" className="group bg-gradient-to-r from-cyan-600 to-cyan-700 hover:from-cyan-700 hover:to-cyan-800 text-white text-center font-bold py-5 md:py-4 px-6 rounded-2xl md:rounded-xl transition-all shadow-lg active:scale-95">
-          <div className="text-xl md:text-lg">💬 Translator</div>
+          <div className="flex items-center justify-center gap-2 text-xl md:text-lg">
+            <IconTranslator className="w-6 h-6" />
+            <span>Translator</span>
+          </div>
           <div className="text-cyan-200 text-sm font-normal mt-1">English to Chaldean</div>
         </Link>
         <Link to="/dictionary" className="group bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white text-center font-bold py-5 md:py-4 px-6 rounded-2xl md:rounded-xl transition-all shadow-lg active:scale-95">
-          <div className="text-xl md:text-lg">📖 Dictionary</div>
+          <div className="flex items-center justify-center gap-2 text-xl md:text-lg">
+            <IconDictionary className="w-6 h-6" />
+            <span>Dictionary</span>
+          </div>
           <div className="text-purple-200 text-sm font-normal mt-1">{dictionaryData.length}+ Words</div>
         </Link>
         <Link to="/practice" className="group bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white text-center font-bold py-5 md:py-4 px-6 rounded-2xl md:rounded-xl transition-all shadow-lg active:scale-95">
-          <div className="text-xl md:text-lg">🎯 Practice Game</div>
+          <div className="flex items-center justify-center gap-2 text-xl md:text-lg">
+            <IconPractice className="w-6 h-6" />
+            <span>Practice Game</span>
+          </div>
           <div className="text-green-200 text-sm font-normal mt-1">Match words & meanings</div>
+        </Link>
+        <Link to="/review" className="group bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white text-center font-bold py-5 md:py-4 px-6 rounded-2xl md:rounded-xl transition-all shadow-lg active:scale-95">
+          <div className="flex items-center justify-center gap-2 text-xl md:text-lg">
+            <IconReview className="w-6 h-6" />
+            <span>Review</span>
+          </div>
+          <div className="text-orange-200 text-sm font-normal mt-1">Practice learned words</div>
+        </Link>
+        <Link to="/forum" className="group bg-gradient-to-r from-pink-600 to-pink-700 hover:from-pink-700 hover:to-pink-800 text-white text-center font-bold py-5 md:py-4 px-6 rounded-2xl md:rounded-xl transition-all shadow-lg active:scale-95">
+          <div className="flex items-center justify-center gap-2 text-xl md:text-lg">
+            <IconForum className="w-6 h-6" />
+            <span>Forum</span>
+          </div>
+          <div className="text-pink-200 text-sm font-normal mt-1">Community & Discussion</div>
         </Link>
       </div>
 

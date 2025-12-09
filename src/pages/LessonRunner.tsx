@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useLessons, Lesson } from '../hooks/useLessons';
 import { useProgress } from '../context/ProgressContext';
 import { IconRenderer } from '../components/icons/IconRenderer';
+import { playWordAudio } from '../utils/audioPlayback';
 
 type LessonPhase = 'intro' | 'learning' | 'quiz' | 'completed';
 
@@ -46,8 +47,38 @@ export default function LessonRunner() {
         // Use word as ID (dictionary entries are linked by word)
         addWordToReview(word.word);
       });
+      
+      // Pre-load audio hints if any (optional enhancement, not strictly necessary)
     }
   }, [phase, lesson, addWordToReview]);
+
+  const speakWord = (text: string) => {
+    // Try to find the full entry in lesson vocabulary to check for native audio
+    // We construct a partial DictionaryEntry since we might not have all fields, 
+    // but playWordAudio mainly needs word/translation/script for the key.
+    const vocabWord = lesson?.vocabulary.find(v => v.word === text);
+    
+    if (vocabWord) {
+      // Construct a minimal compatible object for playWordAudio
+      const entry = {
+        word: vocabWord.word,
+        translation: vocabWord.translation,
+        script: vocabWord.script || '', // Ensure script is present
+        // Add other fields to satisfy type if needed, but playWordAudio only needs these for key building
+        phonetic: vocabWord.phonetic,
+        categories: [],
+        arabic: '',
+        arabic_phonetic: ''
+      };
+      
+      playWordAudio(entry);
+    } else {
+      // Fallback
+      import('../utils/speech').then(({ speak }) => {
+        speak(text, { rate: 0.85 });
+      });
+    }
+  };
 
   if (loading) {
     return <div className="text-center py-12">Loading lesson...</div>;
@@ -133,17 +164,30 @@ export default function LessonRunner() {
               </div>
             </div>
 
-            {/* Back */}
-            <div className="absolute w-full h-full backface-hidden rotate-y-180 bg-gradient-to-br from-blue-900/30 to-gray-800 rounded-3xl md:rounded-2xl border-2 border-blue-500/50 flex flex-col items-center justify-center p-4 md:p-8 shadow-2xl overflow-hidden">
-              <span className="text-xs text-blue-400 font-semibold uppercase tracking-wider mb-2 bg-blue-500/10 px-3 py-1.5 rounded-full flex-shrink-0">English</span>
-              <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 md:mb-6 text-center text-blue-400 break-words max-w-full">{currentCard.translation}</h3>
-              
-              <div className="w-16 h-px bg-gray-700 my-2 md:my-4 flex-shrink-0"></div>
-              
-              <span className="text-xs text-gray-400 uppercase tracking-wider mb-1 flex-shrink-0">Pronunciation</span>
-              <p className="text-lg sm:text-xl md:text-2xl italic text-gray-300 font-medium break-words max-w-full text-center">{currentCard.phonetic}</p>
+              {/* Back */}
+              <div 
+                className="absolute w-full h-full backface-hidden rotate-y-180 bg-gradient-to-br from-blue-900/30 to-gray-800 rounded-3xl md:rounded-2xl border-2 border-blue-500/50 flex flex-col items-center justify-center p-4 md:p-8 shadow-2xl overflow-hidden"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  speakWord(currentCard.word);
+                }}
+              >
+                <span className="text-xs text-blue-400 font-semibold uppercase tracking-wider mb-2 bg-blue-500/10 px-3 py-1.5 rounded-full flex-shrink-0">English</span>
+                <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 md:mb-6 text-center text-blue-400 break-words max-w-full">{currentCard.translation}</h3>
+                
+                <div className="w-16 h-px bg-gray-700 my-2 md:my-4 flex-shrink-0"></div>
+                
+                <span className="text-xs text-gray-400 uppercase tracking-wider mb-1 flex-shrink-0">Pronunciation</span>
+                <p className="text-lg sm:text-xl md:text-2xl italic text-gray-300 font-medium break-words max-w-full text-center">{currentCard.phonetic}</p>
+                
+                <div className="mt-4 p-2 rounded-full bg-blue-500/10 text-blue-400 animate-pulse">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                  </svg>
+                </div>
+              </div>
             </div>
-          </div>
         </div>
 
           {/* Controls */}

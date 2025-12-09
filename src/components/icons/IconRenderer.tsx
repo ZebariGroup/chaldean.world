@@ -1,58 +1,73 @@
 import React from 'react';
-import { IconLessons } from './ChaldeanIcons';
+import { IconLessons, IconHome } from './ChaldeanIcons';
+import {
+  IconGreeting, IconDialogue, IconPeople, IconNumbers, IconHash, IconFamily,
+  IconPalette, IconRainbow, IconFood, IconFruit, IconVegetable, IconCooking,
+  IconRun, IconConjugation, IconPast, IconPoint, IconConnect, IconTime,
+  IconCalendar, IconCloudSun, IconMountain, IconDog,
+  IconBird, IconRabbit, IconInsect, IconBodyParts, IconBone, IconShirt,
+  IconDress, IconCity, IconHospital, IconBackpack, IconBook,
+  IconPencil, IconSparkles, IconQuestion, IconStop, IconEmotionHappy,
+  IconTravel, IconCompass
+} from './LessonIcons';
 
 // Map emoji to custom icon components
 const emojiToIcon: Record<string, React.ComponentType<{ className?: string; size?: number }>> = {
   '📚': IconLessons,
-  '👋': IconLessons, // Greetings
-  '🔢': IconLessons, // Numbers
-  '👨‍👩‍👧‍👦': IconLessons, // Family
-  '🎨': IconLessons, // Colors
-  '🍽️': IconLessons, // Food
-  '🏃': IconLessons, // Actions
-  '📅': IconLessons, // Time
-  '🐕': IconLessons, // Animals
-  '🌤️': IconLessons, // Weather
-  '👀': IconLessons, // Body parts
-  '🏠': IconLessons, // Home
-  '👕': IconLessons, // Clothing
-  '✨': IconLessons, // General
-  '#️⃣': IconLessons, // Numbers
-  '🎒': IconLessons, // Objects
-  '🏙️': IconLessons, // Places
-  '👨‍⚕️': IconLessons, // Professions
-  '🎭': IconLessons, // Activities
-  '✈️': IconLessons, // Travel
-  '🏥': IconLessons, // Places
-  '👨‍🍳': IconLessons, // Professions
-  '🌈': IconLessons, // Colors
-  '📆': IconLessons, // Calendar
-  '🌦️': IconLessons, // Weather
-  '🍇': IconLessons, // Food
-  '🥕': IconLessons, // Food
-  '🍳': IconLessons, // Food
-  '🐰': IconLessons, // Animals
-  '🏃‍♂️': IconLessons, // Actions
-  '👤': IconLessons, // People
-  '🦴': IconLessons, // Body
-  '👉': IconLessons, // Actions
-  '🏔️': IconLessons, // Places
-  '📝': IconLessons, // Writing
-  '💬': IconLessons, // Communication
-  '👗': IconLessons, // Clothing
-  '❤️': IconLessons, // Emotions
-  '🐝': IconLessons, // Animals
-  '🦅': IconLessons, // Animals
-  '🔄': IconLessons, // Actions
-  '⏮️': IconLessons, // Navigation
-  '❓': IconLessons, // Questions
-  '🚫': IconLessons, // Negation
-  '🤝': IconLessons, // Social
-  '🧭': IconLessons, // Navigation
-  '🔗': IconLessons, // Connections
-  '⏭️': IconLessons, // Navigation
-  '💭': IconLessons, // Thoughts
-  '🎯': IconLessons, // Target/Practice
+  '👋': IconGreeting, // Greetings
+  '🔢': IconNumbers, // Numbers
+  '👨‍👩‍👧‍👦': IconFamily, // Family
+  '🎨': IconPalette, // Colors
+  '🍽️': IconFood, // Food
+  '🏃': IconRun, // Actions
+  '📅': IconCalendar, // Time
+  '🐕': IconDog, // Animals
+  '🌤️': IconCloudSun, // Weather
+  '👀': IconBodyParts, // Body parts
+  '🏠': IconHome, // Home
+  '👕': IconShirt, // Clothing
+  '✨': IconSparkles, // General
+  '#️⃣': IconHash, // Numbers
+  '🎒': IconBackpack, // Objects
+  '🏙️': IconCity, // Places
+  '👨‍⚕️': IconHospital, // Professions (Doctor)
+  '🎭': IconEmotionHappy, // Activities/Emotions
+  '✈️': IconTravel, // Travel
+  '🏥': IconHospital, // Places
+  '👨‍🍳': IconCooking, // Professions (Chef)
+  '🌈': IconRainbow, // Colors
+  '📆': IconCalendar, // Calendar
+  '🌦️': IconCloudSun, // Weather
+  '🍇': IconFruit, // Food
+  '🥕': IconVegetable, // Food
+  '🍳': IconCooking, // Food
+  '🐰': IconRabbit, // Animals
+  '🏃‍♂️': IconRun, // Actions
+  '👤': IconPeople, // People
+  '🦴': IconBone, // Body
+  '👉': IconPoint, // Actions
+  '🏔️': IconMountain, // Places
+  '📝': IconPencil, // Writing
+  '💬': IconDialogue, // Communication
+  '👗': IconDress, // Clothing
+  '❤️': IconEmotionHappy, // Emotions
+  '🐝': IconInsect, // Animals
+  '🦅': IconBird, // Animals
+  '🔄': IconConjugation, // Actions
+  '⏮️': IconPast, // Navigation
+  '❓': IconQuestion, // Questions
+  '🚫': IconStop, // Negation
+  '🤝': IconConnect, // Social
+  '🧭': IconCompass, // Navigation
+  '🔗': IconConnect, // Connections
+  '⏭️': IconConnect, // Navigation
+  '💭': IconDialogue, // Thoughts
+  '🎯': IconSparkles, // Target/Practice
+  '😊': IconEmotionHappy,
+  '📖': IconBook,
+  '✍️': IconPencil,
+  '📍': IconPoint,
+  '⏰': IconTime,
 };
 
 interface IconRendererProps {
@@ -79,4 +94,3 @@ export const IconRenderer: React.FC<IconRendererProps> = ({ icon, className = ''
   // Fallback to emoji if no custom icon exists
   return <span className={className} style={{ fontSize: size }}>{icon}</span>;
 };
-

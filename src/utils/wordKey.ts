@@ -11,9 +11,16 @@ export const buildWordKey = (
 };
 
 // Create a storage-safe path segment from a word key
-export const encodeWordKeyForPath = (wordKey: string) =>
-  encodeURIComponent(wordKey).replace(/%20/g, '+');
-
-
-
-
+// Using encodeURIComponent is good, but some characters like |, +, etc might still cause issues if not handled
+// or if used in S3 keys without proper encoding.
+// Instead of full path encoding, let's hash the key or sanitize it more aggressively.
+export const encodeWordKeyForPath = (wordKey: string) => {
+  // Option 1: Simple sanitization (remove unsafe chars)
+  // Keep alphanumeric, dashes, underscores. Replace everything else.
+  // This is safer for file systems/S3 keys.
+  // We can also append a short hash if collisions are a concern, but words are usually unique.
+  return wordKey
+    .replace(/[^a-zA-Z0-9-_]/g, '-') // Replace non-alphanumeric with dash
+    .replace(/-+/g, '-')             // Collapse multiple dashes
+    .replace(/^-|-$/g, '');          // Trim dashes
+};

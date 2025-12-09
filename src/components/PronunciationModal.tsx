@@ -40,6 +40,8 @@ const formatDuration = (seconds?: number | null) => {
   return `${mins}m ${secs}s`;
 };
 
+import { trimAudioSilence } from '../utils/audioProcessing';
+
 export default function PronunciationModal({ entry, onClose }: Props) {
   const { user, isGuest } = useAuth();
   const wordKey = useMemo(() => buildWordKey(entry), [entry]);
@@ -252,11 +254,19 @@ export default function PronunciationModal({ entry, onClose }: Props) {
     setUploading(true);
     setError(null);
 
-    const filePath = `${encodeWordKeyForPath(wordKey)}/${user.id}/${Date.now()}.webm`;
+    const filePath = `${encodeWordKeyForPath(wordKey)}/${user.id}/${Date.now()}.wav`;
+    
+    // Trim silence from the start of the audio
+    let processedBlob = audioBlob;
+    try {
+      processedBlob = await trimAudioSilence(audioBlob);
+    } catch (err) {
+      console.warn('Audio trimming failed, using original:', err);
+    }
 
     const { error: uploadError, data: uploadData } = await supabase.storage
       .from('pronunciations')
-      .upload(filePath, audioBlob, { contentType: audioBlob.type || 'audio/webm' });
+      .upload(filePath, processedBlob, { contentType: 'audio/wav' });
 
     if (uploadError) {
       console.error(uploadError);
@@ -448,9 +458,20 @@ export default function PronunciationModal({ entry, onClose }: Props) {
                         {p.notes}
                       </p>
                     )}
-                    {p.isOwner && (
-                      <p className="mt-1 text-xs text-green-400">Recorded by you</p>
-                    )}
+                    <div className="flex justify-between items-center mt-2">
+                      {p.isOwner && (
+                        <p className="text-xs text-green-400">Recorded by you</p>
+                      )}
+                      {(isAdmin || p.isOwner) && (
+                        <button
+                          onClick={() => deletePronunciation(p)}
+                          disabled={!!moderatingId}
+                          className="text-xs text-red-400 hover:text-red-300 transition-colors ml-auto"
+                        >
+                          {moderatingId === p.id ? 'Deleting...' : 'Delete'}
+                        </button>
+                      )}
+                    </div>
                   </div>
                 ))
               )}

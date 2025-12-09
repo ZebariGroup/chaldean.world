@@ -21,8 +21,8 @@ export default function Welcome() {
           {/* Logo/Icon */}
           <div className="mb-8 animate-fade-in">
             <img 
-              src="/assyrian-star.svg" 
-              alt="Assyrian Star" 
+              src="/logo.png" 
+              alt="Chaldean World" 
               className="w-24 h-24 md:w-32 md:h-32 mx-auto hover:scale-105 transition-transform duration-300" 
               style={{ filter: 'drop-shadow(0 0 20px rgba(59, 130, 246, 0.6))' }} 
             />

@@ -46,35 +46,42 @@ ALTER TABLE lesson_vocabulary ENABLE ROW LEVEL SECURITY;
 ALTER TABLE lesson_questions ENABLE ROW LEVEL SECURITY;
 
 -- Everyone can read lessons
+DROP POLICY IF EXISTS "Anyone can view lessons" ON lessons;
 CREATE POLICY "Anyone can view lessons"
   ON lessons FOR SELECT
   USING (true);
 
+DROP POLICY IF EXISTS "Anyone can view lesson vocabulary" ON lesson_vocabulary;
 CREATE POLICY "Anyone can view lesson vocabulary"
   ON lesson_vocabulary FOR SELECT
   USING (true);
 
+DROP POLICY IF EXISTS "Anyone can view lesson questions" ON lesson_questions;
 CREATE POLICY "Anyone can view lesson questions"
   ON lesson_questions FOR SELECT
   USING (true);
 
 -- Only admins can modify
+DROP POLICY IF EXISTS "Admins can manage lessons" ON lessons;
 CREATE POLICY "Admins can manage lessons"
   ON lessons FOR ALL
   USING (is_admin())
   WITH CHECK (is_admin());
 
+DROP POLICY IF EXISTS "Admins can manage lesson vocabulary" ON lesson_vocabulary;
 CREATE POLICY "Admins can manage lesson vocabulary"
   ON lesson_vocabulary FOR ALL
   USING (is_admin())
   WITH CHECK (is_admin());
 
+DROP POLICY IF EXISTS "Admins can manage lesson questions" ON lesson_questions;
 CREATE POLICY "Admins can manage lesson questions"
   ON lesson_questions FOR ALL
   USING (is_admin())
   WITH CHECK (is_admin());
 
 -- Trigger to auto-update updated_at
+DROP TRIGGER IF EXISTS update_lessons_updated_at ON lessons;
 CREATE TRIGGER update_lessons_updated_at
   BEFORE UPDATE ON lessons
   FOR EACH ROW

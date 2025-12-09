@@ -92,22 +92,29 @@ CREATE INDEX IF NOT EXISTS idx_forum_reports_status ON forum_reports(status);
 CREATE INDEX IF NOT EXISTS idx_user_profiles_username ON user_profiles(username);
 
 -- Trigger to auto-update updated_at
+DROP TRIGGER IF EXISTS update_forum_posts_updated_at ON forum_posts;
 CREATE TRIGGER update_forum_posts_updated_at
   BEFORE UPDATE ON forum_posts
   FOR EACH ROW
   EXECUTE FUNCTION update_updated_at_column();
 
+DROP TRIGGER IF EXISTS update_forum_comments_updated_at ON forum_comments;
 CREATE TRIGGER update_forum_comments_updated_at
   BEFORE UPDATE ON forum_comments
   FOR EACH ROW
   EXECUTE FUNCTION update_updated_at_column();
 
+DROP TRIGGER IF EXISTS update_user_profiles_updated_at ON user_profiles;
 CREATE TRIGGER update_user_profiles_updated_at
   BEFORE UPDATE ON user_profiles
   FOR EACH ROW
   EXECUTE FUNCTION update_updated_at_column();
 
--- Row Level Security (RLS) Policies
+DROP TRIGGER IF EXISTS on_auth_user_created_profile ON auth.users;
+CREATE TRIGGER on_auth_user_created_profile
+  AFTER INSERT ON auth.users
+  FOR EACH ROW
+  EXECUTE FUNCTION create_user_profile();
 ALTER TABLE forum_categories ENABLE ROW LEVEL SECURITY;
 ALTER TABLE forum_posts ENABLE ROW LEVEL SECURITY;
 ALTER TABLE forum_comments ENABLE ROW LEVEL SECURITY;
@@ -116,11 +123,13 @@ ALTER TABLE forum_reports ENABLE ROW LEVEL SECURITY;
 ALTER TABLE user_profiles ENABLE ROW LEVEL SECURITY;
 
 -- Forum Categories: Everyone can read
+DROP POLICY IF EXISTS "Everyone can view forum categories" ON forum_categories;
 CREATE POLICY "Everyone can view forum categories"
   ON forum_categories FOR SELECT
   USING (true);
 
 -- Only admins can manage categories
+DROP POLICY IF EXISTS "Admins can insert forum categories" ON forum_categories;
 CREATE POLICY "Admins can insert forum categories"
   ON forum_categories FOR INSERT
   WITH CHECK (
@@ -130,6 +139,7 @@ CREATE POLICY "Admins can insert forum categories"
     )
   );
 
+DROP POLICY IF EXISTS "Admins can update forum categories" ON forum_categories;
 CREATE POLICY "Admins can update forum categories"
   ON forum_categories FOR UPDATE
   USING (
@@ -140,16 +150,19 @@ CREATE POLICY "Admins can update forum categories"
   );
 
 -- Forum Posts: Everyone can read non-deleted posts
+DROP POLICY IF EXISTS "Everyone can view non-deleted posts" ON forum_posts;
 CREATE POLICY "Everyone can view non-deleted posts"
   ON forum_posts FOR SELECT
   USING (is_deleted = false OR user_id = auth.uid());
 
 -- Authenticated users can create posts
+DROP POLICY IF EXISTS "Authenticated users can create posts" ON forum_posts;
 CREATE POLICY "Authenticated users can create posts"
   ON forum_posts FOR INSERT
   WITH CHECK (auth.uid() = user_id AND auth.uid() IS NOT NULL);
 
 -- Users can update their own posts
+DROP POLICY IF EXISTS "Users can update own posts" ON forum_posts;
 CREATE POLICY "Users can update own posts"
   ON forum_posts FOR UPDATE
   USING (auth.uid() = user_id OR EXISTS (
@@ -158,21 +171,25 @@ CREATE POLICY "Users can update own posts"
   ));
 
 -- Users can delete their own posts (soft delete)
+DROP POLICY IF EXISTS "Users can delete own posts" ON forum_posts;
 CREATE POLICY "Users can delete own posts"
   ON forum_posts FOR DELETE
   USING (auth.uid() = user_id);
 
 -- Forum Comments: Everyone can read non-deleted comments
+DROP POLICY IF EXISTS "Everyone can view non-deleted comments" ON forum_comments;
 CREATE POLICY "Everyone can view non-deleted comments"
   ON forum_comments FOR SELECT
   USING (is_deleted = false OR user_id = auth.uid());
 
 -- Authenticated users can create comments
+DROP POLICY IF EXISTS "Authenticated users can create comments" ON forum_comments;
 CREATE POLICY "Authenticated users can create comments"
   ON forum_comments FOR INSERT
   WITH CHECK (auth.uid() = user_id AND auth.uid() IS NOT NULL);
 
 -- Users can update their own comments
+DROP POLICY IF EXISTS "Users can update own comments" ON forum_comments;
 CREATE POLICY "Users can update own comments"
   ON forum_comments FOR UPDATE
   USING (auth.uid() = user_id OR EXISTS (
@@ -181,26 +198,31 @@ CREATE POLICY "Users can update own comments"
   ));
 
 -- Users can delete their own comments
+DROP POLICY IF EXISTS "Users can delete own comments" ON forum_comments;
 CREATE POLICY "Users can delete own comments"
   ON forum_comments FOR DELETE
   USING (auth.uid() = user_id);
 
 -- Forum Likes: Everyone can view
+DROP POLICY IF EXISTS "Everyone can view likes" ON forum_likes;
 CREATE POLICY "Everyone can view likes"
   ON forum_likes FOR SELECT
   USING (true);
 
 -- Users can add their own likes
+DROP POLICY IF EXISTS "Users can add own likes" ON forum_likes;
 CREATE POLICY "Users can add own likes"
   ON forum_likes FOR INSERT
   WITH CHECK (auth.uid() = user_id AND auth.uid() IS NOT NULL);
 
 -- Users can delete their own likes
+DROP POLICY IF EXISTS "Users can delete own likes" ON forum_likes;
 CREATE POLICY "Users can delete own likes"
   ON forum_likes FOR DELETE
   USING (auth.uid() = user_id);
 
 -- Forum Reports: Users can view their own reports
+DROP POLICY IF EXISTS "Users can view own reports" ON forum_reports;
 CREATE POLICY "Users can view own reports"
   ON forum_reports FOR SELECT
   USING (auth.uid() = reporter_id OR EXISTS (
@@ -209,11 +231,13 @@ CREATE POLICY "Users can view own reports"
   ));
 
 -- Authenticated users can create reports
+DROP POLICY IF EXISTS "Users can create reports" ON forum_reports;
 CREATE POLICY "Users can create reports"
   ON forum_reports FOR INSERT
   WITH CHECK (auth.uid() = reporter_id AND auth.uid() IS NOT NULL);
 
 -- Only admins can update reports
+DROP POLICY IF EXISTS "Admins can update reports" ON forum_reports;
 CREATE POLICY "Admins can update reports"
   ON forum_reports FOR UPDATE
   USING (EXISTS (
@@ -222,16 +246,19 @@ CREATE POLICY "Admins can update reports"
   ));
 
 -- User Profiles: Everyone can read
+DROP POLICY IF EXISTS "Everyone can view profiles" ON user_profiles;
 CREATE POLICY "Everyone can view profiles"
   ON user_profiles FOR SELECT
   USING (true);
 
 -- Users can insert their own profile
+DROP POLICY IF EXISTS "Users can create own profile" ON user_profiles;
 CREATE POLICY "Users can create own profile"
   ON user_profiles FOR INSERT
   WITH CHECK (auth.uid() = id);
 
 -- Users can update their own profile
+DROP POLICY IF EXISTS "Users can update own profile" ON user_profiles;
 CREATE POLICY "Users can update own profile"
   ON user_profiles FOR UPDATE
   USING (auth.uid() = id);
@@ -256,10 +283,11 @@ END;
 $$;
 
 -- Trigger to auto-create user profile on user signup
-CREATE TRIGGER on_auth_user_created_profile
-  AFTER INSERT ON auth.users
-  FOR EACH ROW
-  EXECUTE FUNCTION create_user_profile();
+-- (Moved to top of file with other triggers)
+-- CREATE TRIGGER on_auth_user_created_profile
+--   AFTER INSERT ON auth.users
+--   FOR EACH ROW
+--   EXECUTE FUNCTION create_user_profile();
 
 -- Insert default forum categories
 INSERT INTO forum_categories (name, description, icon, display_order) VALUES

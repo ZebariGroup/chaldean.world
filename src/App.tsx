@@ -4,6 +4,7 @@ import Layout from './components/Layout';
 import SplashScreen from './components/SplashScreen';
 import Auth from './components/Auth';
 import Welcome from './pages/Welcome';
+import Onboarding from './pages/Onboarding';
 import Home from './pages/Home';
 import Lessons from './pages/Lessons';
 import LessonRunner from './pages/LessonRunner';
@@ -68,6 +69,7 @@ function App() {
         <Routes>
           <Route path="/welcome" element={<Welcome />} />
           <Route path="/auth" element={<Auth />} />
+          <Route path="/onboarding" element={<Onboarding />} />
           <Route path="/confirm-email" element={<EmailConfirmation />} />
           <Route
             path="/"

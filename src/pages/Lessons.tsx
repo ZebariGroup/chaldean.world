@@ -44,7 +44,7 @@ export default function Lessons() {
               <div className="flex md:block p-4 md:p-6">
                 {/* Left side on mobile: Icon + Level */}
                 <div className="flex flex-col items-center justify-center mr-4 md:mr-0 md:mb-3">
-                  <div className="mb-1 md:mb-3">
+                  <div className="mb-1 md:mb-3 flex items-center justify-center w-16 h-16 md:w-20 md:h-20">
                     <IconRenderer icon={lesson.icon} className="w-16 h-16 md:w-20 md:h-20 text-blue-400" size={64} />
                   </div>
                   <div className="text-xs font-bold text-blue-400 uppercase tracking-wider bg-blue-500/10 px-2 py-1 rounded-full">
