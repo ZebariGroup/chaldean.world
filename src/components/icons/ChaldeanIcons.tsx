@@ -37,21 +37,16 @@ const CuneiformPattern = ({ x = 0, y = 0, size = 2 }: { x?: number; y?: number; 
 // Home - Ziggurat/Temple
 export const IconHome: React.FC<IconProps> = ({ className, size = 24 }) => (
   <IconWrapper className={className} size={size}>
+    {/* Base */}
+    <rect x="2" y="16" width="20" height="5" rx="1" stroke="currentColor" strokeWidth="2" fill="none" />
+    {/* Middle tier */}
+    <rect x="5" y="10" width="14" height="6" stroke="currentColor" strokeWidth="2" fill="none" />
+    {/* Top tier */}
+    <rect x="8" y="5" width="8" height="5" stroke="currentColor" strokeWidth="2" fill="none" />
+    {/* Star/Sun */}
     <path
-      d="M12 2L3 8v14h6v-8h6v8h6V8L12 2z"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      fill="none"
-    />
-    {/* Ziggurat steps */}
-    <path d="M8 10h8M7 12h10M6 14h12" stroke="currentColor" strokeWidth="1.5" opacity="0.4" />
-    {/* Star on top */}
-    <path
-      d="M12 2L10.5 4L12 6L13.5 4L12 2z"
+      d="M12 1L12.5 3L14 3.5L12.5 4L12 6L11.5 4L10 3.5L11.5 3L12 1z"
       fill="currentColor"
-      opacity="0.6"
     />
   </IconWrapper>
 );

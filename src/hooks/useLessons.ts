@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
+import { lessonsData as localLessonsData } from '../data/lessons';
 
 export interface LessonVocabulary {
   word: string;
@@ -48,90 +49,94 @@ export function useLessons() {
 
       if (lessonsError) throw lessonsError;
 
-      if (!lessonsData || lessonsData.length === 0) {
-        setLessons([]);
+      if (lessonsData && lessonsData.length > 0) {
+        // Fetch vocabulary for all lessons
+        const lessonIds = lessonsData.map(l => l.id);
+        const { data: vocabularyData, error: vocabError } = await supabase
+          .from('lesson_vocabulary')
+          .select('lesson_id, display_order, dictionary_id')
+          .in('lesson_id', lessonIds)
+          .order('display_order', { ascending: true });
+
+        if (vocabError) throw vocabError;
+
+        // Fetch dictionary entries for vocabulary
+        const dictionaryIds = [...new Set((vocabularyData || []).map((v: any) => v.dictionary_id))];
+        const { data: dictionaryData, error: dictError } = await supabase
+          .from('dictionary')
+          .select('id, word, translation, phonetic, script')
+          .in('id', dictionaryIds);
+
+        if (dictError) throw dictError;
+
+        const dictionaryMap = new Map((dictionaryData || []).map((d: any) => [d.id, d]));
+
+        // Fetch questions for all lessons
+        const { data: questionsData, error: questionsError } = await supabase
+          .from('lesson_questions')
+          .select('*')
+          .in('lesson_id', lessonIds)
+          .order('display_order', { ascending: true });
+
+        if (questionsError) throw questionsError;
+
+        // Group vocabulary by lesson_id
+        const vocabularyByLesson: Record<number, LessonVocabulary[]> = {};
+        (vocabularyData || []).forEach((item: any) => {
+          const dict = dictionaryMap.get(item.dictionary_id);
+          if (!dict) return;
+          if (!vocabularyByLesson[item.lesson_id]) {
+            vocabularyByLesson[item.lesson_id] = [];
+          }
+          vocabularyByLesson[item.lesson_id].push({
+            word: dict.word,
+            translation: dict.translation,
+            phonetic: dict.phonetic,
+            script: dict.script,
+          });
+        });
+
+        // Group questions by lesson_id
+        const questionsByLesson: Record<number, LessonQuestion[]> = {};
+        (questionsData || []).forEach((item: any) => {
+          if (!questionsByLesson[item.lesson_id]) {
+            questionsByLesson[item.lesson_id] = [];
+          }
+          questionsByLesson[item.lesson_id].push({
+            id: item.id,
+            type: item.question_type,
+            question: item.question,
+            options: item.options || undefined,
+            correctAnswer: item.correct_answer,
+          });
+        });
+
+        // Combine everything
+        const lessonsWithData: Lesson[] = lessonsData.map((lesson: any) => ({
+          id: lesson.id,
+          title: lesson.title,
+          description: lesson.description,
+          level: lesson.level,
+          xpReward: lesson.xp_reward,
+          icon: lesson.icon,
+          vocabulary: vocabularyByLesson[lesson.id] || [],
+          content: questionsByLesson[lesson.id] || [],
+        }));
+
+        setLessons(lessonsWithData);
+        setError(null);
+      } else {
+        // Fallback to local data if database is empty
+        console.log('No lessons in database, using local fallback data');
+        setLessons(localLessonsData);
         setLoading(false);
-        return;
       }
-
-      // Fetch vocabulary for all lessons
-      const lessonIds = lessonsData.map(l => l.id);
-      const { data: vocabularyData, error: vocabError } = await supabase
-        .from('lesson_vocabulary')
-        .select('lesson_id, display_order, dictionary_id')
-        .in('lesson_id', lessonIds)
-        .order('display_order', { ascending: true });
-
-      if (vocabError) throw vocabError;
-
-      // Fetch dictionary entries for vocabulary
-      const dictionaryIds = [...new Set((vocabularyData || []).map((v: any) => v.dictionary_id))];
-      const { data: dictionaryData, error: dictError } = await supabase
-        .from('dictionary')
-        .select('id, word, translation, phonetic, script')
-        .in('id', dictionaryIds);
-
-      if (dictError) throw dictError;
-
-      const dictionaryMap = new Map((dictionaryData || []).map((d: any) => [d.id, d]));
-
-      // Fetch questions for all lessons
-      const { data: questionsData, error: questionsError } = await supabase
-        .from('lesson_questions')
-        .select('*')
-        .in('lesson_id', lessonIds)
-        .order('display_order', { ascending: true });
-
-      if (questionsError) throw questionsError;
-
-      // Group vocabulary by lesson_id
-      const vocabularyByLesson: Record<number, LessonVocabulary[]> = {};
-      (vocabularyData || []).forEach((item: any) => {
-        const dict = dictionaryMap.get(item.dictionary_id);
-        if (!dict) return;
-        if (!vocabularyByLesson[item.lesson_id]) {
-          vocabularyByLesson[item.lesson_id] = [];
-        }
-        vocabularyByLesson[item.lesson_id].push({
-          word: dict.word,
-          translation: dict.translation,
-          phonetic: dict.phonetic,
-          script: dict.script,
-        });
-      });
-
-      // Group questions by lesson_id
-      const questionsByLesson: Record<number, LessonQuestion[]> = {};
-      (questionsData || []).forEach((item: any) => {
-        if (!questionsByLesson[item.lesson_id]) {
-          questionsByLesson[item.lesson_id] = [];
-        }
-        questionsByLesson[item.lesson_id].push({
-          id: item.id,
-          type: item.question_type,
-          question: item.question,
-          options: item.options || undefined,
-          correctAnswer: item.correct_answer,
-        });
-      });
-
-      // Combine everything
-      const lessonsWithData: Lesson[] = lessonsData.map((lesson: any) => ({
-        id: lesson.id,
-        title: lesson.title,
-        description: lesson.description,
-        level: lesson.level,
-        xpReward: lesson.xp_reward,
-        icon: lesson.icon,
-        vocabulary: vocabularyByLesson[lesson.id] || [],
-        content: questionsByLesson[lesson.id] || [],
-      }));
-
-      setLessons(lessonsWithData);
-      setError(null);
     } catch (err) {
       console.error('Error fetching lessons:', err);
-      setError(err as Error);
+      // Fallback to local data on error
+      console.log('Error fetching from DB, using local fallback data');
+      setLessons(localLessonsData);
+      setError(null); // Clear error since we have fallback
     } finally {
       setLoading(false);
     }
@@ -139,14 +144,19 @@ export function useLessons() {
 
   async function fetchLessonById(id: number): Promise<Lesson | null> {
     try {
+      // Try fetching from Supabase first
       const { data: lessonData, error: lessonError } = await supabase
         .from('lessons')
         .select('*')
         .eq('id', id)
         .single();
 
-      if (lessonError) throw lessonError;
-      if (!lessonData) return null;
+      if (lessonError || !lessonData) {
+        // Fallback to local data
+        const localLesson = localLessonsData.find(l => l.id === Number(id));
+        if (localLesson) return localLesson;
+        throw lessonError || new Error('Lesson not found');
+      }
 
       // Fetch vocabulary
       const { data: vocabularyData, error: vocabError } = await supabase
@@ -210,6 +220,9 @@ export function useLessons() {
       };
     } catch (err) {
       console.error('Error fetching lesson:', err);
+      // Fallback to local data
+      const localLesson = localLessonsData.find(l => l.id === Number(id));
+      if (localLesson) return localLesson;
       return null;
     }
   }
