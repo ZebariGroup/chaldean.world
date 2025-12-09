@@ -26,14 +26,8 @@ const IconWrapper: React.FC<{
   </svg>
 );
 
-// Cuneiform pattern decoration (reusable)
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const CuneiformPattern = ({ x = 0, y = 0, size = 2 }: { x?: number; y?: number; size?: number }) => (
-  <>
-    <line x1={x} y1={y} x2={x + size} y2={y} stroke="currentColor" strokeWidth="0.5" opacity="0.3" />
-    <line x1={x} y1={y + size * 0.5} x2={x + size * 0.6} y2={y + size * 0.5} stroke="currentColor" strokeWidth="0.5" opacity="0.3" />
-  </>
-);
+// Cuneiform pattern decoration (reusable) - intentionally removed as unused
+// export const CuneiformPattern = ...
 
 // Home - Ziggurat/Temple
 export const IconHome: React.FC<IconProps> = ({ className, size = 24 }) => (
