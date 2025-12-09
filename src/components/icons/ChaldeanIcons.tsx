@@ -27,6 +27,7 @@ const IconWrapper: React.FC<{
 );
 
 // Cuneiform pattern decoration (reusable)
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const CuneiformPattern = ({ x = 0, y = 0, size = 2 }: { x?: number; y?: number; size?: number }) => (
   <>
     <line x1={x} y1={y} x2={x + size} y2={y} stroke="currentColor" strokeWidth="0.5" opacity="0.3" />
