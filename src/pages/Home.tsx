@@ -74,22 +74,19 @@ export default function Home() {
       <div className="text-center max-w-3xl mx-auto mb-6 md:mb-8">
         <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-3 md:mb-6">
           {userName ? `Shlama, ${userName}!` : 'Welcome to'} <br className="hidden md:block" />
-          <span className="bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text">
-            Chaldean W<span className="relative inline-block">
-              o
-              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6 md:w-9 md:h-9 bg-white rounded-full opacity-90 blur-[1px]"></div>
-              <img 
-                src="/logo.png" 
-                alt="App Logo" 
-                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 md:w-12 md:h-12 animate-spin-slow z-10" 
-                style={{ 
-                  filter: 'drop-shadow(0 0 8px rgba(59, 130, 246, 0.8))',
-                  animationDuration: '8s'
-                }} 
-              />
-            </span>rld
-          </span>
         </h1>
+        
+        <div className="mb-8 flex justify-center">
+          <img 
+            src="/logo.png" 
+            alt="Chaldean World" 
+            className="h-24 md:h-32 w-auto object-contain drop-shadow-xl"
+            style={{ 
+              filter: 'drop-shadow(0 0 15px rgba(59, 130, 246, 0.4))'
+            }} 
+          />
+        </div>
+
         <p className="text-base md:text-xl text-gray-300 mb-4 md:mb-6 leading-relaxed">
           Learn Chaldean through interactive lessons, flashcards, and comprehensive dictionary.
         </p>

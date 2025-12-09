@@ -76,12 +76,11 @@ export default function Onboarding() {
     <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
       <div className="max-w-md w-full bg-gray-800 rounded-2xl p-8 shadow-xl border border-gray-700">
         <div className="text-center mb-8">
-          <div className="inline-block p-4 mb-4">
+          <div className="mb-6 flex justify-center">
             <img 
               src="/logo.png" 
-              alt="Logo" 
-              className="w-16 h-16 mx-auto animate-spin-slow" 
-              style={{ animationDuration: '10s' }}
+              alt="Chaldean World" 
+              className="h-20 w-auto object-contain" 
             />
           </div>
           <h1 className="text-3xl font-bold text-white mb-2">Welcome!</h1>

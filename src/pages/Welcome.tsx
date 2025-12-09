@@ -19,21 +19,18 @@ export default function Welcome() {
       <div className="flex-1 flex flex-col items-center justify-center px-4 py-12">
         <div className="max-w-4xl mx-auto text-center">
           {/* Logo/Icon */}
-          <div className="mb-8 animate-fade-in">
+          <div className="mb-8 animate-fade-in flex justify-center">
             <img 
               src="/logo.png" 
               alt="Chaldean World" 
-              className="w-24 h-24 md:w-32 md:h-32 mx-auto hover:scale-105 transition-transform duration-300" 
+              className="h-32 md:h-48 w-auto hover:scale-105 transition-transform duration-300 object-contain drop-shadow-2xl" 
               style={{ filter: 'drop-shadow(0 0 20px rgba(59, 130, 246, 0.6))' }} 
             />
           </div>
 
           {/* Title */}
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight">
-            Welcome to{' '}
-            <span className="bg-gradient-to-r from-blue-400 via-purple-500 to-blue-400 text-transparent bg-clip-text bg-300% animate-gradient">
-              Chaldean World
-            </span>
+            Welcome
           </h1>
 
           {/* Subtitle */}

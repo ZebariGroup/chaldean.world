@@ -76,22 +76,17 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
 
       {/* Content */}
       <div className="relative z-10 text-center px-4">
-        {/* Assyrian Star Logo with pulse animation */}
-        <div className="mb-8 animate-pulse-slow">
-          <div className="w-32 h-32 md:w-40 md:h-40 mx-auto p-4">
+        {/* Logo with pulse animation */}
+        <div className="mb-12 animate-pulse-slow">
+          <div className="w-64 md:w-80 mx-auto">
             <img 
               src="/logo.png" 
-              alt="Logo" 
-              className="w-full h-full animate-spin-slow"
+              alt="Chaldean World" 
+              className="w-full h-auto object-contain"
               style={{ filter: 'drop-shadow(0 0 20px rgba(147, 51, 234, 0.8))' }}
             />
           </div>
         </div>
-
-        {/* App Title */}
-        <h1 className="text-4xl md:text-6xl font-bold mb-8 bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400 text-transparent bg-clip-text animate-gradient">
-          Chaldean World
-        </h1>
 
         {/* Word Transition Animation */}
         <div className="mb-8 min-h-[200px] flex items-center justify-center">
